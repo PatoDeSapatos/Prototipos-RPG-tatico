@@ -2,6 +2,8 @@ package com.monique.prototipo.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,15 @@ public class PlayerController {
     @PostMapping("/save/{username}")
     public int savePlayer(@PathVariable String username) {
         return playerModel.savePlayer(username);
+    }
+
+    @GetMapping("/{playerId}")
+    public ResponseEntity<Boolean> playerExists(@PathVariable String playerId) {
+        try {
+            return ResponseEntity.ok( playerModel.getPlayerById( Integer.parseInt(playerId)) != null );
+        } catch ( Exception e ) {
+            return null;
+        }
     }
 
     @GetMapping
