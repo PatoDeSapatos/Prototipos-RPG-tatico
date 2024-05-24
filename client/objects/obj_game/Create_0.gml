@@ -1,6 +1,9 @@
 /// @description Insert description here
 url = "http://localhost:8080";
 
+socket = network_create_socket(network_socket_ws)
+network_connect_raw_async(socket, "localhost/connection", 8080)
+
 global.playerId = 0;
 global.battleId = 0;
 global.loading = false;
