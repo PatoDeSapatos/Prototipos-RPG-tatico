@@ -69,8 +69,18 @@ public class BattleController {
         return cf.get();
     }
 
+    @GetMapping("/{battleId}")
+    public ResponseEntity<Boolean> battleExists(@PathVariable String battleId) {
+        try {
+            return ResponseEntity.ok( battleModel.getBattleById( Integer.parseInt(battleId) ) != null );
+        } catch ( Exception e ) {
+            return null;
+        }
+    }
+
     @PostMapping("/create/{playerId}")
     public ResponseEntity<Integer> createNewBattle(@PathVariable int playerId, @RequestBody CreateScenarioRequest request) {
         return ResponseEntity.ok(battleModel.createBattle(playerModel.getPlayerById(playerId), request));
     }
+
 }

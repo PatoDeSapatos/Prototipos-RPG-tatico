@@ -1,7 +1,7 @@
 global.loading = true;
 request_function = -1;
 
-struct_foreach(requests, function (key, value) {
+struct_foreach(global.requests, function (key, value) {
 	if (ds_map_find_value(async_load, "id") == value[0]) {
 		request_function = value[1];
 	}
