@@ -19,7 +19,7 @@ public class Scenario {
     }
 
     public void moveEntity(Entity entity) {
-        map[entity.oldX()][entity.oldY()] = null;
-        map[entity.x()][entity.y()] = entity;
+        map[entity.getOldX()][entity.getOldY()] = null;
+        map[entity.getX()][entity.getY()] = entity;
     }
 }

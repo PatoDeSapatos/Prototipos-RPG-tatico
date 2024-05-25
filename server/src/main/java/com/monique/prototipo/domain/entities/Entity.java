@@ -1,11 +1,22 @@
 package com.monique.prototipo.domain.entities;
 
-public record Entity(
-    int id,
-    int sprite,
-    int playerId,
-    int x,
-    int y,
-    int oldX,
-    int oldY
-) {}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class Entity {
+    private int id;
+    private int sprite;
+    private int playerId;
+    private int x;
+    private int y;
+    private int oldX;
+    private int oldY;
+
+    public int getId(){
+        return id;
+    }
+}

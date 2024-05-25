@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerModel {
+    public static PlayerModel instance = new PlayerModel();
     private ArrayList<Player> players = new ArrayList<>();
 
     public int savePlayer(String username) {

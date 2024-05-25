@@ -1,13 +1,6 @@
 package com.monique.prototipo.domain.battle;
 
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
-import java.awt.event.ActionEvent;
-
-import javax.swing.Timer;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import com.monique.prototipo.domain.entities.Entity;
 import com.monique.prototipo.domain.player.Player;
@@ -25,13 +18,10 @@ public class Battle {
     private boolean revisedTurn = false;
     private ArrayList<Entity> entities = new ArrayList<>();
     private ArrayList<Player> players = new ArrayList<>();
-    private Timer timer = new Timer(10, this::listener);
-	private ArrayList<CompletableFuture<ResponseEntity<BattleStateDTO>>> cfs = new ArrayList<>();
 
     public Battle(int id, Scenario scenario) {
         this.id = id;
         this.scenario = scenario;
-        timer.start();
     }
 
     public void addPlayer(Player player) {
@@ -56,24 +46,35 @@ public class Battle {
     }
 
     public BattleStateDTO toDTO() {
-        return new BattleStateDTO(getTurn(), getScenario().getMap(), getEntities(), getPlayers(), isRevisedTurn());
-    }
-
-    public void listener(ActionEvent e) {
-        for (int i = 0; i < cfs.size(); i++) {
-            cfs.get(i).complete(new ResponseEntity<BattleStateDTO>(toDTO(), HttpStatus.OK));
-        }
-        cfs.clear();
+        return new BattleStateDTO(getTurn(), getId(), getScenario().getMap(), getEntities(), getPlayers(), isRevisedTurn());
     }
 
     public void updateEntity(Entity entity) {
         for (int i = 0; i < getEntities().size(); i++) {
             var oldEntity = getEntities().get(i);
-            if (oldEntity.id() == entity.id()) {
+            if (oldEntity.getId() == entity.getId()) {
                 getEntities().remove(i);
                 getEntities().add(i, entity);
             }
         }
         moveEntityInScenario(entity);
+    }
+
+    public boolean removePlayerFromBattle(int playerId) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getId() == playerId) {
+                players.get(i).setSessionId("");
+                players.remove(i);
+                break;
+            }
+        }
+
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).getPlayerId() == playerId) {
+                entities.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 }

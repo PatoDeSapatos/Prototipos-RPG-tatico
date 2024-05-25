@@ -8,6 +8,7 @@ import com.monique.prototipo.domain.scenario.CreateScenarioRequest;
 import com.monique.prototipo.domain.scenario.Scenario;
 
 public class BattleModel {
+    public static BattleModel instance = new BattleModel();
     private ArrayList<Battle> battles = new ArrayList<>();
     
     public BattleModel() {
@@ -25,7 +26,7 @@ public class BattleModel {
         return newBattle.getId();
     }
 
-    public Entity addPlayerInBattle(int battleId, Player player) {
+    public BattleStateDTO addPlayerInBattle(int battleId, Player player) {
         Battle battle = battles.get(battleId);
         Scenario scenario = battle.getScenario();
         Entity entity;
@@ -46,12 +47,11 @@ public class BattleModel {
                     entity = new Entity(battle.getEntities().size(), player.getId(), player.getId(), x, y, x, y);
                     battle.addEntity(entity);
                     scenario.getMap()[i][j] = entity;
-                    return entity; 
+                    return battle.toDTO(); 
                 }
             }
         }
-
-
+ 
         return null;
     }
 

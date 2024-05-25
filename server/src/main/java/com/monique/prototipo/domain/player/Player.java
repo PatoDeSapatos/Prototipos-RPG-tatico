@@ -9,12 +9,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Player {
     private int id;
-    private String username;
     private boolean ready;
+    private String username;
+    private String sessionId;
 
     public Player(int id, String username) {
         this.id = id;
         this.username = username;
         this.ready = false;
+        this.sessionId = "";
     }
 }
