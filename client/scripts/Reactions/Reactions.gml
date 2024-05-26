@@ -1,17 +1,3 @@
-function set_game_state() {
-	var res = ds_map_find_value(async_load, "result");
-	with (obj_battle_controller) {
-		game_state = json_parse(res);
-		map = game_state.scenario;
-		width = array_length(map);
-		height = array_length(map[0]);
-		entities = game_state.entities;
-		turn = game_state.turn;
-		revised_turn = game_state.revisedTurn;
-		my_turn = entities[turn].playerId == global.playerId;
-	}
-}
-
 function set_player_in_battle() {
 	var res = ds_map_find_value(async_load, "result");
 	array_push( obj_battle_controller.entities, json_parse(res) );
@@ -21,20 +7,27 @@ function set_player_in_battle() {
 function set_new_player() {
 	var res = ds_map_find_value(async_load, "result");
 	global.playerId = res;
+	
+	var Buffer = buffer_create(1, buffer_grow ,1);
+	var _data = {
+		"playerId": global.playerId,
+		"battleId": 0
+	}
+	
+	var _message = ds_map_create();
+	ds_map_add(_message, "messageType", "ADD_PLAYER");
+	ds_map_add(_message, "data", _data);
+
+	room_goto(rm_battle);
+	buffer_write(Buffer , buffer_text  , json_encode(_message));
+	network_send_raw(global.socket, Buffer, buffer_tell(Buffer), network_send_text);
+	ds_map_destroy(_message);
 }
 
 function set_new_battle() {
 	var res =  ds_map_find_value(async_load, "result");
 	global.battleId = res;
 	room_goto(rm_battle);
-}
-
-
-function set_turn_action() {
-
-}
-
-function set_player_ready() {
 }
 
 function set_player_exists() {
