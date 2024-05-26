@@ -1,8 +1,11 @@
 /// @description Insert description here
 if ( keyboard_check_pressed(ord("R")) ) {
-	network_destroy(global.socket);
+	send_websocket_message("SET_PLAYER_OFFLINE", {});
 	game_restart();
-} if (keyboard_check_pressed(vk_escape)) {
-	network_destroy(global.socket);
-	game_end();
+}
+
+if ( keyboard_check_pressed(ord("N")) ) {
+	send_websocket_message("RESET", {"battleId": 0});
+	send_websocket_message("SET_PLAYER_OFFLINE", {});
+	game_restart();
 }

@@ -21,6 +21,7 @@ function set_new_player() {
 	room_goto(rm_battle);
 	buffer_write(Buffer , buffer_text  , json_encode(_message));
 	network_send_raw(global.socket, Buffer, buffer_tell(Buffer), network_send_text);
+	buffer_delete(Buffer)
 	ds_map_destroy(_message);
 }
 

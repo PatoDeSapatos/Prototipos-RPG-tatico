@@ -44,3 +44,16 @@ function request_post_new_battle() {
 		global.requests.post_new_battle[0] = http_request(_url, "POST", _header, _body);
 	}
 }
+
+function send_websocket_message(_message_type, _data) {
+	var Buffer = buffer_create(1, buffer_grow ,1);
+	
+	var _message = ds_map_create();
+	ds_map_add(_message, "messageType", _message_type);
+	ds_map_add(_message, "data", _data);
+
+	buffer_write(Buffer , buffer_text  , json_encode(_message));
+	network_send_raw(global.socket, Buffer, buffer_tell(Buffer), network_send_text);
+	buffer_delete(Buffer);
+	ds_map_destroy(_message);
+}

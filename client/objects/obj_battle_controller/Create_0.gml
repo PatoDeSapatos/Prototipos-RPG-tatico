@@ -36,51 +36,23 @@ function update_game_state( _game_state ) {
 function set_turn_action() {
 	if ( !is_struct(changed_entity) ) return;
 	
-	var Buffer = buffer_create(1, buffer_grow ,1);
 	var _data = {
 		"entities": [changed_entity],
 		"battleId": 0,
 		"playerId": global.playerId
 	}
 	
-	var _message = ds_map_create();
-	ds_map_add(_message, "messageType", "SET_TURN_ACTION");
-	ds_map_add(_message, "data", _data);
-
-	buffer_write(Buffer , buffer_text  , json_encode(_message));
-	network_send_raw(global.socket, Buffer, buffer_tell(Buffer), network_send_text);
-	ds_map_destroy(_message);	
+	send_websocket_message("SET_TURN_ACTION", _data);
 }
 
 function set_player_ready() {
-	var Buffer = buffer_create(1, buffer_grow ,1);
-	var _data = {
-		"battleId": 0,
-		"playerId": global.playerId
-	}
-	
-	var _message = ds_map_create();
-	ds_map_add(_message, "messageType", "SET_PLAYER_READY");
-	ds_map_add(_message, "data", _data);
-
-	buffer_write(Buffer , buffer_text  , json_encode(_message));
-	network_send_raw(global.socket, Buffer, buffer_tell(Buffer), network_send_text);
-	ds_map_destroy(_message);
+	var _data = {"battleId": 0, "playerId": global.playerId}
+	send_websocket_message("SET_PLAYER_READY", _data);
 }
 
 function get_battle_state() {
-	var Buffer = buffer_create(1, buffer_grow ,1);
-	var _data = {
-		"battleId": 0
-	}
-	
-	var _message = ds_map_create();
-	ds_map_add(_message, "messageType", "GET_BATTLE_STATE");
-	ds_map_add(_message, "data", _data);
-
-	buffer_write(Buffer , buffer_text  , json_encode(_message));
-	network_send_raw(global.socket, Buffer, buffer_tell(Buffer), network_send_text);
-	ds_map_destroy(_message);	
+	var _data = {"battleId": 0}
+	send_websocket_message("GET_BATTLE_STATE", _data)
 }
 
 state = state_choosing;
