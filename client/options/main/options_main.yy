@@ -2,7 +2,7 @@
   "$GMMainOptions":"",
   "%Name":"Main",
   "name":"Main",
-  "option_author":"",
+  "option_author":"PatoDeSapatos",
   "option_collision_compatibility":false,
   "option_copy_on_write_enabled":false,
   "option_draw_colour":4294967295,
