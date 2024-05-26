@@ -13,6 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.monique.prototipo.domain.battle.BattleStateDTO;
+import com.monique.prototipo.domain.entities.Entity;
 import com.monique.prototipo.domain.player.Player;
 import com.monique.prototipo.exceptions.InvalidRequestException;
 import com.monique.prototipo.services.battle.AddPlayerInBattleRequest;
@@ -56,15 +57,38 @@ public class MessageHandler extends TextWebSocketHandler {
                 break;
             case ADD_PLAYER:
                 dto = battleService.addPlayer(new AddPlayerInBattleRequest(data), session.getId());
-                sendBattleState(session, dto);
+                sendBattleState(dto);
                 break;
             case SET_TURN_ACTION:
                 dto = battleService.setTurnActions(new TurnActionRequest(data));
-                sendBattleState(session, dto);
+                sendBattleState(dto);
                 break;
             case SET_PLAYER_READY:
                 dto = battleService.setPlayerReady(data.getInt("battleId"), data.getInt("playerId"));
-                sendBattleState(session, dto);
+                sendBattleState(dto);
+                break;
+            case GET_BATTLE_STATE:
+                dto = battleService.getBattleById(data.getInt("battleId")).toDTO();
+                sendBattleState(dto);
+                break;
+            case SET_PLAYER_OFFLINE:
+                String sesId = session.getId();
+                activeSessions.remove(sesId);
+                session.close();
+                log.info("User Asked to Disconnect: {}", sesId);
+                break;
+            case RESET:
+                var battle = battleService.getBattleById(data.getInt("battleId"));
+                for (int i = 0; i < battle.getPlayers().size(); i++) {
+                    var player = battle.getPlayers().get(i);
+                    activeSessions.remove(player.getSessionId()).close();
+                    battle.removePlayerFromBattle(player.getId());
+                }
+                battle.setEntities(new ArrayList<>());
+                battle.setPlayers(new ArrayList<>());
+                battle.getScenario().setMap(new Entity[5][5]);
+                battle.setTurn(0);
+                battle.setRevisedTurn(false);
                 break;
             default:
                 throw new InvalidRequestException("Message Type did not exist!");
@@ -81,21 +105,25 @@ public class MessageHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String sessionId = session.getId();
-        log.info("User Disconected: {}", sessionId);
-        activeSessions.remove(session.getId());
+        log.info("User Disconnected: {}", sessionId);
+        activeSessions.remove(sessionId);
         super.afterConnectionClosed(session, status);
     }
 
-    public void sendBattleState(WebSocketSession session, BattleStateDTO dto) throws IOException, InvalidRequestException {
+    public void sendBattleState(BattleStateDTO dto) throws IOException, InvalidRequestException {
         if ( dto == null ) return;
-
         ArrayList<Player> players = dto.getPlayers();
         TextMessage response = new TextMessage(dto.toString());
-        
+
         for (int i = 0; i < players.size(); i++) {
             var player = players.get(i);
-            if ( activeSessions.containsKey(player.getSessionId())) {
-                activeSessions.get(player.getSessionId()).sendMessage(response);
+            if (activeSessions.containsKey(player.getSessionId())) {
+                var session = activeSessions.get(player.getSessionId());
+                synchronized(session) {
+                    if (session.isOpen()) { 
+                        session.sendMessage(response);
+                    }
+                }
             } else {
                 battleService.getBattleById(dto.getBattleId()).removePlayerFromBattle(player.getId());
             }

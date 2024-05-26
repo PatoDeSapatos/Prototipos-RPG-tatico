@@ -89,10 +89,6 @@ public class BattleModel {
 
         if ( readyPlayers >= players.size() ) {
             battle.nextTurn(); 
-
-            if ( battle.getTurn() >= battle.getEntities().size() ) {
-                battle.setTurn(0);
-            }
         }
     }
 }

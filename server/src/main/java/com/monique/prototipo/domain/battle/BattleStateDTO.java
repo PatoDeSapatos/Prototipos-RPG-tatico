@@ -24,11 +24,10 @@ public class BattleStateDTO {
     public String toString() {
         JSONObject json = new JSONObject();
         json.put("turn", turn);
-        json.put("battleId", turn);
+        json.put("battleId", battleId);
         json.put("scenario", scenario);
-        json.put("entities", entities);
+        json.put("entities", new ArrayList<>(entities));
         json.put("revisedTurn", revisedTurn);
-        System.out.println(json.toString());
         return json.toString();
     }
 }

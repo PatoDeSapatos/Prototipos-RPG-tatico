@@ -43,6 +43,10 @@ public class Battle {
 
         this.revisedTurn = false;
         this.turn++;
+    
+        if ( getTurn() >= getEntities().size() ) {
+            setTurn(0);
+        }
     }
 
     public BattleStateDTO toDTO() {
@@ -68,10 +72,9 @@ public class Battle {
                 break;
             }
         }
-
         for (int i = 0; i < entities.size(); i++) {
             if (entities.get(i).getPlayerId() == playerId) {
-                entities.remove(i);
+                scenario.removeEntity(entities.remove(i));
                 return true;
             }
         }

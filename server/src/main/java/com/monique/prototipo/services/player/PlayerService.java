@@ -14,8 +14,4 @@ public class PlayerService {
     public void setPlayerOnline(int playerId, String sessionId) {
         playerModel.getPlayerById(playerId).setSessionId(sessionId);
     }
-
-	public void disconnectPlayer(String sessionId) {
-
-	}
 }

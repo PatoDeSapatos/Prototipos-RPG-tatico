@@ -19,7 +19,17 @@ public class Scenario {
     }
 
     public void moveEntity(Entity entity) {
-        map[entity.getOldX()][entity.getOldY()] = null;
+        //map[entity.getOldX()][entity.getOldY()] = null;
+        removeEntity(entity);
         map[entity.getX()][entity.getY()] = entity;
+    }
+
+    public void removeEntity(Entity entity) {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] == null) continue;
+                if (entity.getId() == map[i][j].getId()) map[i][j] = null;
+            }
+        }
     }
 }

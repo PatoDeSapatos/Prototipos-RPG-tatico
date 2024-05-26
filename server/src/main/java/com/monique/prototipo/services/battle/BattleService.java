@@ -21,7 +21,7 @@ public class BattleService {
         } 
 
         player.setSessionId(sessionId);
-        return battleModel.addPlayerInBattle(request.getPlayerId(), player);
+        return battleModel.addPlayerInBattle(request.getBattleId(), player);
     }
 
     public BattleStateDTO setTurnActions(TurnActionRequest request) {
@@ -29,7 +29,8 @@ public class BattleService {
         ArrayList<Entity> entitiesChanged = request.getEntities();
         ArrayList<Entity> entitiesInBattle = battle.getEntities();
 
-        if ( request.getPlayerId() != entitiesInBattle.get(battle.getTurn()).getPlayerId() ) {
+        if (entitiesInBattle.size() < battle.getTurn()) return null;
+        if (request.getPlayerId() != entitiesInBattle.get(battle.getTurn()).getPlayerId()) {
             return null;
         }
         

@@ -11,5 +11,6 @@ public class AddPlayerInBattleRequest {
 
     public AddPlayerInBattleRequest(JSONObject data) {
         battleId = data.getInt("battleId");
+        playerId = data.getInt("playerId");
     }
 }
