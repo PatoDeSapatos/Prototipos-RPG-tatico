@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"Reactions",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Reactions",
+  "parent":{
+    "name":"Server",
+    "path":"folders/Scripts/Server.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
