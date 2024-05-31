@@ -1,4 +1,4 @@
-package com.patodesapatos.dungeons.domain.User;
+package com.patodesapatos.dungeons.domain.user;
 
 import java.util.Collection;
 import java.util.List;

@@ -8,20 +8,25 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.patodesapatos.dungeons.domain.User.RegisterDTO;
-import com.patodesapatos.dungeons.domain.User.User;
-import com.patodesapatos.dungeons.domain.User.UserService;
-import com.patodesapatos.dungeons.domain.User.LoginDTO;
-import com.patodesapatos.dungeons.domain.User.LoginResponseDTO;
-import com.patodesapatos.dungeons.services.TokenService;
+import com.patodesapatos.dungeons.domain.user.LoginDTO;
+import com.patodesapatos.dungeons.domain.user.LoginResponseDTO;
+import com.patodesapatos.dungeons.domain.user.RegisterDTO;
+import com.patodesapatos.dungeons.domain.user.User;
+import com.patodesapatos.dungeons.domain.user.UserService;
+
+import lombok.extern.slf4j.Slf4j;
+
+import com.patodesapatos.dungeons.domain.auth.TokenService;
 
 @RestController
 @RequestMapping("user")
+@Slf4j
 public class UserController {
     
     @Autowired
@@ -49,6 +54,16 @@ public class UserController {
         String token = tokenService.generateToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
+    }
+
+    @PostMapping("/token/username")
+    public ResponseEntity<String> getUsernameByToken( @RequestBody String token ) {
+        return ResponseEntity.ok( tokenService.extractUsername(token) );
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Boolean> checkUsernameExists(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username) != null);
     }
 
     @GetMapping

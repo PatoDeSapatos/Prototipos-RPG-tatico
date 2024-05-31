@@ -2,7 +2,7 @@ package com.patodesapatos.dungeons.domain;
 
 import java.util.ArrayList;
 
-import com.patodesapatos.dungeons.domain.User.User;
+import com.patodesapatos.dungeons.domain.user.User;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.patodesapatos.dungeons.services;
+package com.patodesapatos.dungeons.domain.auth;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.patodesapatos.dungeons.domain.User.User;
+import com.patodesapatos.dungeons.domain.user.User;
 
 @Service
 public class TokenService {
@@ -40,6 +40,16 @@ public class TokenService {
                 .build()
                 .verify(token)
                 .getSubject();
+        } catch (JWTVerificationException exception) {
+            return "";
+        }
+    }
+
+    public String extractUsername(String token) {
+        try {
+            String content = JWT.decode(token).getContentType();
+            System.out.println(content);
+            return content;
         } catch (JWTVerificationException exception) {
             return "";
         }

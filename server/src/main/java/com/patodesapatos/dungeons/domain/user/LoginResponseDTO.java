@@ -1,4 +1,4 @@
-package com.patodesapatos.dungeons.domain.User;
+package com.patodesapatos.dungeons.domain.user;
 
 public record LoginResponseDTO(String token) {
 }
