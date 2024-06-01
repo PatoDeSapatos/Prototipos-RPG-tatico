@@ -45,16 +45,6 @@ public class TokenService {
         }
     }
 
-    public String extractUsername(String token) {
-        try {
-            String content = JWT.decode(token).getContentType();
-            System.out.println(content);
-            return content;
-        } catch (JWTVerificationException exception) {
-            return "";
-        }
-    }
-
     private Instant generatedExpirationDate(int hours) {
         return LocalDateTime.now().plusHours(hours).toInstant(ZoneOffset.of("-03:00"));
     }

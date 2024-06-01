@@ -1,6 +1,6 @@
 package com.patodesapatos.dungeons.domain.chat;
 
-public enum MessageType {
+public enum ChatType {
     CHAT,
     JOIN,
     LEAVE

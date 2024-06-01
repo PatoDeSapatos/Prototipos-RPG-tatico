@@ -20,20 +20,16 @@ import com.patodesapatos.dungeons.domain.user.RegisterDTO;
 import com.patodesapatos.dungeons.domain.user.User;
 import com.patodesapatos.dungeons.domain.user.UserService;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.patodesapatos.dungeons.domain.auth.TokenService;
 
 @RestController
 @RequestMapping("user")
-@Slf4j
 public class UserController {
-    
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenService tokenService;
-    public static UserService userService = new UserService();
+    public UserService userService = new UserService();
 
     @PostMapping("/register")
     public ResponseEntity<LoginResponseDTO> register(@RequestBody RegisterDTO data) {
@@ -54,11 +50,6 @@ public class UserController {
         String token = tokenService.generateToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
-    }
-
-    @PostMapping("/token/username")
-    public ResponseEntity<String> getUsernameByToken( @RequestBody String token ) {
-        return ResponseEntity.ok( tokenService.extractUsername(token) );
     }
 
     @GetMapping("/username/{username}")
