@@ -30,4 +30,15 @@ public class Entity {
         json.put("y", 0);
         return json;
     }
+
+    public Entity toDTO() {
+        try {
+            var dto = (Entity) clone();
+            dto.setUserId(null);
+            return dto;
+        } catch (Exception e) {
+            System.err.println("Entity clone not supported.");
+            return null;
+        }
+    }
 }

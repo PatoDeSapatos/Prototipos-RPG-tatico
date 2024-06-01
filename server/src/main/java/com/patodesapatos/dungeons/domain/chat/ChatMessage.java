@@ -7,14 +7,12 @@ import com.patodesapatos.dungeons.domain.WebSocketDTO;
 
 public class ChatMessage extends WebSocketDTO {
 
-    public ChatMessage(String sender, String content, ChatType type) {
+    public ChatMessage(JSONObject data) {
         super(MessageType.SEND_CHAT_MESSAGE);
 
-        JSONObject data = new JSONObject();
-        data.put("sender", sender);
-        data.put("content", content);
-        data.put("type", type);
+        var parsedData = new JSONObject(data.toString());
+        parsedData.remove("invite");
 
-        packet.put("data", data);
+        packet.put("data", parsedData);
     }
 }

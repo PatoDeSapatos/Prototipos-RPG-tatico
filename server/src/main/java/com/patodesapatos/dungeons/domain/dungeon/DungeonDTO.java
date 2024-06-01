@@ -1,5 +1,7 @@
 package com.patodesapatos.dungeons.domain.dungeon;
 
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 
 import com.patodesapatos.dungeons.controller.MessageType;
@@ -11,7 +13,13 @@ public class DungeonDTO extends WebSocketDTO {
         super(MessageType.DUNGEON_STATE);
 
         var data = new JSONObject();
-        data.put("entities", dungeon.getEntities());
+
+        var parsedEntities = new ArrayList<Entity>();
+        for (int i = 0; i < dungeon.getEntities().size(); i++) {
+            parsedEntities.add(dungeon.getEntities().get(i).toDTO());
+        }
+
+        data.put("entities", parsedEntities);
 
         packet.put("data", data);
     }

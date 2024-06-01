@@ -15,34 +15,48 @@ import lombok.Data;
 @AllArgsConstructor
 public class Dungeon {
     private String id;
-    private ArrayList<String> usersId;
+    private ArrayList<Player> players;
     private ArrayList<Entity> entities;
-    private String dungeonInvite;
-    private boolean waiting;
+    private String admUsername;
+    private String invite;
     private boolean isPublic;
+    private boolean started;
 
-    public Dungeon(boolean isPublic, String userId) {
+    public Dungeon(Player player) {
         this.id = UUID.randomUUID().toString();
-        this.dungeonInvite = randomInvite();
-        this.waiting = true;
-        this.isPublic = isPublic;
+        this.invite = randomInvite();
+        this.isPublic = false;
 
-        this.usersId = new ArrayList<>();
-        this.usersId.add(userId);
+        this.entities = new ArrayList<>();
+        this.players = new ArrayList<>();
+        addPlayer(player);
+        this.admUsername = player.getUsername();
     }
 
-    public void addUserId(String userId) {
-        usersId.add(userId);
+    public void addPlayer(Player player) {
+        players.add(player);
+        entities.add(new Entity(player.getUserId()));
     }
 
-    public DungeonDTO ready() {
-        this.waiting = false;
-
-        for (int i = 0; i < usersId.size(); i++) {
-            entities.add(new Entity(usersId.get(i)));
+    public Player getPlayerByUsername(String username) {
+        for (int i = 0; i < players.size(); i++) {
+            var player = players.get(i);
+            if (player.getUsername().equals(username)) return player;
         }
+        return null;
+    }
 
-        return toDTO();
+    public void setPlayerReady(String username) {
+        var player = getPlayerByUsername(username);
+        player.setReady(true);
+
+        var readyPlayers = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).isReady()) readyPlayers++;
+        }
+        if (readyPlayers == players.size()) {
+            setStarted(true);
+        }
     }
 
     public String randomInvite() {
@@ -63,5 +77,18 @@ public class Dungeon {
 
     public void updateEntity(JSONObject data) {
         getEntityById(data.getString("entityId")).setData(data.getJSONObject("data"));
+    }
+
+    public void removePlayer(String username) {
+        String removed = "";
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getUsername().equals(username)) {
+                removed = players.remove(i).getUsername();
+                break;
+            }
+        }
+        if (!removed.isEmpty() && admUsername.equals(removed) && players.size() > 0) {
+            setAdmUsername( players.get(0).getUsername() );
+        }
     }
 }

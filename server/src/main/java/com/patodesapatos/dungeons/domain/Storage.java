@@ -31,4 +31,12 @@ public class Storage {
         }
         return null;
     }
+
+    public Dungeon getDungeonByInvite(String invite) {
+        for (int i = 0; i < dungeons.size(); i++) {
+            var dungeon = dungeons.get(i);
+            if (dungeon.getInvite().equals(invite)) return dungeon;
+        }
+        return null;
+    }
 }

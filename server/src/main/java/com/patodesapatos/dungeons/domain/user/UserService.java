@@ -54,6 +54,15 @@ public class UserService {
     public void setPlayerOnline(String username, String sessionId) {
         getUserByUsername(username).setSessionId(sessionId);
     }
+
+    public User getUserBySessionId(String sessionId) {
+        for (int i = 0; i < storage.getUsers().size(); i++) {
+            if ( storage.getUsers().get(i).getSessionId().equals(sessionId) ) {
+                return storage.getUsers().get(i);
+            }
+        }
+        return null;
+    }
 }
 
 
