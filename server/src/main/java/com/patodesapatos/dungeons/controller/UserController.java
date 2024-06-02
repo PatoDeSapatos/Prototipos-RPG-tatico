@@ -51,6 +51,11 @@ public class UserController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Boolean> checkUsernameExists(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username) != null);
+    }
+
     @GetMapping
     public ResponseEntity<ArrayList<User>> getAll() {
         return ResponseEntity.ok(userService.getAll());
