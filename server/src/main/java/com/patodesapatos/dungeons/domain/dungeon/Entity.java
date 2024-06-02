@@ -7,20 +7,16 @@ import org.json.JSONObject;
 import lombok.Data;
 
 @Data
-public class Entity {
+public class Entity implements Cloneable {
     private String id;
     private String userId;
+    private String username;
     private JSONObject data;
 
-    public Entity(String userId, JSONObject JSONData) {
+    public Entity(Player player) {
         this.id = UUID.randomUUID().toString();
-        this.userId = userId;
-        this.data = JSONData;
-    }
-
-    public Entity(String userId) {
-        this.id = UUID.randomUUID().toString();
-        this.userId = userId;
+        this.userId = player.getUserId();
+        this.username = player.getUsername();
         this.data = defaultData();
     }
 
