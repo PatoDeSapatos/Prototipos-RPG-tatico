@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DungeonsApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("spring.devtools.livereload.enabled", "false");
 		SpringApplication.run(DungeonsApplication.class, args);
 	}
 

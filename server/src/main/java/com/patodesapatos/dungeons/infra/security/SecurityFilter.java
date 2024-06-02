@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.patodesapatos.dungeons.domain.User.UserService;
-import com.patodesapatos.dungeons.services.TokenService;
+import com.patodesapatos.dungeons.domain.user.UserService;
+import com.patodesapatos.dungeons.domain.auth.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
