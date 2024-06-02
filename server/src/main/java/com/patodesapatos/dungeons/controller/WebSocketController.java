@@ -40,7 +40,6 @@ public class WebSocketController extends TextWebSocketHandler {
         JSONObject packet = new JSONObject(jsonString);
         
         MessageType type = MessageType.valueOf(packet.getString("messageType"));
-        log.info("Message Type: {}", type);
         String token = packet.getString("token");
         JSONObject data = packet.getJSONObject("data");
 
