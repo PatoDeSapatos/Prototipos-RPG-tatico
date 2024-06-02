@@ -78,6 +78,7 @@ public class WebSocketController extends TextWebSocketHandler {
             case DUNGEON_STATE:
                 dto = dungeonService.getDungeonByInvite(data.getString("invite")).toDTO();
                 sendDTO(dto, session);
+                break;
             /**
              * data: {
              *      invite,

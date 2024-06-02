@@ -20,7 +20,6 @@ public class DungeonDTO extends WebSocketDTO {
         }
 
         data.put("entities", parsedEntities);
-
         packet.put("data", data);
     }
 }

@@ -35,7 +35,7 @@ public class Dungeon {
 
     public void addPlayer(Player player) {
         players.add(player);
-        entities.add(new Entity(player.getUserId()));
+        entities.add(new Entity(player));
     }
 
     public Player getPlayerByUsername(String username) {
@@ -60,7 +60,7 @@ public class Dungeon {
     }
 
     public String randomInvite() {
-        return RandomStringUtils.randomAlphanumeric(4);
+        return RandomStringUtils.randomAlphanumeric(4).toUpperCase();
     }
 
     public Entity getEntityById(String id) {
