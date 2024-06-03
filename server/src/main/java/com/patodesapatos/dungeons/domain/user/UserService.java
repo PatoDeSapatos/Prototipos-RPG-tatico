@@ -26,6 +26,10 @@ public class UserService {
         return user.getId();
     }
 
+    public void removeUser(User user) {
+        storage.getUsers().remove(user);   
+    }
+
     public String loginUser(String username, String password) {
         User user = getUserByUsername(username);
         if (user == null || !user.getPassword().equals(password)) return null;

@@ -18,6 +18,7 @@ switch( async_load[? "id"] ) {
 		if ( async_load[? "status"] == 0 ) {
 			global.user_token = struct_get( json_parse( async_load[? "result"] ), "token" );
 			global.server.username = username;
+			global.server.is_user_guest = false;
 			menu_change_page(MAIN_MENU_PAGES.PRINCIPAL);
 		} else {
 			create_error_message("Username already taken.");
@@ -27,6 +28,7 @@ switch( async_load[? "id"] ) {
 		if ( async_load[? "status"] == 0 ) {
 			global.user_token = struct_get( json_parse( async_load[? "result"] ), "token" );
 			global.server.username = username;
+			global.server.is_user_guest = false;
 			menu_change_page(MAIN_MENU_PAGES.PRINCIPAL);
 		} else {
 			create_error_message("Username and password dont't match");
@@ -34,4 +36,5 @@ switch( async_load[? "id"] ) {
 		break;
 }
 
+menu_change_page(page);
 global.loading = false;

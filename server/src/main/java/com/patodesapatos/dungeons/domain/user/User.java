@@ -20,6 +20,7 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private String sessionId;
+    private boolean guestUser;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

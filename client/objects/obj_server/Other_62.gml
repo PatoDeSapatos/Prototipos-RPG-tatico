@@ -1,7 +1,6 @@
 request_function = -1;
 
-array_foreach(requests, function(_key, _request) {
-	_key = "";
+array_foreach(requests, function(_request) {
 	if ( _request.id == async_load[? "id"])	{
 		request_function = _request.reaction;
 	}

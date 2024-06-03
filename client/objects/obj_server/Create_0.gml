@@ -9,10 +9,12 @@ socket = network_create_socket(network_socket_ws);
 user_logged = false;
 username = "";
 dungeon_code = "";
+is_user_guest = false;
+guest_password = "";
 
 request_function = -1;
 requests = [
-	new Request(set_new_user)
+	new Request(create_guest_reaction)
 ];
 
 function send_websocket_message(_type, _data) {
@@ -34,6 +36,14 @@ websocket_connect = function () {
 }
 
 websocket_disconnect = function () {
+	if ( is_user_guest ) {
+		var _url = string_concat(global.url,"/user/guest/remove");
+		var _header = ds_map_create();
+	
+		ds_map_add(_header, "Content-Type", "application/json");
+		user_register = http_request(_url, "POST", _header, global.server.username);
+		ds_map_destroy(_header);
+	}
 	network_destroy(socket);	
 }
 
