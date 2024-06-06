@@ -1,5 +1,6 @@
 # Prototipos-RPG-tatico
 > Protótipos de um jogo RPG tático multiplayer, com objetivo de testar funcionalidades diversas.
+> Servidor feito com Java Spring e client com Gamemaker Studio 2
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/PatoDeSapatos/Prototipos-RPG-tatico?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/PatoDeSapatos/Prototipos-RPG-tatico?style=for-the-badge)
