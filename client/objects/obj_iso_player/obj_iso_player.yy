@@ -1,17 +1,17 @@
 {
   "$GMObject":"",
-  "%Name":"obj_menu_button",
+  "%Name":"obj_iso_player",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_menu_button",
+  "name":"obj_iso_player",
   "overriddenProperties":[],
   "parent":{
-    "name":"menus",
-    "path":"folders/Objetos/menus.yy",
+    "name":"dungeon",
+    "path":"folders/Objetos/dungeon.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -31,7 +31,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_dungeon_tileset",
+    "path":"sprites/spr_dungeon_tileset/spr_dungeon_tileset.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

@@ -21,3 +21,5 @@ update_entities = function (_entities) {
 	    
 	}
 }
+
+map = generate_dungeon()
