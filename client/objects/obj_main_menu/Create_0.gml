@@ -28,7 +28,7 @@ password = "";
 function setup_options( _page ) {
 	switch (_page) {
 		case MAIN_MENU_PAGES.PRINCIPAL:
-			options[MAIN_MENU_PAGES.PRINCIPAL] = ["Enter in Dungeon", "Create Dungeon", global.server.user_logged ? ("Account") : ("Register/Login"), "Options", "Exit"];
+			options[MAIN_MENU_PAGES.PRINCIPAL] = ["Enter in Dungeon", "Create Dungeon", global.server.user_logged && !global.server.is_user_guest ? ("Account") : ("Register/Login"), "Options", "Exit"];
 			break;
 		case MAIN_MENU_PAGES.ENTER_DUNGEON:
 			options[MAIN_MENU_PAGES.ENTER_DUNGEON] = ["Public Dungeons", "Enter With Code", "Back"];
@@ -37,12 +37,12 @@ function setup_options( _page ) {
 			options[MAIN_MENU_PAGES.CREATE_DUNGEON] = ["Carregando..."];
 			break;
 		case MAIN_MENU_PAGES.ACCOUNT: // Account
-			if ( global.server.user_logged ) {
-				options[MAIN_MENU_PAGES.ACCOUNT, 0] = global.server.user_username;
+			if ( global.server.user_logged && !global.server.is_user_guest ) {
+				options[MAIN_MENU_PAGES.ACCOUNT, 0] = global.server.username;
 				options[MAIN_MENU_PAGES.ACCOUNT, 1] = "Logout";
 				options[MAIN_MENU_PAGES.ACCOUNT, 2] = "Back"
 			} else {
-				options[MAIN_MENU_PAGES.ACCOUNT] = ""; 	
+				options[MAIN_MENU_PAGES.ACCOUNT, 0] = "";
 			}
 			break;
 		case MAIN_MENU_PAGES.OPTIONS:

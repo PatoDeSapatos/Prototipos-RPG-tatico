@@ -25,7 +25,7 @@ switch (page) {
 					menu_change_page( option_selected+1 );
 					break;
 				case 2:
-					menu_change_page(MAIN_MENU_PAGES.REGISTER_LOGIN);
+					menu_change_page(MAIN_MENU_PAGES.ACCOUNT);
 					break;
 				case 4:
 					game_end();
@@ -51,16 +51,18 @@ switch (page) {
 		}
 		break;
 	case MAIN_MENU_PAGES.ACCOUNT:
-		if ( !global.server.user_logged ) {
-			menu_change_page(MAIN_MENU_PAGES.REGISTER_USERNAME);
+		if ( !global.server.user_logged || global.server.is_user_guest ) {
+			menu_change_page(MAIN_MENU_PAGES.REGISTER_LOGIN);
 			return;
 		}
-	
+		
 		if ( input_forward ) {
 			if ( option_selected == array_length(options[page])-1 ) {
 				menu_change_page(MAIN_MENU_PAGES.PRINCIPAL)
 				return;
-			} else if (option_selected == 1) { // Logout
+			}
+		
+			if (option_selected == 1) { // Logout
 				global.user_token = "";
 				global.server.user_logged = false;
 				global.server.user_username = "";
