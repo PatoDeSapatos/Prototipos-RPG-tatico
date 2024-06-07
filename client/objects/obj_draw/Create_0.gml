@@ -22,3 +22,5 @@ for (var _x = 0; _x < width; ++_x) {
 		}
 	}
 }
+
+instance_create_layer(0, 0, "Instances", obj_dungeon_manager)
