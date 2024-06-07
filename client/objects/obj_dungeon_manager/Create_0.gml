@@ -22,4 +22,35 @@ update_entities = function (_entities) {
 	}
 }
 
+//tamanho do room tem que ser divisível por tile_size * roomSize * scale
+roomSize = 10
+roomsWidth = obj_draw.width / roomSize
+roomsHeight = obj_draw.height / roomSize
+roomsAmount = 40
+salas = 1
+
+nodeGrid = []
+for (var i = 0; i < roomsHeight; i++) {
+	nodeGrid[i] = []
+}
+
+nodes = []
+emptyNode = -1
+
+toCollapse = []
+
+offsets = [
+	new Point(0, -1), //top
+	new Point(0, 1), //bottom
+	new Point(1, 0), //right
+	new Point(-1, 0), //left
+]
+
+offsetLetter = [
+	"U",
+	"D",
+	"R",
+	"L"
+]
+
 map = generate_dungeon()
