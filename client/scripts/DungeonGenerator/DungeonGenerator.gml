@@ -22,12 +22,12 @@ function generate_dungeon() {
 	    new Point(-1, 0), //left
 	]
 
-	var offsetLetter = {
-	    0: "U",
-	    1: "D",
-	    2: "R",
-	    3: "L"
-	}
+	//var offsetLetter = {
+	//    0: "U",
+	//    1: "D",
+	//    2: "R",
+	//    3: "L"
+	//}
 }
 
 function Node(_name, _sprite, _index) constructor {

@@ -1,6 +1,10 @@
 // Setting options selected
 if (!global.loading) menu_get_option_selected();
 
+if (string_length(global.server.username) > 0) {
+	draw_text(10, 10, global.server.username)	
+}
+
 switch (page) {
 	case MAIN_MENU_PAGES.PRINCIPAL:
 		if ( setup ) {
