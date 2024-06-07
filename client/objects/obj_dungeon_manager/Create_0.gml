@@ -34,6 +34,9 @@ salas = 1
 nodeGrid = []
 for (var i = 0; i < roomsHeight; i++) {
 	nodeGrid[i] = []
+	for (var j = 0; j < roomsWidth; j++) {
+	    nodeGrid[i][j] = []
+	}
 }
 
 nodes = []

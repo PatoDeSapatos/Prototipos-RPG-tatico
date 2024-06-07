@@ -8,6 +8,7 @@ function generate_dungeon() {
 
 function collapse() {
 	array_push(toCollapse, new Point(roomsWidth / 2, roomsHeight / 2))
+	var initial = true
 	
 	while (array_length(toCollapse) > 0) {
 		var atual = array_shift(toCollapse)
@@ -56,7 +57,7 @@ function collapse() {
 		
 		apenasCompativeis(potentialNodes, nome, nomeRestritivo)
 		
-		if (potentialNodes.length <= 0) {
+		if (array_length(potentialNodes) <= 0) {
 
             if (initial) {
                 var rndNode = nodes[irandom(array_length(potentialNodes) - 1)]
@@ -106,9 +107,15 @@ function apenasCompativeis(potenciais, nome, nomeRestritivo) {
     if (array_length(nome) == 0) return array_delete(potenciais, 0, array_length(potenciais))
 
     for (var i = array_length(potenciais) - 1; i >= 0; --i) {
-        //checa pra todas as letras se o nome do node às contém
-        var includes = array_all(nome, function(v) { return string_pos(v, potenciais[i].name) != 0 })
-		var excludes = array_any(nomeRestritivo, function(v) { return string_pos(v, potenciais[i].name) != 0 })
+        
+		var ambient = {
+			potenciais: potenciais,
+			i: i
+		}
+		
+        var includes = array_all(nome, method(ambient, function(v) { return string_pos(v, potenciais[i].name) != 0 }))
+		var excludes = array_any(nomeRestritivo, method(ambient, function(v) { return string_pos(v, potenciais[i].name) != 0 }))
+
         if (!includes || excludes) {
             array_delete(potenciais, i, 1)
         }
