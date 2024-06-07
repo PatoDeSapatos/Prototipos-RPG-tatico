@@ -81,10 +81,12 @@ function menu_change_page( _page ) {
 }
 
 register_username_callback = function(_username) {
-	global.loading = true;
-	var _url = string_concat(global.url,"/user/username/", string_trim(_username));
-	username = _username;
-	username_exists = http_get(_url);
+	if ( _username != "" ) {
+		global.loading = true;
+		var _url = string_concat(global.url,"/user/username/", string_trim(_username));
+		username = _username;
+		username_exists = http_get(_url);
+	}
 }
 
 register_password_callback = function (_password) {
@@ -102,9 +104,11 @@ register_password_callback = function (_password) {
 }
 
 login_username_callback = function (_username) {
-	username = _username;
-	keyboard_string = "";
-	menu_change_page(MAIN_MENU_PAGES.LOGIN_PASSWORD);	
+	if ( _username != "" ) {
+		username = _username;
+		keyboard_string = "";
+		menu_change_page(MAIN_MENU_PAGES.LOGIN_PASSWORD);	
+	}
 }
 
 login_password_callback = function (_password) {

@@ -54,7 +54,7 @@ switch(async_load[? "type"]){
 				if ( room != rm_dungeon ) {
 					room_goto(rm_dungeon);
 				} else if ( instance_exists(obj_dungeon_manager) ) {
-					obj_dungeon_manager.update_entities(struct_get(_data, "entities"));
+					obj_dungeon_manager.update_entities(_data);
 				}
 				break;
 		}

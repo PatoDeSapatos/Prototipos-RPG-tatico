@@ -1,5 +1,5 @@
 {
-  "$GMScript":"v1",
+  "$GMScript":"",
   "%Name":"DungeonGenerator",
   "isCompatibility":false,
   "isDnD":false,
