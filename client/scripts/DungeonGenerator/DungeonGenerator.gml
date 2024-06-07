@@ -3,6 +3,7 @@ function generate_dungeon() {
 	var data = date_current_datetime()
     collapse()
     show_debug_message(string("finished in: {0} s with {1} rooms", date_second_span(data, date_current_datetime()), salas))
+	show_str()
 }
 
 function collapse() {
@@ -10,7 +11,7 @@ function collapse() {
 	
 	while (array_length(toCollapse) > 0) {
 		var atual = array_shift(toCollapse)
-		if (nodeGrid[atual.y][atual.x] != null) continue
+		if (is_struct(nodeGrid[atual.y][atual.x])) continue
 		
 		var potentialNodes = []
 		array_copy(potentialNodes, 0, nodes, 0, array_length(nodes))
@@ -65,20 +66,40 @@ function collapse() {
                 nodeGrid[atual.y][atual.x] = emptyNode
             }
         } else {
-            var random
+            var randomNode
 
             if (salas < roomsAmount) {
                 array_sort(potentialNodes, function(a, b) { return string_length(b.name) - string_length(a.name) })
-                random = irandom(floor(array_length(potentialNodes) / 2))
+                randomNode = irandom(floor(array_length(potentialNodes) / 2))
             } else {
                 array_sort(potentialNodes, function(a, b) { return string_length(a.name) - string_length(b.name) })
-                random = 0
+                randomNode = 0
             }
 
             salas++
-            nodeGrid[atual.y][atual.x] = potentialNodes[random]
+            nodeGrid[atual.y][atual.x] = potentialNodes[randomNode]
         }
 	}
+}
+
+function show_str() {
+	for (var _y = 0; _y < array_length(nodeGrid); _y++) {
+        var line1 = ""
+        var line2 = ""
+        var line3 = ""
+
+        for (var _x = 0; _x < array_length(nodeGrid[_y]); _x++) {
+            var nodeSpriteSplitted = string_split(nodeGrid[_y][_x].sprite, "\n")
+
+            line1 += nodeSpriteSplitted[0]
+            line2 += nodeSpriteSplitted[1]
+            line3 += nodeSpriteSplitted[2]
+        }
+
+        show_debug_message(line1)
+        show_debug_message(line2)
+        show_debug_message(line3)
+    }
 }
 
 function apenasCompativeis(potenciais, nome, nomeRestritivo) {
@@ -106,7 +127,22 @@ function addRestritivo(i, nomeRestritivo) {
 }
 
 function register() {
-	
+	emptyNode = new Node("", "ooo\nooo\nooo", 0)
+    array_push(nodes, new Node("U", "o⬆o\no o\nooo", 0))
+    array_push(nodes, new Node("D", "ooo\no o\no⬇o", 0))
+    array_push(nodes, new Node("L", "ooo\n⬅ o\nooo", 0))
+    array_push(nodes, new Node("R", "ooo\no ➡️\nooo", 0))
+    array_push(nodes, new Node("UD", "o⬆o\no o\no⬇o", 0))
+    array_push(nodes, new Node("UL", "o⬆o\n⬅ o\nooo", 0))
+    array_push(nodes, new Node("UR", "o⬆o\no ➡️\nooo", 0))
+    array_push(nodes, new Node("ULR", "o⬆o\n⬅ ➡️\nooo", 0))
+    array_push(nodes, new Node("UDL", "o⬆o\n⬅ o\no⬇o", 0))
+    array_push(nodes, new Node("UDR", "o⬆o\no ➡️\no⬇o", 0))
+    array_push(nodes, new Node("UDLR", "o⬆o\n⬅ ➡️\no⬇o", 0))
+    array_push(nodes, new Node("DL", "ooo\n⬅ o\no⬇o", 0))
+    array_push(nodes, new Node("DR", "ooo\no ➡️\no⬇o", 0))
+    array_push(nodes, new Node("DLR", "ooo\n⬅ ➡️\no⬇o", 0))
+    array_push(nodes, new Node("LR", "ooo\n⬅ ➡️\nooo", 0))
 }
 
 function Node(_name, _sprite, _index) constructor {
