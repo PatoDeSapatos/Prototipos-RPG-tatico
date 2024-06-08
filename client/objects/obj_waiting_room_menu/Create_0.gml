@@ -30,8 +30,8 @@ menu_depth = depth;
 alarm[0] = 20*60;
 
 // Menu
-width = room_width;
-height = room_height;
+width = global.camera.camera_w;
+height =  global.camera.camera_h;
 border = 50;
 menu_border = 10;
 

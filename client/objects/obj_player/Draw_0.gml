@@ -32,7 +32,7 @@ draw_set_valign(fa_middle);
 draw_set_halign(fa_center);
 draw_text(
 	x - sprite_xoffset + sprite_width/2,
-	y + z - sprite_yoffset - 30,
+	y + z - sprite_yoffset - 1,
 	player_username
 );
 draw_set_valign(fa_top);

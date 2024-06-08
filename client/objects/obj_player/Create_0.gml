@@ -32,7 +32,7 @@ _y = y;
 spd = 3;
 player_username = "";
 entity_id = -1;
-scale = 3;
+scale = 1;
 
 tile_size = obj_draw.tile_size
 z = - tile_size / 2
