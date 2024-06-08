@@ -11,11 +11,13 @@ public class Player implements Cloneable {
     private String userId;
     private String username;
     private boolean ready;
+    private boolean online;
 
     public Player(String userId, String username) {
         this.userId = userId;
         this.username = username;
         this.ready = false;
+        this.online = true;
     }
 
     public Player(User user) {

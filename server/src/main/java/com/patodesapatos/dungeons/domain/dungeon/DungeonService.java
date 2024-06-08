@@ -44,7 +44,13 @@ public class DungeonService {
 
         user.setSessionId(session.getId());
         session.getAttributes().put("dungeonId", dungeon.getId());
-        dungeon.addPlayer(new Player(user));
+
+        Player player = dungeon.getPlayerByUsername(username);
+        if (player == null) {
+            dungeon.addPlayer(new Player(user));
+        } else {
+            player.setOnline(true);
+        }
 
         if (dungeon.isStarted()) return dungeon.toDTO();
         else return new WaitingDTO(dungeon);
@@ -71,6 +77,12 @@ public class DungeonService {
     public WebSocketDTO leaveDungeon(String invite, String username) {
         var dungeon = getDungeonByInvite(invite);
         dungeon.removePlayer(username);
+
+        if (dungeon.getPlayers().size() <= 0) {
+            storage.getDungeons().remove(dungeon);
+            return null;
+        }
+
         return (dungeon.isStarted() ? (dungeon.toDTO()) : (new WaitingDTO(dungeon)));
     }
 
@@ -85,5 +97,9 @@ public class DungeonService {
         if (username == null) return;
 
         dungeon.removePlayer(username);
+
+        if (dungeon.getPlayers().size() <= 0) {
+            storage.getDungeons().remove(dungeon);
+        }
     }
 }

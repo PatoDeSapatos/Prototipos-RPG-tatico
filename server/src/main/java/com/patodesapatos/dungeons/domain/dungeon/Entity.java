@@ -17,14 +17,6 @@ public class Entity implements Cloneable {
         this.id = UUID.randomUUID().toString();
         this.userId = player.getUserId();
         this.username = player.getUsername();
-        this.data = defaultData();
-    }
-
-    public JSONObject defaultData() {
-        var json = new JSONObject();
-        json.put("x", 0);
-        json.put("y", 0);
-        return json;
     }
 
     public Entity toDTO() {
