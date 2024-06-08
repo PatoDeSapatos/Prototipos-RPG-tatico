@@ -83,7 +83,7 @@ function menu_change_page( _page ) {
 register_username_callback = function(_username) {
 	if ( _username != "" ) {
 		global.loading = true;
-		var _url = string_concat(global.url,"/user/username/", string_trim(_username));
+		var _url = global.url + "/user/username/" + string_trim(_username);
 		username = _username;
 		username_exists = http_get(_url);
 	}
@@ -91,7 +91,7 @@ register_username_callback = function(_username) {
 
 register_password_callback = function (_password) {
 	global.loading = true;
-	var _url = string_concat(global.url,"/user/register");
+	var _url = global.url + "/user/register";
 	var _header = ds_map_create();
 	var _body = ds_map_create();
 	ds_map_add(_body, "username", username);
@@ -113,7 +113,7 @@ login_username_callback = function (_username) {
 
 login_password_callback = function (_password) {
 	global.loading = true;
-	var _url = string_concat(global.url,"/user/login");
+	var _url = global.url + "/user/login";
 	var _header = ds_map_create();
 	var _body = ds_map_create();
 	ds_map_add(_body, "username", username);

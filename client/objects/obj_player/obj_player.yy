@@ -31,7 +31,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_base_idle",
+    "path":"sprites/spr_base_idle/spr_base_idle.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

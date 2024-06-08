@@ -2,7 +2,7 @@ switch(async_load[? "type"]){
 	case network_type_non_blocking_connect:
 		if (global.user_token == "") {
 			global.loading = true;
-			var _url = string_concat(global.url,"/user/guest");
+			var _url = global.url + "/user/guest";
 			var _header = ds_map_create();
 	
 			ds_map_add(_header, "Content-Type", "application/json");

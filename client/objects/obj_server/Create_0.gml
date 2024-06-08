@@ -37,7 +37,7 @@ websocket_connect = function () {
 
 websocket_disconnect = function () {
 	if ( is_user_guest ) {
-		var _url = string_concat(global.url,"/user/guest/remove");
+		var _url = global.url + "/user/guest/remove";
 		var _header = ds_map_create();
 	
 		ds_map_add(_header, "Content-Type", "application/json");
