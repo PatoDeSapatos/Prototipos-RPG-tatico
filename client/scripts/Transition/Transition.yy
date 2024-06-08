@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"Transition",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Transition",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

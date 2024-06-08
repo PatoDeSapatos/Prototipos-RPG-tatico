@@ -51,7 +51,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.600.0.562",
+    "IDEVersion":"2024.2.0.132",
   },
   "name":"dungeons_prototipo",
   "resources":[
@@ -74,9 +74,11 @@
     {"id":{"name":"rm_waiting_room","path":"rooms/rm_waiting_room/rm_waiting_room.yy",},},
     {"id":{"name":"DungeonDraw","path":"scripts/DungeonDraw/DungeonDraw.yy",},},
     {"id":{"name":"DungeonGenerator","path":"scripts/DungeonGenerator/DungeonGenerator.yy",},},
+    {"id":{"name":"MACRO","path":"scripts/MACRO/MACRO.yy",},},
     {"id":{"name":"Menus","path":"scripts/Menus/Menus.yy",},},
     {"id":{"name":"PlayerScripts","path":"scripts/PlayerScripts/PlayerScripts.yy",},},
     {"id":{"name":"Reactions","path":"scripts/Reactions/Reactions.yy",},},
+    {"id":{"name":"Transition","path":"scripts/Transition/Transition.yy",},},
     {"id":{"name":"spr_base_idle","path":"sprites/spr_base_idle/spr_base_idle.yy",},},
     {"id":{"name":"spr_clothes_idle","path":"sprites/spr_clothes_idle/spr_clothes_idle.yy",},},
     {"id":{"name":"spr_dungeon_tileset","path":"sprites/spr_dungeon_tileset/spr_dungeon_tileset.yy",},},

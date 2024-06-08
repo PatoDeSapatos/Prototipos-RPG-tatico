@@ -1,7 +1,9 @@
 /// @description Insert description here
 global.camera = instance_create_layer(0, 0, "Instances", obj_camera);
 global.server = instance_create_layer(0, 0, "Instances", obj_server);
+global.pause = false;
 global.loading = false;
+global.can_zoom = false;
 room_goto(rm_main_menu);
 
 global.controls = {

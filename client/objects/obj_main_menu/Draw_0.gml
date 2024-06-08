@@ -8,8 +8,8 @@ if (string_length(global.server.username) > 0) {
 switch (page) {
 	case MAIN_MENU_PAGES.PRINCIPAL:
 		if ( setup ) {
-			width = room_width;
-			height = room_height;
+			width = global.camera.camera_w;
+			height =  global.camera.camera_h;
 			offset = 10;
 			
 			var _menu_height = 0;
@@ -69,7 +69,7 @@ switch (page) {
 			if (option_selected == 1) { // Logout
 				global.user_token = "";
 				global.server.user_logged = false;
-				global.server.user_username = "";
+				global.server.username = "";
 				menu_change_page(MAIN_MENU_PAGES.PRINCIPAL);
 			}
 		}
