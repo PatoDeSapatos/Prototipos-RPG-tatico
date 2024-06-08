@@ -24,6 +24,7 @@ public class Player implements Cloneable {
         this.userId = user.getId();
         this.username = user.getUsername();
         this.ready = false;
+        this.online = true;
     }
 
     public Player toDTO() {

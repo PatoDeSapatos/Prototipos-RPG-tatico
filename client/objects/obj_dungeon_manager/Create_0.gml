@@ -39,9 +39,9 @@ update_entities = function (_data) {
 }
 
 //tamanho do room tem que ser divisível por tile_size * roomSize * scale
-roomSize = 10
-roomsWidth = obj_draw.width
-roomsHeight = obj_draw.height
+roomSize = 16
+roomsWidth = obj_draw.width / roomSize
+roomsHeight = obj_draw.height / roomSize
 roomsAmount = 40
 salas = 1
 

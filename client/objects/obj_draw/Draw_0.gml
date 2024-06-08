@@ -9,11 +9,19 @@ if ( instance_exists(obj_player) ) {
 
 selected = grid[# mouse_tilled_x, mouse_tilled_y];
 
-for (var _x = 0; _x < width; ++_x) {
-    for (var _y = 0; _y < height; ++_y) {
+var camX = screenToTileX(global.camera.camera_x, global.camera.camera_y)
+var camY = screenToTileY(global.camera.camera_x, global.camera.camera_y)
+var camW = screenToTileX(global.camera.camera_x + global.camera.camera_w, global.camera.camera_y + global.camera.camera_h)
+var camH = screenToTileY(global.camera.camera_x + global.camera.camera_w, global.camera.camera_y + global.camera.camera_h)
+
+show_debug_message(string("x: {0}, y: {1}, w: {2}, h: {3}", global.camera.camera_x, global.camera.camera_y, global.camera.camera_w, global.camera.camera_h))
+show_debug_message(string("x: {0}, y: {1}, w: {2}, h: {3}", camX, camY, camW, camH))
+
+for (var _y = max(0, camY - 1); _y < min(height, camH + 1); _y++) {
+    for (var _x = max(0, camX - 1); _x < min(width, camW + 1); _x++) {
 
 		var tile = grid[# _x, _y]
-		if (is_undefined(tile)) continue;
+		if (is_undefined(tile)) continue
 
 		var sprite = tile.spr
 		var z = tile.z
