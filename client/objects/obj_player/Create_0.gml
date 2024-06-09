@@ -88,7 +88,6 @@ update_entity_values = function(_new_values, _username) {
 		facing_right = struct_get(_new_values, "facing_right");
 		facing_up = struct_get(_new_values, "facing_up");
 	}
-	
 }
 
 state = state_player_free;

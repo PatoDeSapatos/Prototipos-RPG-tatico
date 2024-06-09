@@ -16,7 +16,11 @@ public class DungeonDTO extends WebSocketDTO {
 
         var parsedEntities = new ArrayList<Entity>();
         for (int i = 0; i < dungeon.getEntities().size(); i++) {
-            parsedEntities.add(dungeon.getEntities().get(i).toDTO());
+            var entity = dungeon.getEntities().get(i);
+            var player = dungeon.getPlayerByUsername(entity.getUsername());
+            if (player != null) {
+                if (player.isOnline()) parsedEntities.add(entity.toDTO());
+            }
         }
 
         data.put("entities", parsedEntities);

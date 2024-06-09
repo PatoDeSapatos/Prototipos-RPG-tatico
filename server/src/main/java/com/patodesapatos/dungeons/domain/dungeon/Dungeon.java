@@ -83,7 +83,9 @@ public class Dungeon {
         String removed = "";
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getUsername().equals(username)) {
-                removed = players.remove(i).getUsername();
+                var player = players.remove(i);
+                player.setOnline(false);
+                removed = player.getUsername();
                 break;
             }
         }

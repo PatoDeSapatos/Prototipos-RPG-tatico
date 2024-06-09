@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"DungeonDraw",
   "isCompatibility":false,
   "isDnD":false,

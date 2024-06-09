@@ -123,7 +123,7 @@ public class WebSocketController extends TextWebSocketHandler {
                 break;
             case LEAVE_DUNGEON:
                 dto = dungeonService.leaveDungeon(data.getString("invite"), username);
-                sendDTOtoAllPlayers(dto, data);
+                if (dto != null) sendDTOtoAllPlayers(dto, data);
                 break;
             default:
                 throw new Exception("Message Type: '" + type + "' not accepted!");
