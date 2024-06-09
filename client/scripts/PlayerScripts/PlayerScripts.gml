@@ -1,7 +1,7 @@
 function collision() {
 	var collides = false
-	
-	var htile = obj_draw.grid[# screenToTileX(x + hspd, y), screenToTileY(x + hspd, y)]
+
+	var htile = obj_draw.grid[# screenToTileX(x + hspd, y)-1, screenToTileY(x + hspd, y)-1]
 	if (!is_undefined(htile)) {
 		if (htile.spr == 5) {
 			//x -= x mod tile_size
@@ -10,9 +10,8 @@ function collision() {
 			collides = true
 		}
 	}
-	x += hspd
-	
-	var vtile = obj_draw.grid[# screenToTileX(x, y + vspd), screenToTileY(x, y + vspd)]
+
+	var vtile = obj_draw.grid[# screenToTileX(x, y + vspd)-1, screenToTileY(x, y + vspd)-1]
 	if (!is_undefined(vtile)) {
 		if (vtile.spr == 5) {
 			//y -= y mod tile_size
@@ -21,8 +20,7 @@ function collision() {
 			collides = true
 		}
 	}
-	y += vspd
-	
+
 	return collides
 }
 

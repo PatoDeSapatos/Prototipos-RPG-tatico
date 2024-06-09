@@ -3,10 +3,8 @@ global.server.send_websocket_message("DUNGEON_STATE", {invite: obj_server.dungeo
 entities = ds_map_create();
 
 global.camera.camera_w = 640;
-global.camera.camera_h = 320;
+global.camera.camera_h = 360;
 global.res_scale = 1280/global.camera.camera_w;
-
-instance_create_layer(0, 0, "Instances", obj_draw);
 
 update_entities = function (_data) {
 	var _entities = struct_get(_data, "entities");
@@ -38,10 +36,10 @@ update_entities = function (_data) {
 	}
 }
 
-//tamanho do room tem que ser divisível por tile_size * roomSize * scale
-roomSize = 16
-roomsWidth = obj_draw.width / roomSize
-roomsHeight = obj_draw.height / roomSize
+instance_create_layer(0, 0, "Instances", obj_draw);
+
+roomsWidth = obj_draw.width / obj_draw.roomSize
+roomsHeight = obj_draw.height / obj_draw.roomSize
 roomsAmount = 40
 salas = 1
 

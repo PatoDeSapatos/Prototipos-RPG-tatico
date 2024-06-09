@@ -1,5 +1,11 @@
 scale = 2
 tile_size = 32 * scale
+roomSize = 16
+
+roomSizeInPixels = tile_size * roomSize * 15
+room_width = roomSizeInPixels
+room_height = roomSizeInPixels
+
 width = round(room_width / tile_size)
 height = round(room_height / tile_size)
 grid = ds_grid_create(width, height)
