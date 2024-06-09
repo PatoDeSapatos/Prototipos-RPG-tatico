@@ -7,7 +7,6 @@ function Color(_r, _g, _b, _a) constructor {
 
 function load_map_images() {
 	if (!directory_exists(working_directory + "\\dungeon_rooms")) {
-		show_message("lixo");
 		return;
 	}
 	
@@ -25,7 +24,6 @@ function load_map_images() {
 
 function rotate_map_images(_rooms) {
 	if ( !is_array(_rooms) || array_length(_rooms) <= 0 ) {
-		show_message("lixo");
 		return;
 	}
 
@@ -62,7 +60,9 @@ function generate_rotated_image(_image_name) {
 		surface_free(_surf);
 	}
 	
-	for (var i = 0; i < 3; ++i) {
+	var _cicles = is_room_ud(_room_directions) ? (1) : (3);
+	
+	for (var i = 0; i < _cicles; ++i) {
 	    var _rotated_name = generate_rotated_name(_current_direction);
 		_new_file_name = working_directory + "dungeon_rooms\\generated\\" + _room_identifier + _rotated_name + ".png";
 		
@@ -92,12 +92,10 @@ function generate_rotated_image(_image_name) {
 		surface_free(_surf);
 		
 		// Reading Buffer
-		var _rotated_image_pixels = [];
 		var _image_pixels = [];
 		
 		for (var j = 0; j < _height; ++j) {
 		    for (var k = 0; k < _width; ++k) {
-			    _rotated_image_pixels[j, k] = [];
 				_image_pixels[j, k] = [];
 			}
 		}
@@ -113,7 +111,6 @@ function generate_rotated_image(_image_name) {
 			
 				var _color = new Color(_r, _g, _b, _a);
 				_image_pixels[_x, _y] = _color;
-				show_debug_message(_color);
 			}
 		}
 		buffer_delete(_buffer);
@@ -125,10 +122,10 @@ function generate_rotated_image(_image_name) {
 			for (var k = 0; k < array_length(_image_pixels) - (2*j) - 1; ++k) {
 				var _temp = _image_pixels[j, j+k];
 				
-			    _rotated_image_pixels[j, j+k] = _image_pixels[_l-j-k, j];
-				_rotated_image_pixels[_l-j-k, j] = _image_pixels[_l-j, _l-k-j];
-				_rotated_image_pixels[_l-j, _l-k-j] = _image_pixels[j+k, _l-j];
-				_rotated_image_pixels[j+k, _l-j] = _temp;
+			    _image_pixels[j, j+k] = _image_pixels[_l-j-k, j];
+				_image_pixels[_l-j-k, j] = _image_pixels[_l-j, _l-k-j];
+				_image_pixels[_l-j, _l-k-j] = _image_pixels[j+k, _l-j];
+				_image_pixels[j+k, _l-j] = _temp;
 			}
 		}
 		
@@ -138,10 +135,10 @@ function generate_rotated_image(_image_name) {
 		    for (var _x = 0; _x < _width; ++_x) {
 			    buffer_seek(_buffer_rotated, buffer_seek_start, 4 * ( _x + _y * _width));
 				
-				buffer_write(_buffer_rotated, buffer_u8, _rotated_image_pixels[_x, _y].r);	
-				buffer_write(_buffer_rotated, buffer_u8, _rotated_image_pixels[_x, _y].g);	
-				buffer_write(_buffer_rotated, buffer_u8, _rotated_image_pixels[_x, _y].b);	
-				buffer_write(_buffer_rotated, buffer_u8, _rotated_image_pixels[_x, _y].a);	
+				buffer_write(_buffer_rotated, buffer_u8, _image_pixels[_x, _y].r);	
+				buffer_write(_buffer_rotated, buffer_u8, _image_pixels[_x, _y].g);	
+				buffer_write(_buffer_rotated, buffer_u8, _image_pixels[_x, _y].b);	
+				buffer_write(_buffer_rotated, buffer_u8, _image_pixels[_x, _y].a);	
 			}
 		}
 		
@@ -156,7 +153,7 @@ function generate_rotated_image(_image_name) {
 }
 
 function generate_rotated_name(_image_name) {
-	_image_name = array_get( string_split(_image_name, "."), 0 );
+	_image_name = string_upper( array_get( string_split(_image_name, "."), 0 ) );
 	if ( string_length(_image_name) >= 4 ) return "";
 
 	var _rotated_name = "";
@@ -181,4 +178,16 @@ function generate_rotated_name(_image_name) {
 	}
 	
 	return _rotated_name;
+}
+
+function is_room_ud(_directions) {
+	_directions = string_upper( array_get( string_split(_directions, "."), 0 ) );
+	
+	if ( string_length(_directions) == 2 ) {
+		if ( string_char_at(_directions, 1) == "U" && string_char_at(_directions, 2) == "D" ) {
+			return true;	
+		}
+	}
+	
+	return false;
 }
