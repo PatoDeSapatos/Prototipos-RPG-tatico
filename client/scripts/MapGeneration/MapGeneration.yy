@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"MapGeneration",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"MapGeneration",
+  "parent":{
+    "name":"Dungeon",
+    "path":"folders/Scripts/Dungeon.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

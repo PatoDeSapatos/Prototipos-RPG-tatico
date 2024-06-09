@@ -51,6 +51,7 @@ switch(async_load[? "type"]){
 				}
 				break;
 			case "DUNGEON_STATE":
+				show_message(_data);
 				if ( room != rm_dungeon ) {
 					room_goto(rm_dungeon);
 				} else if ( instance_exists(obj_dungeon_manager) ) {

@@ -7,7 +7,11 @@ if ( instance_exists(obj_player) ) {
 	player_bottom = grid[# player_bottom_x, player_bottom_y];
 }
 
-selected = grid[# mouse_tilled_x, mouse_tilled_y];
+if ((mouse_tilled_x > 0 && mouse_tilled_x < width) && (mouse_tilled_y > 0 && mouse_tilled_y < height)) {
+	selected = grid[# mouse_tilled_x, mouse_tilled_y];
+} else {
+	selected = -1;	
+}
 
 for (var _x = 0; _x < width; ++_x) {
     for (var _y = 0; _y < height; ++_y) {
