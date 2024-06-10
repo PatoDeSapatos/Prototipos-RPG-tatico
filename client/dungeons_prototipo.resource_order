@@ -36,6 +36,7 @@
     {"name":"rm_main_menu","order":3,"path":"rooms/rm_main_menu/rm_main_menu.yy",},
     {"name":"rm_test","order":6,"path":"rooms/rm_test/rm_test.yy",},
     {"name":"rm_waiting_room","order":5,"path":"rooms/rm_waiting_room/rm_waiting_room.yy",},
+    {"name":"CastDungeon","order":3,"path":"scripts/CastDungeon/CastDungeon.yy",},
     {"name":"DungeonGenerator","order":1,"path":"scripts/DungeonGenerator/DungeonGenerator.yy",},
     {"name":"MACRO","order":7,"path":"scripts/MACRO/MACRO.yy",},
     {"name":"MapGeneration","order":2,"path":"scripts/MapGeneration/MapGeneration.yy",},

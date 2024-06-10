@@ -22,7 +22,9 @@ update_entities = function (_data) {
 				ds_map_find_value(entities, _entity_id).update_entity_values( struct_get(_entities[i], "data"), struct_get(_entities[i], "username") );
 			}
 		} else {
-			var _entity = instance_create_layer(room_width/2, room_height/2, "Instances", obj_player);
+			var initX = round(((obj_draw.width + obj_draw.roomSize * 2) / 2) * obj_draw.tile_size)
+			var initY = round(((obj_draw.height + obj_draw.roomSize * 2) / 2) * obj_draw.tile_size)
+			var _entity = instance_create_layer(initX, initY, "Instances", obj_player);
 			var _username = struct_get(_entities[i], "username");
 			
 			_entity.player_username = _username;
@@ -70,4 +72,6 @@ offsetLetter = [
 	"L"
 ]
 
+load_map_images();
 map = generate_dungeon();
+cast_dungeon()

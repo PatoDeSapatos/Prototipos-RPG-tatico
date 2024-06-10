@@ -12,3 +12,5 @@ global.controls = {
 	key_left: [ord("A"), vk_left],
 	key_right: [ord("D"), vk_right]
 }
+
+randomize()

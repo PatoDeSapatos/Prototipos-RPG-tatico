@@ -51,7 +51,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.2.0.132",
+    "IDEVersion":"2024.600.0.562",
   },
   "name":"dungeons_prototipo",
   "resources":[
@@ -73,6 +73,7 @@
     {"id":{"name":"rm_parent","path":"rooms/rm_parent/rm_parent.yy",},},
     {"id":{"name":"rm_test","path":"rooms/rm_test/rm_test.yy",},},
     {"id":{"name":"rm_waiting_room","path":"rooms/rm_waiting_room/rm_waiting_room.yy",},},
+    {"id":{"name":"CastDungeon","path":"scripts/CastDungeon/CastDungeon.yy",},},
     {"id":{"name":"DungeonDraw","path":"scripts/DungeonDraw/DungeonDraw.yy",},},
     {"id":{"name":"DungeonGenerator","path":"scripts/DungeonGenerator/DungeonGenerator.yy",},},
     {"id":{"name":"MACRO","path":"scripts/MACRO/MACRO.yy",},},

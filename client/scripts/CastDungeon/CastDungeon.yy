@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"PlayerScripts",
+  "%Name":"CastDungeon",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"PlayerScripts",
+  "name":"CastDungeon",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"Dungeon",
+    "path":"folders/Scripts/Dungeon.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

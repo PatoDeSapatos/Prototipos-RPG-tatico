@@ -3,7 +3,14 @@ function generate_dungeon() {
 	var data = date_current_datetime()
     collapse()
     show_debug_message(string("finished in: {0} s with {1} rooms", date_second_span(data, date_current_datetime()), salas))
-	show_str()
+	
+	for (var i = 0; i < array_length(nodeGrid); ++i) {
+		var line = ""
+	    for (var j = 0; j < array_length(nodeGrid[i]); ++j) {
+		    line += string(nodeGrid[i][j])
+		}
+		show_debug_message(line)
+	}
 }
 
 function collapse() {
@@ -13,7 +20,7 @@ function collapse() {
 	while (array_length(toCollapse) > 0) {
 		var atual = array_shift(toCollapse)
 		if (is_struct(nodeGrid[atual.y][atual.x])) continue
-		
+
 		var potentialNodes = []
 		array_copy(potentialNodes, 0, nodes, 0, array_length(nodes))
 
@@ -60,7 +67,7 @@ function collapse() {
 		if (array_length(potentialNodes) <= 0) {
 
             if (initial) {
-                var rndNode = nodes[irandom(array_length(potentialNodes) - 1)]
+                var rndNode = nodes[irandom(array_length(nodes) - 1)]
                 nodeGrid[atual.y][atual.x] = rndNode
                 initial = false
             } else {
@@ -81,26 +88,6 @@ function collapse() {
             nodeGrid[atual.y][atual.x] = potentialNodes[randomNode]
         }
 	}
-}
-
-function show_str() {
-	for (var _y = 0; _y < array_length(nodeGrid); _y++) {
-        var line1 = ""
-        var line2 = ""
-        var line3 = ""
-
-        for (var _x = 0; _x < array_length(nodeGrid[_y]); _x++) {
-            var nodeSpriteSplitted = string_split(nodeGrid[_y][_x].sprite, "\n")
-
-            line1 += nodeSpriteSplitted[0]
-            line2 += nodeSpriteSplitted[1]
-            line3 += nodeSpriteSplitted[2]
-        }
-
-        show_debug_message(line1)
-        show_debug_message(line2)
-        show_debug_message(line3)
-    }
 }
 
 function apenasCompativeis(potenciais, nome, nomeRestritivo) {
@@ -134,28 +121,25 @@ function addRestritivo(i, nomeRestritivo) {
 }
 
 function register() {
-	emptyNode = new Node("", "ooo\nooo\nooo", 0)
-    array_push(nodes, new Node("U", "o⬆o\no o\nooo", 0))
-    array_push(nodes, new Node("D", "ooo\no o\no⬇o", 0))
-    array_push(nodes, new Node("L", "ooo\n⬅ o\nooo", 0))
-    array_push(nodes, new Node("R", "ooo\no ➡️\nooo", 0))
-    array_push(nodes, new Node("UD", "o⬆o\no o\no⬇o", 0))
-    array_push(nodes, new Node("UL", "o⬆o\n⬅ o\nooo", 0))
-    array_push(nodes, new Node("UR", "o⬆o\no ➡️\nooo", 0))
-    array_push(nodes, new Node("ULR", "o⬆o\n⬅ ➡️\nooo", 0))
-    array_push(nodes, new Node("UDL", "o⬆o\n⬅ o\no⬇o", 0))
-    array_push(nodes, new Node("UDR", "o⬆o\no ➡️\no⬇o", 0))
-    array_push(nodes, new Node("UDLR", "o⬆o\n⬅ ➡️\no⬇o", 0))
-    array_push(nodes, new Node("DL", "ooo\n⬅ o\no⬇o", 0))
-    array_push(nodes, new Node("DR", "ooo\no ➡️\no⬇o", 0))
-    array_push(nodes, new Node("DLR", "ooo\n⬅ ➡️\no⬇o", 0))
-    array_push(nodes, new Node("LR", "ooo\n⬅ ➡️\nooo", 0))
+	emptyNode = new Node("", "")
+	
+	if (!directory_exists(working_directory + "\\dungeon_rooms")) {
+		return;
+	}
+	
+	var _room_name = file_find_first(working_directory + "\\dungeon_rooms\\generated\\*.png", 0);
+	while(_room_name != "") {
+		var _direction = string_upper(string_split(string_split(_room_name, "_")[2], ".")[0])
+
+		array_push(nodes, new Node(_direction, _room_name))
+
+		_room_name = file_find_next();
+	}
 }
 
-function Node(_name, _sprite, _index) constructor {
+function Node(_name, _fileName) constructor {
     name = _name
-    sprite = _sprite
-	index = _index
+    fileName = _fileName
 }
 
 function Point(_x, _y) constructor {
