@@ -9,7 +9,6 @@ function generate_dungeon() {
 	    for (var j = 0; j < array_length(nodeGrid[i]); ++j) {
 		    line += string(nodeGrid[i][j])
 		}
-		show_debug_message(line)
 	}
 }
 

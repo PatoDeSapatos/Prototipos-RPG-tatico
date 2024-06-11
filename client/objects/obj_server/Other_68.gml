@@ -45,9 +45,17 @@ switch(async_load[? "type"]){
 					
 					obj_waiting_room_menu.update_players(_players);
 					obj_waiting_room_menu.dungeon_code = _dungeon_code;
+					global.server.dungeon_code = _dungeon_code;
 					obj_waiting_room_menu.dungeon_privacy = _is_dungeon_public ? ("Public") : ("Private");
 					obj_waiting_room_menu.waiting_server = false;
 					obj_waiting_room_menu.admin_username = _adm;
+					
+					if ( obj_waiting_room_menu.joined ) {
+						var _messages = ["arives in battle", "aproaches", "enters the battlefield", "lurks in"]
+						
+						global.server.send_chat_message("JOIN", _messages[irandom(array_length(_messages)-1)]);
+						obj_waiting_room_menu.joined = false;
+					}
 				}
 				break;
 			case "DUNGEON_STATE":
@@ -55,6 +63,11 @@ switch(async_load[? "type"]){
 					room_goto(rm_dungeon);
 				} else if ( instance_exists(obj_dungeon_manager) ) {
 					obj_dungeon_manager.update_entities(_data);
+				}
+				break;
+			case "SEND_CHAT_MESSAGE":
+				if ( instance_exists(obj_dungeon_chat) ) {
+					obj_dungeon_chat.receive_message(_data);
 				}
 				break;
 		}

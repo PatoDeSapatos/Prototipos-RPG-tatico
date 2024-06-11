@@ -1,7 +1,7 @@
 function collision() {
 	var collides = false
 
-	var htile = obj_draw.grid[# screenToTileX(x + hspd, y)-1, screenToTileY(x + hspd, y)-1]
+	var htile = obj_dungeon_manager.grid[# screenToTileX(x + hspd, y)-1, screenToTileY(x + hspd, y)-1]
 	if (!is_undefined(htile)) {
 		if (htile.spr == 5) {
 			//x -= x mod tile_size
@@ -11,7 +11,7 @@ function collision() {
 		}
 	}
 
-	var vtile = obj_draw.grid[# screenToTileX(x, y + vspd)-1, screenToTileY(x, y + vspd)-1]
+	var vtile = obj_dungeon_manager.grid[# screenToTileX(x, y + vspd)-1, screenToTileY(x, y + vspd)-1]
 	if (!is_undefined(vtile)) {
 		if (vtile.spr == 5) {
 			//y -= y mod tile_size

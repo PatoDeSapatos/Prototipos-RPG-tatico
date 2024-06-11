@@ -28,6 +28,7 @@ waiting_server = true;
 admin_username = -1;
 menu_depth = depth;
 alarm[0] = 20*60;
+joined = true;
 
 // Menu
 width = global.camera.camera_w;
@@ -102,6 +103,8 @@ create_menu_button(
 	c_white,
 	exit_button_callback
 );
+
+instance_create_layer(0, 0, "Instances", obj_dungeon_chat);
 
 update_players = function(_players) {
 	var _ready_players = 0;

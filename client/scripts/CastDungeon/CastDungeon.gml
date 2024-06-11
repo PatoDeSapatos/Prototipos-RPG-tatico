@@ -1,5 +1,5 @@
 function cast_dungeon() {
-	var surface = surface_create(obj_draw.width, obj_draw.height)
+	var surface = surface_create(obj_dungeon_manager.width, obj_dungeon_manager.height)
 	surface_set_target(surface);
 	draw_clear_alpha(c_black, 0);
 	var sprites = []
@@ -10,7 +10,7 @@ function cast_dungeon() {
 			var node = nodeGrid[_x][_y]
 			if (node.fileName == "") continue
 			var sprite = sprite_add(working_directory + "\\dungeon_rooms\\generated\\" + node.fileName, 1, 0, 0, 0, 0)
-			draw_sprite(sprite, 0, _y * obj_draw.roomSize, _x * obj_draw.roomSize)
+			draw_sprite(sprite, 0, _y * obj_dungeon_manager.roomSize, _x * obj_dungeon_manager.roomSize)
 			array_push(sprites, sprite)
 		}
 	}
@@ -38,11 +38,11 @@ function cast_dungeon() {
 			switch (_color) {
 				//Wall
 				case 4194559:
-					obj_draw.grid[# _x, _y] = new Tile(5, 0)
+					obj_dungeon_manager.grid[# _x, _y] = new Tile(5, 0)
 					break
 				//Floor
 				case 2170681:
-					obj_draw.grid[# _x, _y] = new Tile(1, 0)
+					obj_dungeon_manager.grid[# _x, _y] = new Tile(1, 0)
 					break
 			}
 		}

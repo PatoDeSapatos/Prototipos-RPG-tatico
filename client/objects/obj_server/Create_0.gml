@@ -31,6 +31,16 @@ function send_websocket_message(_type, _data) {
 	ds_map_destroy(_message);
 }
 
+function send_chat_message(_type, _text) {
+	if (_type == "CHAT" && string_trim_end(_text) == "") return;
+	
+	var _message = {};
+	struct_set(_message, "invite", dungeon_code);
+	struct_set(_message, "message", _text);
+	struct_set(_message, "type", _type);
+	send_websocket_message("SEND_CHAT_MESSAGE", _message);	
+}
+
 websocket_connect = function () {
 	network_connect_raw_async(socket, "localhost/ws", 8080);
 }

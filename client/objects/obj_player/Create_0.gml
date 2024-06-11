@@ -34,7 +34,7 @@ player_username = "";
 entity_id = -1;
 scale = 1;
 
-tile_size = obj_draw.tile_size
+tile_size = obj_dungeon_manager.tile_size
 z = - tile_size / 2
 
 input_magnitude = -1;
@@ -56,9 +56,16 @@ right = -1;
 
 state_player_free = function () {
 	var _initial_sprite = sprite_index;
+	var _angle = 0;
 	
-	hspd = lengthdir_x(spd * input_magnitude, input_direction);
-	vspd = lengthdir_y(spd * input_magnitude, input_direction);
+	if ( (input_direction > 0 && input_direction < 90) || (input_direction > 180 && input_direction < 270 ) ) {
+		_angle = spd > 0 ? (-13) : (13)
+	} else {
+		_angle = spd > 0 ? (13) : (-13)
+	}
+	
+	hspd = lengthdir_x(spd * input_magnitude, input_direction + _angle);
+	vspd = lengthdir_y(spd * input_magnitude, input_direction + _angle);
 	
 	if ( hspd < 0 ) {
 		facing_right = -1;
@@ -66,9 +73,10 @@ state_player_free = function () {
 		facing_right = 1;	
 	}
 	
-	facing_up = false;
 	if ( vspd < 0 ) {
 		facing_up = true;
+	} else if ( vspd > 0 ) {
+		facing_up = false;	
 	}
 	
 	animate();
