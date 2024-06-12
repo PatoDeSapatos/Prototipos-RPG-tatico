@@ -15,25 +15,20 @@ if ((mouse_tilled_x > 0 && mouse_tilled_x < width) && (mouse_tilled_y > 0 && mou
 var camX = screenToTileX(global.camera.camera_x, global.camera.camera_y)
 var camY = screenToTileY(global.camera.camera_x, global.camera.camera_y)
 var camW = screenToTileX(global.camera.camera_x + global.camera.camera_w, global.camera.camera_y + global.camera.camera_h)
-var camH = camY + 1 + (camW - camX) div 2
-camY -= (camW - camX) div 2
+var camH = camY + 1 + (camW - camX) / 2
+camY -= (camW - camX) / 2
 
 var _min_x = max(0, camX - 1);
-var _max_x = min(width, camW - 1);
+var _max_x = min(width, camW + 1);
 
-var _min_y = max(0, camY + 1);
+var _min_y = max(0, camY - 1);
 var _max_y = min(height, camH + 1);
 
 for (var _y = _min_y; _y < _max_y; _y++) {
     for (var _x = _min_x; _x < _max_x; _x++) {
+
 		var tile = grid[# _x, _y];
-		if (
-			( is_undefined(tile) ) || 
-			( _x < _min_x || _x > _max_y ) ||
-			( _y < _min_y || _y > _max_y )
-		) {
-			continue;
-		}
+		if (is_undefined(tile)) continue
 
 		var sprite = tile.spr
 		if (tile == selected) {
