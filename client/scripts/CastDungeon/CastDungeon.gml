@@ -1,4 +1,5 @@
 function cast_dungeon() {
+	var roomSize = obj_dungeon_manager.roomSize
 	var surface = surface_create(obj_dungeon_manager.width, obj_dungeon_manager.height)
 	surface_set_target(surface);
 	draw_clear_alpha(c_black, 0);
@@ -10,7 +11,7 @@ function cast_dungeon() {
 			var node = nodeGrid[_x][_y]
 			if (node.fileName == "") continue
 			var sprite = sprite_add(working_directory + "\\dungeon_rooms\\generated\\" + node.fileName, 1, 0, 0, 0, 0)
-			draw_sprite(sprite, 0, _y * obj_dungeon_manager.roomSize, _x * obj_dungeon_manager.roomSize)
+			draw_sprite(sprite, 0, _y * roomSize, _x * roomSize)
 			array_push(sprites, sprite)
 		}
 	}
@@ -34,17 +35,23 @@ function cast_dungeon() {
 			var _a = buffer_read(_buffer, buffer_u8);
 			
 			var _color = make_color_rgb(_r, _g, _b);
-			
+
+			var tile = undefined;
 			switch (_color) {
 				//Wall
 				case 4194559:
-					obj_dungeon_manager.grid[# _x, _y] = new Tile(5, 0, true);
+					tile = new Tile(0, 0, true)
+					repeat(4) array_push(tile.stack, 6)
 					break
 				//Floor
 				case 2170681:
-					obj_dungeon_manager.grid[# _x, _y] = new Tile(1, 0, false)
+					tile = new Tile(1, 0, false)
 					break
 			}
+
+			if (is_undefined(tile)) continue
+			obj_dungeon_manager.grid[# _x, _y] = tile
+			obj_dungeon_manager.salasGrid[floor(_y / roomSize)][floor(_x / roomSize)][_y % roomSize][_x % roomSize] = tile
 		}
 	}
 	surface_save(surface, working_directory + "mapa.png")

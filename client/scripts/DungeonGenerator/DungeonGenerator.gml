@@ -3,13 +3,6 @@ function generate_dungeon() {
 	var data = date_current_datetime()
     collapse()
     show_debug_message(string("finished in: {0} s with {1} rooms", date_second_span(data, date_current_datetime()), salas))
-	
-	for (var i = 0; i < array_length(nodeGrid); ++i) {
-		var line = ""
-	    for (var j = 0; j < array_length(nodeGrid[i]); ++j) {
-		    line += string(nodeGrid[i][j])
-		}
-	}
 }
 
 function collapse() {

@@ -54,7 +54,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.2.0.132",
+    "IDEVersion":"2024.600.0.576",
   },
   "name":"dungeons_prototipo",
   "resources":[
@@ -67,10 +67,10 @@
     {"id":{"name":"obj_iso_player","path":"objects/obj_iso_player/obj_iso_player.yy",},},
     {"id":{"name":"obj_main_menu","path":"objects/obj_main_menu/obj_main_menu.yy",},},
     {"id":{"name":"obj_menu_button","path":"objects/obj_menu_button/obj_menu_button.yy",},},
+    {"id":{"name":"obj_pathfinder","path":"objects/obj_pathfinder/obj_pathfinder.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_server","path":"objects/obj_server/obj_server.yy",},},
     {"id":{"name":"obj_waiting_room_menu","path":"objects/obj_waiting_room_menu/obj_waiting_room_menu.yy",},},
-    {"id":{"name":"obj_pathfinder","path":"objects/obj_pathfinder/obj_pathfinder.yy",},},
     {"id":{"name":"rm_dungeon","path":"rooms/rm_dungeon/rm_dungeon.yy",},},
     {"id":{"name":"rm_init","path":"rooms/rm_init/rm_init.yy",},},
     {"id":{"name":"rm_main_menu","path":"rooms/rm_main_menu/rm_main_menu.yy",},},

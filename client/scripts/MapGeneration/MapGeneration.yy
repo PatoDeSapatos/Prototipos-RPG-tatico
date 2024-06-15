@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"MapGeneration",
   "isCompatibility":false,
   "isDnD":false,

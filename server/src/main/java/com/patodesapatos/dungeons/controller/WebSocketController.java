@@ -13,6 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.patodesapatos.dungeons.domain.dungeon.Dungeon;
 import com.patodesapatos.dungeons.domain.dungeon.DungeonService;
+import com.patodesapatos.dungeons.domain.dungeon.RoomsDTO;
 import com.patodesapatos.dungeons.domain.dungeon.WaitingDTO;
 import com.patodesapatos.dungeons.domain.user.UserService;
 import com.patodesapatos.dungeons.domain.WebSocketDTO;
@@ -121,6 +122,13 @@ public class WebSocketController extends TextWebSocketHandler {
                 dto = dungeonService.changeDungeonPrivacy(data.getString("invite"), username);
                 sendDTOtoAllPlayers(dto, data);
                 break;
+            /**
+             * data: Node[]
+             */
+            case DUNGEON_ROOMS_SHARE:
+                dto = new RoomsDTO(data);
+                sendDTOtoAllPlayers(dto, data);
+                break;
             case LEAVE_DUNGEON:
                 dto = dungeonService.leaveDungeon(data.getString("invite"), username);
                 if (dto != null) sendDTOtoAllPlayers(dto, data);
@@ -138,6 +146,7 @@ public class WebSocketController extends TextWebSocketHandler {
     public void sendDTOtoAllPlayers(WebSocketDTO dto, JSONObject data) throws Exception {
         if (dto == null) return;
         Dungeon dungeon = dungeonService.getDungeonByInvite(data.getString("invite"));
+        if (dungeon == null) return;
 
         for (int i = 0; i < dungeon.getPlayers().size(); i++) {
             String sessionId = userService.getUserById(dungeon.getPlayers().get(i).getUserId()).getSessionId();

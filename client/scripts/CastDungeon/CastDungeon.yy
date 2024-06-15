@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"CastDungeon",
   "isCompatibility":false,
   "isDnD":false,

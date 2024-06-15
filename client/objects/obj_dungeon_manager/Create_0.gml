@@ -47,10 +47,15 @@ offsets = [
 ]
 
 nodeGrid = []
+salasGrid = []
 for (var i = 0; i < roomsHeight; i++) {
 	nodeGrid[i] = []
+	salasGrid[i] = []
 	for (var j = 0; j < roomsWidth; j++) {
-	    nodeGrid[i][j] = []
+	    nodeGrid[i][j] = noone
+		salasGrid[i][j] = []
+		salasGrid[i][j][i] = []
+		salasGrid[i][j][i][j] = noone
 	}
 }
 
@@ -83,8 +88,8 @@ update_entities = function (_data) {
 				ds_map_find_value(entities, _entity_id).update_entity_values( struct_get(_entities[i], "data"), struct_get(_entities[i], "username") );
 			}
 		} else {
-			var initX = width div 2 * tile_size
-			var initY = height div 2 * tile_size
+			var initX = (width div 2) * tile_size
+			var initY = (height div 2) * tile_size
 			var _entity = instance_create_layer(initX, initY, "Instances", obj_player);
 			var _username = struct_get(_entities[i], "username");
 			
@@ -95,7 +100,6 @@ update_entities = function (_data) {
 				global.camera.follow = _entity;	
 			}
 		}
-	    
 	}
 }
 

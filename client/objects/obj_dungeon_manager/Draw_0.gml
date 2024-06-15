@@ -12,11 +12,11 @@ if ((mouse_tilled_x > 0 && mouse_tilled_x < width) && (mouse_tilled_y > 0 && mou
 	selected = grid[# mouse_tilled_x, mouse_tilled_y];
 }
 
-var camX = screenToTileX(global.camera.camera_x, global.camera.camera_y)
-var camY = screenToTileY(global.camera.camera_x, global.camera.camera_y)
-var camW = screenToTileX(global.camera.camera_x + global.camera.camera_w, global.camera.camera_y + global.camera.camera_h)
-var camH = camY + 1 + (camW - camX) / 2
-camY -= (camW - camX) / 2
+var camX = screenToTileX(round(global.camera.camera_x), round(global.camera.camera_y))
+var camY = screenToTileY(round(global.camera.camera_x), round(global.camera.camera_y))
+var camW = screenToTileX(round(global.camera.camera_x) + global.camera.camera_w, round(global.camera.camera_y) + global.camera.camera_h)
+var camH = camY + 1 + (camW - camX) div 2
+camY -= (camW - camX) div 2
 
 var _min_x = max(0, camX - 1);
 var _max_x = min(width, camW + 1);
@@ -38,6 +38,25 @@ for (var _y = _min_y; _y < _max_y; _y++) {
 		}*/
 
 		draw_sprite_ext(spr_dungeon_tileset, sprite, tileToScreenX(_x, _y), tileToScreenY(_x, _y) + tile.z, scale, scale, 0, c_white, 1)
+		
+		if (array_length(tile.stack) > 0) {
+			var _zwrite = gpu_get_zwriteenable();
+			var _ztest = gpu_get_ztestenable();
+			var _depth = gpu_get_depth()
+			gpu_set_zwriteenable(true);
+			gpu_set_ztestenable(true);
+
+			for (var i = 0; i < array_length(tile.stack); ++i) {
+			    if (is_numeric(tile.stack[i])) {
+					var z = tile.z - ((tile_size / 2) * (i + 1))
+					gpu_set_depth(-tileToScreenY(_x, _y) + z)
+					draw_sprite_ext(spr_dungeon_tileset, tile.stack[i], tileToScreenX(_x, _y), tileToScreenY(_x, _y) + z, scale, scale, 0, c_white, 1)
+				}
+			}
+			gpu_set_depth(_depth)
+			gpu_set_zwriteenable(_zwrite);
+			gpu_set_ztestenable(_ztest);
+		}
 	}
 }
 
