@@ -38,11 +38,11 @@ function cast_dungeon() {
 			switch (_color) {
 				//Wall
 				case 4194559:
-					obj_dungeon_manager.grid[# _x, _y] = new Tile(5, 0)
+					obj_dungeon_manager.grid[# _x, _y] = new Tile(5, 0, true);
 					break
 				//Floor
 				case 2170681:
-					obj_dungeon_manager.grid[# _x, _y] = new Tile(1, 0)
+					obj_dungeon_manager.grid[# _x, _y] = new Tile(1, 0, false)
 					break
 			}
 		}
@@ -52,7 +52,9 @@ function cast_dungeon() {
 	buffer_delete(_buffer);
 }
 
-function Tile(_spr, _z) constructor {
-	spr = _spr
-	z = _z
+function Tile(_spr, _z, _coll, _stack=[]) constructor {
+	spr = _spr;
+	z = _z;
+	coll = _coll;
+	stack = _stack;
 }

@@ -92,11 +92,11 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
 // Dungeon Privacy
-draw_text(_x + menu_border + code_box_width/2, _y + menu_border + code_box_height + border/2, string_concat("Privacy: ", dungeon_privacy));
+draw_text(_x + menu_border + code_box_width/2, _y + menu_border + code_box_height + border/2, "Privacy: " + dungeon_privacy);
 
 //Dungeon Code
 draw_set_color(c_white);
-draw_text(_x + menu_border + code_box_width/2, _y + menu_border + code_box_height/2, string_concat("Code: ", dungeon_code));
+draw_text(_x + menu_border + code_box_width/2, _y + menu_border + code_box_height/2, "Code: " + dungeon_code);
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);

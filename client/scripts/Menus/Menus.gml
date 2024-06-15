@@ -39,7 +39,7 @@ function draw_text_input_page(_callback) {
 				keyboard_string = _string;
 			}
 			if ( string_char_at(reading_string, string_length(reading_string)-1) != "|" ) {
-				reading_string = string_concat(reading_string, "|");	
+				reading_string = reading_string + "|";	
 			}
 		} else {
 			keyboard_string = reading_string;
