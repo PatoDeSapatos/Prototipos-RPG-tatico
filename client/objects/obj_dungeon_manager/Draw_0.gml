@@ -31,9 +31,8 @@ for (var _y = _min_y; _y < _max_y; _y++) {
 			sprite = 2
 		}
 
-		draw_sprite_ext(spr_dungeon_tileset, sprite, tileToScreenX(_x, _y), tileToScreenY(_x, _y) + tile.z, scale, scale, 0, c_white, 1)
-
-		var i = 0;
+		draw_sprite_ext(spr_dungeon_tileset, sprite, tileToScreenX(_x, _y), tileToScreenY(_x, _y) + tile.z, scale, scale, 0, c_white, 1);
+		
 		while ( array_length(tile.stack) > 0) {
 			var _stack = tile.get_stack();
 			
@@ -44,7 +43,6 @@ for (var _y = _min_y; _y < _max_y; _y++) {
 				
 				instance_create_depth(_inst_x, _inst_y, -(_inst_y - z/2), _stack);
 			}
-			i++;
 		}
 	}
 }

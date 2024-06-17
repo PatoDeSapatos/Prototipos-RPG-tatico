@@ -35,6 +35,8 @@ roomsHeight = height / roomSize
 roomsAmount = 40
 salas = 1
 
+enemies_number = 5;
+
 nodes = []
 emptyNode = -1
 toCollapse = []

@@ -46,6 +46,10 @@ function cast_dungeon() {
 				//Floor
 				case 2170681:
 					tile = new Tile(1, 0, false);
+					if ( enemies_number > 0 ) {
+						instantiate_enemy(tileToScreenX(_x, _y), tileToScreenY(_x, _y) , "SLIME");
+						enemies_number--;
+					}
 					break
 			}
 

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"DungeonEnemiesStates",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"DungeonEnemiesStates",
+  "parent":{
+    "name":"enemies",
+    "path":"folders/Scripts/Dungeon/enemies.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
