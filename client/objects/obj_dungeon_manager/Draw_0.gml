@@ -2,12 +2,6 @@
 var mouse_tilled_x = screenToTileX(mouse_x, mouse_y)
 var mouse_tilled_y = screenToTileY(mouse_x, mouse_y)
 
-if ( instance_exists(obj_player) ) {
-	var player_bottom_x = screenToTileX(obj_player.x, obj_player.y) - 1
-	var player_bottom_y = screenToTileY(obj_player.x, obj_player.y) - 1
-	player_bottom = grid[# player_bottom_x, player_bottom_y];
-}
-
 if ((mouse_tilled_x > 0 && mouse_tilled_x < width) && (mouse_tilled_y > 0 && mouse_tilled_y < height)) {
 	selected = grid[# mouse_tilled_x, mouse_tilled_y];
 }
@@ -33,29 +27,24 @@ for (var _y = _min_y; _y < _max_y; _y++) {
 		var sprite = tile.spr
 		if (tile == selected) {
 			sprite = 0
-		}/*else if (tile == player_bottom) {
+		}else if (tile == player_bottom) {
 			sprite = 2
-		}*/
+		}
 
 		draw_sprite_ext(spr_dungeon_tileset, sprite, tileToScreenX(_x, _y), tileToScreenY(_x, _y) + tile.z, scale, scale, 0, c_white, 1)
-		
-		if (array_length(tile.stack) > 0) {
-			var _zwrite = gpu_get_zwriteenable();
-			var _ztest = gpu_get_ztestenable();
-			var _depth = gpu_get_depth()
-			gpu_set_zwriteenable(true);
-			gpu_set_ztestenable(true);
 
-			for (var i = 0; i < array_length(tile.stack); ++i) {
-			    if (is_numeric(tile.stack[i])) {
-					var z = tile.z - ((tile_size / 2) * (i + 1))
-					gpu_set_depth(-tileToScreenY(_x, _y) + z)
-					draw_sprite_ext(spr_dungeon_tileset, tile.stack[i], tileToScreenX(_x, _y), tileToScreenY(_x, _y) + z, scale, scale, 0, c_white, 1)
-				}
+		var i = 0;
+		while ( array_length(tile.stack) > 0) {
+			var _stack = tile.get_stack();
+			
+			if (object_exists(_stack)) {
+				var z = tile.z - (tile_size / 2);
+				var _inst_y = tileToScreenY(_x, _y) + z;
+				var _inst_x = tileToScreenX(_x, _y);
+				
+				instance_create_depth(_inst_x, _inst_y, -(_inst_y), _stack);
 			}
-			gpu_set_depth(_depth)
-			gpu_set_zwriteenable(_zwrite);
-			gpu_set_ztestenable(_ztest);
+			i++;
 		}
 	}
 }

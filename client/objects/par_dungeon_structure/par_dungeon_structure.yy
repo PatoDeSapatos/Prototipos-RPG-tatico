@@ -1,16 +1,13 @@
 {
   "$GMObject":"",
-  "%Name":"obj_error_message",
-  "eventList":[
-    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name":"par_dungeon_structure",
+  "eventList":[],
   "managed":true,
-  "name":"obj_error_message",
+  "name":"par_dungeon_structure",
   "overriddenProperties":[],
   "parent":{
-    "name":"menus",
-    "path":"folders/Objetos/menus.yy",
+    "name":"structures",
+    "path":"folders/Objetos/dungeon/structures.yy",
   },
   "parentObjectId":null,
   "persistent":false,

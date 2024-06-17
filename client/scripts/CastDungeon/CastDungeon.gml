@@ -40,12 +40,12 @@ function cast_dungeon() {
 			switch (_color) {
 				//Wall
 				case 4194559:
-					tile = new Tile(0, 0, true)
-					repeat(4) array_push(tile.stack, 6)
+					tile = new Tile(0, 0, true);
+					array_push(tile.stack, obj_wall);
 					break
 				//Floor
 				case 2170681:
-					tile = new Tile(1, 0, false)
+					tile = new Tile(1, 0, false);
 					break
 			}
 
@@ -64,4 +64,12 @@ function Tile(_spr, _z, _coll, _stack=[]) constructor {
 	z = _z;
 	coll = _coll;
 	stack = _stack;
+	
+	function get_stack() {
+		var _item = array_shift(stack);
+		return _item;
+		
+		
+		[lixo][lixo]
+	}
 }

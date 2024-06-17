@@ -74,5 +74,3 @@ if ( player_username == global.server.username ) {
 	struct_set(_data, "data", _entity_data);
 	global.server.send_websocket_message("UPDATE_ENTITY", _data);
 }
-
-depth = -y;

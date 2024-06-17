@@ -1,18 +1,18 @@
 {
   "$GMObject":"",
-  "%Name":"obj_error_message",
-  "eventList":[
-    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name":"obj_wall",
+  "eventList":[],
   "managed":true,
-  "name":"obj_error_message",
+  "name":"obj_wall",
   "overriddenProperties":[],
   "parent":{
-    "name":"menus",
-    "path":"folders/Objetos/menus.yy",
+    "name":"structures",
+    "path":"folders/Objetos/dungeon/structures.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"par_dungeon_structure",
+    "path":"objects/par_dungeon_structure/par_dungeon_structure.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -30,7 +30,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_wall",
+    "path":"sprites/spr_wall/spr_wall.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }
