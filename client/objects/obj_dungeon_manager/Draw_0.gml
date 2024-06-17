@@ -42,7 +42,7 @@ for (var _y = _min_y; _y < _max_y; _y++) {
 				var _inst_y = tileToScreenY(_x, _y) + z;
 				var _inst_x = tileToScreenX(_x, _y);
 				
-				instance_create_depth(_inst_x, _inst_y, -(_inst_y), _stack);
+				instance_create_depth(_inst_x, _inst_y, -(_inst_y - z/2), _stack);
 			}
 			i++;
 		}
