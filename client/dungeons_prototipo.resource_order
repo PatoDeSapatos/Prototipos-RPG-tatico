@@ -25,6 +25,7 @@
     {"name":"Menus","order":2,"path":"scripts/Menus/Menus.yy",},
     {"name":"PathFinding","order":6,"path":"scripts/PathFinding/PathFinding.yy",},
     {"name":"PlayerScripts","order":1,"path":"scripts/PlayerScripts/PlayerScripts.yy",},
+    {"name":"Util","order":7,"path":"scripts/Util/Util.yy",},
     {"name":"spr_dungeon_tileset","order":1,"path":"sprites/spr_dungeon_tileset/spr_dungeon_tileset.yy",},
     {"name":"spr_hair","order":2,"path":"sprites/spr_hair/spr_hair.yy",},
     {"name":"spr_hand_acessories","order":3,"path":"sprites/spr_hand_acessories/spr_hand_acessories.yy",},

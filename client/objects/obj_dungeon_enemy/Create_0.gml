@@ -1,7 +1,9 @@
 /// @description
 //dungeon_stats = {};
 
-range = 50;
+path = [];
+
+range = 200;
 battle_stats = {};
 
 _target_x = -1;

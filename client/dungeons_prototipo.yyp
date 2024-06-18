@@ -98,6 +98,7 @@
     {"id":{"name":"PlayerScripts","path":"scripts/PlayerScripts/PlayerScripts.yy",},},
     {"id":{"name":"Reactions","path":"scripts/Reactions/Reactions.yy",},},
     {"id":{"name":"Transition","path":"scripts/Transition/Transition.yy",},},
+    {"id":{"name":"Util","path":"scripts/Util/Util.yy",},},
     {"id":{"name":"spr_base_idle","path":"sprites/spr_base_idle/spr_base_idle.yy",},},
     {"id":{"name":"spr_clothes_idle","path":"sprites/spr_clothes_idle/spr_clothes_idle.yy",},},
     {"id":{"name":"spr_dungeon_tileset","path":"sprites/spr_dungeon_tileset/spr_dungeon_tileset.yy",},},
