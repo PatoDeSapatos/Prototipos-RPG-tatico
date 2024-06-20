@@ -5,6 +5,8 @@ function cast_dungeon() {
 	draw_clear_alpha(c_black, 0);
 	var sprites = []
 
+	var nodeGrid = obj_dungeon_manager.map.nodeGrid
+
 	for (var _x = 0; _x < array_length(nodeGrid); ++_x) {
 	    for (var _y = 0; _y < array_length(nodeGrid[_x]); ++_y) {
 		    
@@ -55,7 +57,7 @@ function cast_dungeon() {
 
 			if (is_undefined(tile)) continue
 			obj_dungeon_manager.grid[# _x, _y] = tile
-			obj_dungeon_manager.salasGrid[floor(_y / roomSize)][floor(_x / roomSize)][_y % roomSize][_x % roomSize] = tile
+			obj_dungeon_manager.map.salasGrid[floor(_y / roomSize)][floor(_x / roomSize)][_y % roomSize][_x % roomSize] = tile
 		}
 	}
 	surface_save(surface, working_directory + "mapa.png")

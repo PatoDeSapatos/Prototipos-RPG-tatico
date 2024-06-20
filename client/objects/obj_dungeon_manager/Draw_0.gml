@@ -1,11 +1,4 @@
 /// @description
-var mouse_tilled_x = screenToTileX(mouse_x, mouse_y)
-var mouse_tilled_y = screenToTileY(mouse_x, mouse_y)
-
-if ((mouse_tilled_x > 0 && mouse_tilled_x < width) && (mouse_tilled_y > 0 && mouse_tilled_y < height)) {
-	selected = grid[# mouse_tilled_x, mouse_tilled_y];
-}
-
 var camX = screenToTileX(round(global.camera.camera_x), round(global.camera.camera_y))
 var camY = screenToTileY(round(global.camera.camera_x), round(global.camera.camera_y))
 var camW = screenToTileX(round(global.camera.camera_x) + global.camera.camera_w, round(global.camera.camera_y) + global.camera.camera_h)
@@ -27,7 +20,7 @@ for (var _y = _min_y; _y < _max_y; _y++) {
 		var sprite = tile.spr
 		if (tile == selected) {
 			sprite = 0
-		}else if (tile == player_bottom) {
+		} else if (tile == player_bottom) {
 			sprite = 2
 		}
 

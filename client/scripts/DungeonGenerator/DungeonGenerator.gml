@@ -1,8 +1,47 @@
 function generate_dungeon() {
-	register()
+    var ambient = {
+
+        roomsAmount: 40,
+
+		offsets: [
+	        new Point(0, -1), //top
+	        new Point(0, 1), //bottom
+	        new Point(1, 0), //right
+	        new Point(-1, 0), //left
+	    ],
+        offsetLetter: [
+            "U",
+            "D",
+            "R",
+            "L"
+        ],
+		toCollapse: [],
+        nodes: [],
+        emptyNode: noone,
+        salas: 1,
+        nodeGrid: [],
+        salasGrid: [],
+        roomsWidth: obj_dungeon_manager.width / obj_dungeon_manager.roomSize,
+        roomsHeight: obj_dungeon_manager.height / obj_dungeon_manager.roomSize
+	}
+
+    for (var i = 0; i < ambient.roomsHeight; i++) {
+        ambient.nodeGrid[i] = []
+        ambient.salasGrid[i] = []
+        for (var j = 0; j < ambient.roomsWidth; j++) {
+            ambient.nodeGrid[i][j] = noone
+            ambient.salasGrid[i][j] = []
+            ambient.salasGrid[i][j][i] = []
+            ambient.salasGrid[i][j][i][j] = noone
+        }
+    }
+
+    method(ambient, register)()
 	var data = date_current_datetime()
-    collapse()
-    show_debug_message(string("finished in: {0} s with {1} rooms", date_second_span(data, date_current_datetime()), salas))
+    method(ambient, collapse)()
+    show_debug_message(string("finished in: {0} s with {1} rooms", date_second_span(data, date_current_datetime()), ambient.salas))
+
+    return ambient
 }
 
 function collapse() {

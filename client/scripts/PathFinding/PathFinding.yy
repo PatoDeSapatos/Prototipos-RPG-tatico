@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"PathFinding",
   "isCompatibility":false,
   "isDnD":false,

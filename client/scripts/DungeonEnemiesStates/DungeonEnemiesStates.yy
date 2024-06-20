@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"DungeonEnemiesStates",
   "isCompatibility":false,
   "isDnD":false,

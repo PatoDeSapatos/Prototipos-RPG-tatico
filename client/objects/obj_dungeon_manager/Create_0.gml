@@ -30,43 +30,7 @@ ds_grid_set_region(grid, 0, 0, width, height, undefined)
 
 // Dungeon Generation
 entities = ds_map_create();
-roomsWidth = width / roomSize
-roomsHeight = height / roomSize
-roomsAmount = 40
-salas = 1
-
 enemies_number = 5;
-
-nodes = []
-emptyNode = -1
-toCollapse = []
-
-offsets = [
-	new Point(0, -1), //top
-	new Point(0, 1), //bottom
-	new Point(1, 0), //right
-	new Point(-1, 0), //left
-]
-
-nodeGrid = []
-salasGrid = []
-for (var i = 0; i < roomsHeight; i++) {
-	nodeGrid[i] = []
-	salasGrid[i] = []
-	for (var j = 0; j < roomsWidth; j++) {
-	    nodeGrid[i][j] = noone
-		salasGrid[i][j] = []
-		salasGrid[i][j][i] = []
-		salasGrid[i][j][i][j] = noone
-	}
-}
-
-offsetLetter = [
-	"U",
-	"D",
-	"R",
-	"L"
-]
 
 load_map_images();
 map = generate_dungeon();
