@@ -21,8 +21,8 @@ function generate_dungeon() {
         salas: 1,
         nodeGrid: [],
         salasGrid: [],
-        roomsWidth: obj_dungeon_manager.width / obj_dungeon_manager.roomSize,
-        roomsHeight: obj_dungeon_manager.height / obj_dungeon_manager.roomSize
+        roomsWidth: obj_dungeon_manager.width div obj_dungeon_manager.roomSize,
+        roomsHeight: obj_dungeon_manager.height div obj_dungeon_manager.roomSize
 	}
 
     for (var i = 0; i < ambient.roomsHeight; i++) {
@@ -31,8 +31,13 @@ function generate_dungeon() {
         for (var j = 0; j < ambient.roomsWidth; j++) {
             ambient.nodeGrid[i][j] = noone
             ambient.salasGrid[i][j] = []
-            ambient.salasGrid[i][j][i] = []
-            ambient.salasGrid[i][j][i][j] = noone
+			
+			for (var _i = 0; _i < obj_dungeon_manager.roomSize; ++_i) {
+			    ambient.salasGrid[i][j][_i] = []
+				for (var _j = 0; _j < obj_dungeon_manager.roomSize; ++_j) {
+			        ambient.salasGrid[i][j][_i][_j] = noone
+				}
+			}
         }
     }
 

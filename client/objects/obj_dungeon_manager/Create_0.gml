@@ -54,9 +54,26 @@ update_entities = function (_data) {
 				ds_map_find_value(entities, _entity_id).update_entity_values( struct_get(_entities[i], "data"), struct_get(_entities[i], "username") );
 			}
 		} else {
-			var initX = (width div 2) * tile_size
-			var initY = (height div 2) * tile_size
-			var _entity = instance_create_layer(initX, initY, "Instances", obj_player);
+			var initX = irandom(map.roomsWidth - 1)
+			var initY = irandom(map.roomsHeight - 1)
+			var validX = 0
+			var validY = 0
+			var valid = false
+
+			do {
+				if (map.nodeGrid[initY][initX].name == "") {
+					initX = irandom(map.roomsWidth - 1)
+					initY = irandom(map.roomsHeight - 1)
+				} else {
+					initX = ((initX * roomSize) + (roomSize div 2))
+					initY = ((initY * roomSize) + (roomSize div 2))
+					validX = tileToScreenX(initX, initX)
+					validY = tileToScreenY(initX, initY)
+					valid = true
+				}
+			} until (valid)
+
+			var _entity = instance_create_layer(validX, validY, "Instances", obj_player);
 			var _username = struct_get(_entities[i], "username");
 			
 			_entity.player_username = _username;
