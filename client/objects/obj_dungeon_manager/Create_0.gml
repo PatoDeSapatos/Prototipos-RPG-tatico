@@ -54,7 +54,7 @@ update_entities = function (_data) {
 	
 	for (var i = 0; i < array_length(_entities); ++i) {
 		if ( !is_struct(_entities[i]) ) {
-			show_debug_message(_entities[i]);
+			//show_debug_message(_entities[i]);
 			continue;
 		}
 		
@@ -123,7 +123,6 @@ function check_level() {
 	   var _entity = _entities_array[i]
 	   if (_entity.player_username != global.server.username) {
 			if (_entity.level != global.server.level) {
-				show_debug_message("oi")
 				instance_destroy(_entity.id)
 			}
 	   }

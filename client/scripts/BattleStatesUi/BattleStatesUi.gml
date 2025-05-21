@@ -1,5 +1,5 @@
 function battle_start_state_skills() {
-	var _skills = [global.actions.attack, global.actions.fireBall, global.actions.attackBoost, global.actions.lightRay, global.actions.poisonMist];
+	var _skills = [global.actions.attack, global.actions.rage_beatdown, global.actions.fireBall, global.actions.attackBoost, global.actions.lightRay, global.actions.poisonMist];
 	
 	if (array_length(_skills) <= 0) {
 		add_battle_text("You have no usable skills.");
@@ -87,21 +87,26 @@ function battle_start_state_move() {
 	
 	targeted_tiles = [];
 	var _lenght = array_length(obj_battle_manager.grid);
-	var _movement = units[turns].unit.movement;
-	var _player_x = units[turns].unit.position.x;
-	var _player_y = units[turns].unit.position.y;
-			
-	for (var _yy = -(_movement+1); _yy < _movement+1; ++_yy) {
-		for (var _xx = -(_movement+1); _xx < _movement+1; ++_xx) {
-			var _new_x = _player_x + _xx;
-			var _new_y = _player_y + _yy;
+	var _movement = _user.unit.movement;
+	var _player_x = _user.unit.position.x;
+	var _player_y =	_user.unit.position.y;
+	
+	targeted_tiles = new Area(_player_x, _player_y, function(_x, _y, _target_x, _target_y, _mov) {
+		return abs(_target_x - _x) + abs(_target_y - _y) <= _mov
+	}, _movement)
+	
+	
+	//for (var _yy = -(_movement+1); _yy < _movement+1; ++_yy) {
+	//	for (var _xx = -(_movement+1); _xx < _movement+1; ++_xx) {
+	//		var _new_x = _player_x + _xx;
+	//		var _new_y = _player_y + _yy;
 					
-			if (abs(_xx) + abs(_yy) <= _movement) {
-				if((_new_x < 0 || _new_x >= _lenght) || (_new_y < 0 || _new_y >= _lenght)) continue;
-				array_push(targeted_tiles, [_new_x, _new_y]);
-			}
-		}
-	}
+	//		if (abs(_xx) + abs(_yy) <= _movement) {
+	//			if((_new_x < 0 || _new_x >= _lenght) || (_new_y < 0 || _new_y >= _lenght)) continue;
+	//			array_push(targeted_tiles, [_new_x, _new_y]);
+	//		}
+	//	}
+	//}
 	
 	state = battle_state_move;
 }
@@ -150,6 +155,8 @@ function battle_state_move() {
 			true
 		);
 		
+		// TODO optimize path
+		
 		array_insert(path, 0, [units[turns].unit.position.x, units[turns].unit.position.y]);
 		if (array_length(path) > units[turns].unit.movement + 1) {
 			var _diff = array_length(path) - units[turns].unit.movement+1;
@@ -184,20 +191,10 @@ function battle_set_state_interact() {
 		var _user = extra_action ? extra_turn_user : units[turns];
 		var _range = 2;
 		
-		action_tiles = [];
-		for (var _y = -_range; _y <= _range; ++_y) {
-			for (var _x = -_range; _x <= _range; ++_x) {
-				var _xx = _user.unit.position.x + _x;
-				var _yy = _user.unit.position.y + _y;
-			   
-				var _value = sqrt(sqr(_user.unit.position.x - _xx) + sqr(_user.unit.position.y - _yy));
-
-				if (_value <= _range && _xx >= 0 && _yy >= 0 && _xx <= array_length(grid[0]) && _yy <= array_length(grid)) {
-					array_push(action_tiles, [_xx, _yy]);   
-				}
-			}
-		}	
-	
+		action_tiles = new Area(_user.unit.position.x, _user.unit.position.y, function(_x, _y, _player_x, _player_y, _rang) {
+			return sqrt(sqr(_player_x - _x) + sqr(_player_y - _y)) <= _rang
+		}, _range)
+		
 		action_possible_targets = array_concat(units, props);
 	
 		action_possible_targets = array_filter(action_possible_targets, method({_user, _range}, function (_unit) {
@@ -319,5 +316,6 @@ function battle_state_guard() {
 
 function battle_state_attack() {
 	var _user = extra_action ? extra_turn_user : units[turns];
+	battle_send_trigger(new AttackEvent(_user, noone))
 	set_state_targeting(_user.unit.basic_attack);
 }

@@ -23,6 +23,28 @@ function battle_state_start_turn() {
 		}
 	}
 	
+	battle_send_trigger(new StartTurnEvent(units[turns]))
+	with (units[turns]) {
+		var _to_remove = []
+		
+		for (var i = 0; i < array_length(unit.passives); ++i) {
+			var _passive = unit.passives[i]
+			
+		    if (_passive.duration != -1) {
+				_passive.duration -= 1
+				
+				if (_passive.duration <= 0) {
+					array_push(_to_remove, i)
+				}
+			}
+		}
+		
+		for (var i = 0; i < array_length(_to_remove); ++i) {
+			add_battle_text(string("{0} {1}", units[turns].unit.name, unit.passives[_to_remove[i]].info.end_text))
+		    array_delete(unit.passives, _to_remove[i], 1)
+		} 
+	}
+
 	current_waiting_frames = 0;	
 	obj_camera.follow = units[turns];
 	units[turns].is_broken = false;
@@ -71,20 +93,9 @@ function set_state_targeting(_action) {
 	
 	if (selected_action.range != -1) {
 		var _range = selected_action.range;
-		
-		action_tiles = [];
-		for (var _y = -_range; _y <= _range; ++_y) {
-			for (var _x = -_range; _x <= _range; ++_x) {
-				var _xx = _user.unit.position.x + _x;
-				var _yy = _user.unit.position.y + _y;
-			   
-				var _value = floor(sqrt(sqr(_user.unit.position.x - _xx) + sqr(_user.unit.position.y - _yy)));
-
-				if (_value <= _range && _xx >= 0 && _yy >= 0 && _xx <= array_length(grid[0]) && _yy <= array_length(grid)) {
-					array_push(action_tiles, [_xx, _yy]);   
-				}
-			}
-		}	
+		action_tiles = new Area(_user.unit.position.x, _user.unit.position.y, function(_x, _y, _player_x, _player_y, _range) {
+			return sqrt(sqr(_player_x - _x) + sqr(_player_y - _y)) <= _range
+		}, _range)
 	}
 	
 	// Filter possible targets
@@ -213,19 +224,9 @@ function battle_state_targeting() {
 			y: tileToScreenYExt(action_origin.x, action_origin.y, tile_size, init_y),	
 		};
 		
-		action_area = [[action_origin.x, action_origin.y]];
-		for (var _y = -_range; _y <= _range; ++_y) {
-		    for (var _x = -_range; _x <= _range; ++_x) {
-			    var _xx = action_origin.x + _x;
-			    var _yy = action_origin.y + _y;
-				
-				if ((_xx >= 0 && _yy >= 0) && (calc_in_shape_range(action_origin.x, action_origin.y, _xx, _yy, selected_action.shape) <= _range)) {
-					array_push(action_area, [_xx, _yy]);	
-				}
-			}
-		}
-		
-		var _lenght = array_length(action_area);
+		action_area = new Area(action_origin.x, action_origin.y, function(_x, _y, _action_x, _action_y, _range, _shape) {
+			return calc_in_shape_range(_action_x, _action_y, _x, _y, _shape) <= _range
+		}, _range, selected_action.shape)
 		
 		action_targets = [];
 
@@ -238,13 +239,9 @@ function battle_state_targeting() {
 				continue;	
 			}
 			
-			in_target = false;
-			for (var i = 0; i < _lenght; ++i) {
-				if (unit.position.x == other.action_area[i, 0] && unit.position.y == other.action_area[i, 1]) {
-					array_push(other.action_targets, self);
-					in_target = true;
-					break;
-				}
+			in_target = other.action_area.is_in_area(unit.position.x, unit.position.y);
+			if (in_target) {
+				array_push(other.action_targets, self);
 			}
 		}
 
@@ -261,7 +258,7 @@ function end_state_targeting() {
 	selected_action = noone;
 	action_targets = [];
 	action_possible_targets = [];
-	action_area = [];
+	action_area = noone;
 	
 	if (instance_exists(target_indicator)) instance_destroy(target_indicator);
 	with(obj_battle_entity) {
@@ -470,6 +467,8 @@ function battle_state_end_turn() {
 		turns = 0;
 		rounds++;
 	}
+	
+	// TODO trigger end battle and clean damage temp
 	
 	// TODO instantiate queued units (units waiting to enter the battle)
 	if (array_length(queued_allies) > 0) {

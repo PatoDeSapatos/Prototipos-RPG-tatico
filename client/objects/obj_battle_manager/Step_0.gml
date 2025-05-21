@@ -24,14 +24,8 @@ with(obj_battle_entity) {
 	depth = -(tileToScreenYExt(_x - 1, _y - 1, other.tile_size, other.init_y));
 }
 
-if (player_turn && movement_actions > 0) {
-	cursor_in_range = false;
-	for (var i = 0; i < array_length(targeted_tiles); ++i) {
-	    if ( mouse_hover.x == targeted_tiles[i, 0] && mouse_hover.y == targeted_tiles[i, 1] ) {
-			cursor_in_range = true;
-			break;
-		}
-	}
+if (player_turn && movement_actions > 0 && is_struct(targeted_tiles)) {
+	cursor_in_range = targeted_tiles.is_in_area(mouse_hover.x, mouse_hover.y);
 }
 
 l_click = mouse_check_button_pressed(mb_left);

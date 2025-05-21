@@ -21,7 +21,7 @@ if (instance_exists(action_origin) || is_struct(action_origin)) {
 		}
 		
 		if (func != noone) {
-			func(user, targets);	
+			func(user, targets, action_origin);	
 		}
 		obj_camera.follow = user;
 		instance_destroy();	

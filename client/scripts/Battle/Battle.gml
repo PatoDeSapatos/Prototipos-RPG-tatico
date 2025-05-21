@@ -1,10 +1,11 @@
-function BattleUnit(_position, _stat_changes=new Stats(), _condition=noone) constructor {
+function BattleUnit(_position, _stat_changes=new Stats(), _condition=noone, _passives=[]) constructor {
 	position = _position;
 	stat_changes = _stat_changes;
 	condition = _condition;
+	passives = _passives
 }
 
-function PartyUnit(_stats, _hp, _mana, _energy, _inventory, _position, _sprites, _movement, _weakness, _resistences, _immunities, _basic_attack, _player_username, _stat_changes=new Stats(), _condition=noone) : BattleUnit(_position, _stat_changes, _condition) constructor {
+function PartyUnit(_stats, _hp, _mana, _energy, _inventory, _position, _sprites, _movement, _weakness, _resistences, _immunities, _basic_attack, _player_username, _stat_changes=new Stats(), _condition=noone, _passives=[]) : BattleUnit(_position, _stat_changes, _condition, _passives) constructor {
 	name = _player_username;
 	stats = _stats;
 	max_hp = stats.hp;
@@ -24,7 +25,7 @@ function PartyUnit(_stats, _hp, _mana, _energy, _inventory, _position, _sprites,
 	focus = false;
 }
 
-function EnemyUnit(_position, _enemy_id, _stat_changes=new Stats(), _condition=noone) : BattleUnit(_position, _stat_changes, _condition) constructor {
+function EnemyUnit(_position, _enemy_id, _stat_changes=new Stats(), _condition=noone, _passives=[]) : BattleUnit(_position, _stat_changes, _condition, _passives=[]) constructor {
 	enemy_info = get_enemy(_enemy_id);
 	name = enemy_info.display_name;
 	stats = enemy_info.stats;
@@ -50,12 +51,15 @@ function init_demo_battle(_grid_size) {
 	var _player_sprites = new SpriteSet(0, 0, 0, 0, 0);
 	
 	var _inventory1 = [];
+	inventory_add_item(_inventory1, 5, 5);
 	inventory_add_item(_inventory1, 4, 5);
 	
+	
 	var _inventory2 = [];
+	inventory_add_item(_inventory2, 5, 5);
 	inventory_add_item(_inventory2, 4, 5);
 	
-	var _player_unit1 = new PartyUnit(new Stats(100, 10, 10, 5, 5, 100, 0, 80, 30), 100, 80, 30, _inventory1, {x: 0, y: 0}, _player_sprites, 6, [MOVE_TYPES.BLUDGEONING], [], [], global.basic_attacks.magic_missile, global.server.username);
+	var _player_unit1 = new PartyUnit(new Stats(100, 10, 10, 5, 5, 100, 0, 80, 30), 100, 80, 30, _inventory1, {x: 0, y: 0}, _player_sprites, 6, [MOVE_TYPES.BLUDGEONING], [], [], global.basic_attacks.magic_missile, global.server.username, new Stats(), noone, [{"info": global.passives_library.rage, "duration": -1}]);
 	var _player_unit2 = new PartyUnit(new Stats(100, 10, 10, 5, 5, 100, 0, 80, 30), 100, 80, 30, _inventory2, {x: 0, y: 2}, _player_sprites, 6, [MOVE_TYPES.BLUDGEONING], [], [], global.basic_attacks.unarmed, global.server.username);
 	
 	var _enemy1 = new EnemyUnit({x: 1, y: 0}, "SLIME", new Stats());
@@ -257,7 +261,7 @@ function battle_change_stats(_target, _stats_name, _amount) {
 	}
 	
 	var _spr = (_amount > 0) ? (spr_effect_raise_stats) : (spr_effect_lower_stats);
-	var _effect = instance_create_depth(_target.x, _target.y, -1000, obj_battle_effect, {
+	instance_create_depth(_target.x, _target.y, -1000, obj_battle_effect, {
 		sprite_index: _spr
 	});
 	
@@ -338,4 +342,89 @@ function battle_change_resource(_user, _resource, _value) {
 	}
 	
 	return _missing_resource;
+}
+
+function battle_change_damage_temp(_user, _is_physical, _value) {
+	var _message = ""
+	var _change_magnitude = ""
+	var _spr = -1	
+	
+	if (_is_physical) {
+		_user.physical_damage_temp += _value
+		_message = "physical"
+	} else {
+		_user.magical_damage_temp += _value
+		_message = "magical"
+	}
+	
+	if (_value > 0) {
+		_change_magnitude = "raised"
+		_spr = spr_effect_raise_stats;
+	} else {
+		_change_magnitude = "lowered"
+		_spr = spr_effect_lower_stats;
+	}
+	
+	instance_create_depth(_user.x, _user.y, -1000, obj_battle_effect, {
+		sprite_index: _spr
+	});
+	
+	add_battle_text(string("{0} {1} damage has {2} temporarily.", _user.unit.name, _value, _change_magnitude))
+}
+
+function battle_send_trigger(_event) {
+	with(obj_battle_manager) {
+		if (!struct_exists(battle_effects, _event.name)) {
+			return	
+		}
+	
+		for (var i = 0; i < array_length(battle_effects[$ _event.name]); ++i) {
+		    battle_effects[$ _event.name][i].func(_event)
+		}
+	}
+}
+
+function battle_connect_trigger(_trigger_name, _func, _user) {
+	with(obj_battle_manager) {
+		if (!struct_exists(battle_effects, _trigger_name)) {
+			battle_effects[$ _trigger_name] = []
+		}
+	
+		array_push(battle_effects[$ _trigger_name], {func: _func, unit: _user})
+	}
+}
+
+function unit_add_passive(target, passive, duration) {
+	for (var i = 0; i < array_length(target.unit.passives); ++i) {
+	    var _curr_passive = target.unit.passives[i]
+		
+		if (_curr_passive.info.name == passive.name) {
+			if (_curr_passive.duration != -1) {
+				_curr_passive.duration = duration
+			}
+			
+			return
+		}
+	}
+	
+	array_push(target.unit.passives, {"info": passive, "duration": duration})
+	
+	for (var i = 0; i < array_length(passive.battle_effects); ++i) {
+		var _effect = passive.battle_effects[i]
+	    battle_connect_trigger(_effect.trigger, _effect.func, target)
+	}
+	
+	add_battle_text(target.unit.name + passive.text)
+}
+
+function is_user_turn(_user_instance) {
+	with(obj_battle_manager) {
+		var _user = extra_action ? extra_turn_user : units[turns]
+	
+		if (_user_instance == _user) {
+			return true	
+		}
+		
+		return false
+	}
 }

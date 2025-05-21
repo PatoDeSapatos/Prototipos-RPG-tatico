@@ -1,1 +1,1 @@
-//emu.Render(0, 0)
+emu.Render(0, 0)

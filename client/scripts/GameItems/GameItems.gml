@@ -54,4 +54,5 @@ function init_items() {
 	
 	// Comsumables
 	add_consumable_item("S_HEALTH_POTION", "Recovers 10 health points per use.", "Small Health Potion", 4, ItemCategory.POTION, global.actions.smallHealthPotion, 10);
+	add_consumable_item("STICKY_MEAL", "Slimes seens to love this. You don't.", "Sticky Meal", 5, ItemCategory.MATERIAL, global.actions.placeProp)
 }

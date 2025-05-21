@@ -73,14 +73,14 @@ skip_input = false;
 state = battle_state_init;
 prev_state = noone;
 
-action_tiles = [];
+action_tiles = noone;
 action_done = false;
 action_targets = [];
 action_possible_targets = [];
 selected_action = noone;
 current_target = 0;
 target_indicator = noone;
-action_area = [];
+action_area = noone;
 action_origin = {
 	x: 0,
 	y: 0
@@ -100,7 +100,7 @@ queued_enemies = [];
 turns = 0;
 rounds = 0;
 
-targeted_tiles = [];
+targeted_tiles = noone;
 
 unit_hover = noone;
 
@@ -116,6 +116,8 @@ waiting_frames = FRAME_RATE div 2;
 current_waiting_frames = 0;
 
 depth = 1000;
+
+battle_effects = {}
 
 // Instantiate Party
 for (var i = 0; i < array_length(allies); ++i) {

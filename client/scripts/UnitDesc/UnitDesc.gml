@@ -75,6 +75,8 @@ function draw_unit_desc(_unit) {
 	surface_free(_sprite_surf);
 	
 	// Unit Resources
+	if (!struct_exists(_unit.unit, "energy")) return;
+	
 	var _bar_x = _x/_gui_scale + (_padding*2)/_gui_scale + _portrait_size;
 	var _bar_w = _w/_gui_scale - (_padding*3)/_gui_scale - _portrait_size;
 	var _bar_h = (_portrait_size - _padding/_gui_scale)/3;
@@ -141,6 +143,12 @@ function draw_unit_desc(_unit) {
 		}
 		
 		_text_offset += string_height(_key);
+	}
+	
+	draw_set_halign(fa_left)
+	draw_set_valign(fa_bottom)
+	for (var i = 0; i < array_length(_unit.unit.passives); ++i) {
+	    draw_text(_x + _padding, _gui_h - _padding, string(_unit.unit.passives[i].info.name, ": ", _unit.unit.passives[i].duration))
 	}
 	
 	draw_sprite_stretched(spr_inventory_bg, 0, _x, _y, _w, _h);

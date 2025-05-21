@@ -57,7 +57,6 @@ public class BattleWSHandler {
                 var battle = dungeon.getBattles().get(0); //TODO: by id
 
                 if (battle.add(player, data.getJSONArray("units"))) {
-
                     wsc.sendDTO(battle.toStartDTO(), session);
                     wsc.sendDTOtoAllPlayers(battle.toDTO(), data, session.getId());
                 }

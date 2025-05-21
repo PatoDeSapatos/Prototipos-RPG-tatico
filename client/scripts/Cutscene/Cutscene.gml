@@ -205,7 +205,7 @@ function cutscene_use_action(_user, _action, _targets, _origin_point, _area) {
 			
 			_projectile.areaScale = _areaScale;
 		} else {
-			_action.func(_user, _targets);
+			_action.func(_user, _targets, _origin_point);
 		}
 		
 		_user.effect = noone;

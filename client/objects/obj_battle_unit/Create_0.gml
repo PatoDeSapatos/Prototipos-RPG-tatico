@@ -27,3 +27,16 @@ focusing = false;
 
 effect = noone;
 effect_image = 0;
+
+// Damage changes that lasts one turn
+physical_damage_temp = 0;
+magical_damage_temp = 0;
+
+for (var i = 0; i < array_length(unit.passives); ++i) {
+	var _passive = unit.passives[i]
+	
+    for (var j = 0; j < array_length(_passive.info.battle_effects); ++j) {
+		var _effect = _passive.info.battle_effects[j]
+	    battle_connect_trigger(_effect.trigger, _effect.func, self)
+	}
+}

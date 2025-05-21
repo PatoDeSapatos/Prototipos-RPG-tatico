@@ -111,6 +111,30 @@ global.actions = {
 			unit_take_damage(_damage, _user, _targets[0], [MOVE_TYPES.SLASHING], true);
 		}	
 	},
+	rage_beatdown: {
+		name: "Relentless Beatdown",
+		description: "Relenteless rush into a enemy and activates rage for the next 2 turns.",
+		types: [MOVE_TYPES.BLUDGEONING],
+		moveCategory: MOVE_CATEGORY.PHYSICAL,
+		costValue: 2,
+		resource: RESOURCES.LIFE,
+		userAnimation: "attack",
+		hit_effect: spr_effect_hit,
+		targetRequired: true,
+		prioritizeEnemies: true,
+		targetCount: 1,
+		targetSelf: false,
+		range: 1,
+		
+		func: function(_user, _targets) {
+			var _user_attack = unit_get_stats(_user, "attack");
+			
+			var _damage = ceil(_user_attack + random_range(-_user_attack * .25, _user_attack * .5));
+			
+			unit_take_damage(_damage, _user, _targets[0], [MOVE_TYPES.BLUDGEONING], true);
+			unit_add_passive(_user, global.passives_library.rage, 3);
+		}	
+	},
 	guard: {
 		name: "Guard",
 		description: "protect yourself!",
@@ -264,6 +288,26 @@ global.actions = {
 			
 			battle_change_hp(_user, 10);
 			inventory_remove_item(_user.unit.inventory, _item, 1);
+		}
+	},
+	placeProp: {
+		name: "Place a prop",
+		description: "Place a prop in battle.",
+		costValue: 0,
+		resource: noone,
+		targetRequired: true,
+		targetCount: -1,
+		targetSelf: false,
+		prioritizeEnemies: false,
+		charge: false,
+		range: 3,
+		areaTarget: true,
+		originInPlayer: false,
+		shape: MOVE_SHAPES.CIRCLE,
+		shapeSize: 1,
+		
+		func: function (_user, _targets, _point) {
+			battle_create_props(global.props.sticky_meal, _point)
 		}
 	}
 	

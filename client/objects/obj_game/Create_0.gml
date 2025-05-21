@@ -28,3 +28,5 @@ global.settings = {
 	camera_sensibility: 100,
 	vibrations: true
 }
+
+instance_create_depth(0, 0, 0, obj_signal)
