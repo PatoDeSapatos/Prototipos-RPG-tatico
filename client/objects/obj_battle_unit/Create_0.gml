@@ -15,10 +15,6 @@ facing_right = 1;
 facing_up = false;
 clothing = 0;
 
-is_broken = false;
-is_dead = false;
-animating = false;
-
 ready = false;
 charging_turns = 0;
 charging_action = noone;

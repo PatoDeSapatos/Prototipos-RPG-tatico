@@ -398,8 +398,8 @@ function battle_state_waiting() {
 
 function battle_check_dead_units() {
 	// Animate death (brutal)
-	with (obj_battle_unit) {
-		if (unit.hp <= 0 && !is_dead) {
+	with (obj_battle_entity) {
+		if (is_struct(unit) && unit.hp <= 0 && !is_dead) {
 			var _cutscene = [];
 			unit.condition = noone;
 			is_dead = true;
@@ -410,6 +410,10 @@ function battle_check_dead_units() {
 			
 			if ( struct_exists(unit.sprites, "dead") ) {
 				array_push(_cutscene, [cutscene_change_sprite, self, unit.sprites.dead]);	
+			}
+			
+			if ( object_index == obj_battle_prop ) {
+				instance_destroy() 
 			}
 			
 			battle_create_cutscene(_cutscene);

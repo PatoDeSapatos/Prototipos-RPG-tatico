@@ -13,7 +13,10 @@ function PropInfo(_name, _sprite, _image, _coll, _hp, _func) constructor {
 			y: -1
 		},
 		is_player: false,
-		stat_changes = new Stats()
+		stat_changes: new Stats(),
+		sprites: {},
+		weakness: [],
+		resistences: []
 	}
 }
 
