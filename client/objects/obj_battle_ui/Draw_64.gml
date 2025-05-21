@@ -103,7 +103,7 @@ if (can_draw) {
 	
 	var _x = gui_w - border_x;
 	var _key_size = sprite_get_width(spr_key_button)*2;
-	for (var i = 0; i < array_length(controls); ++i) {
+	for (var i = 0; i < array_length(controls); ++i) {		
 		draw_set_halign(fa_right);
 		draw_set_font(fnt_battle_hud);
 		var _option_w = string_width(controls[i].name);

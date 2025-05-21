@@ -23,15 +23,13 @@ global.passives_library = {
 	rage: {
 		name: "Rage",
 		battle_effects: [ 
-			new passive_effect("ATTACK", function (_event) {
-				if (!is_user_turn(_event.user)) {
+			new passive_effect("ATTACK", function (_event, _caller) {
+				if (!is_user_turn(_caller)) {
 					return
 				}	
 				
 				battle_change_damage_temp(_event.user, true, 2)
 			}),
-			
-			
 		],
 		
 		text: " enters in a fury state!",

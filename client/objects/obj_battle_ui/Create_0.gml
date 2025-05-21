@@ -17,6 +17,8 @@ options = [
 	new battle_option("Item", battle_start_state_item, "item_input", ord("E"), noone, 210),
 	new battle_option("Skills", battle_start_state_skills, "skills_input", ord("W"), noone, 10),
 	new battle_option("Attack", battle_state_attack, "attack_input", ord("Q"), noone, 170),
+	
+	new battle_option("Pass", battle_set_state_extra_choosing, "pass_input", ord("G"), noone, 90)
 ];
 
 controls = [

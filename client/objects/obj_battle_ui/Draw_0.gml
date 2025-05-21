@@ -14,6 +14,12 @@ if (can_draw) {
 	
 	for (var i = 0; i < array_length(options); ++i) {
 		var _option = options[i];
+		
+		if ((!obj_battle_manager.extra_action || obj_battle_manager.extra_turn_given) && i == array_length(options)-1) {
+			_option.able = false
+			continue
+		}
+	
 		var _w = (string_width(_option.name)) + sprite_get_width(spr_key_button)*scale/2 + option_border*3;
 		var _h = sprite_get_height(spr_key_button)*scale + 10;
 		var _option_xscale = _w/sprite_get_width(spr_battle_option);

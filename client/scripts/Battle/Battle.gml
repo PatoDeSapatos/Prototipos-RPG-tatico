@@ -379,7 +379,7 @@ function battle_send_trigger(_event) {
 		}
 	
 		for (var i = 0; i < array_length(battle_effects[$ _event.name]); ++i) {
-		    battle_effects[$ _event.name][i].func(_event)
+		    battle_effects[$ _event.name][i].func(_event, battle_effects[$ _event.name][i].unit)
 		}
 	}
 }
@@ -390,7 +390,7 @@ function battle_connect_trigger(_trigger_name, _func, _user) {
 			battle_effects[$ _trigger_name] = []
 		}
 	
-		array_push(battle_effects[$ _trigger_name], {func: _func, unit: _user})
+		array_push(battle_effects[$ _trigger_name], {func: _func, unit: _user.id})
 	}
 }
 

@@ -1,1 +1,0 @@
-emu.Render(0, 0)

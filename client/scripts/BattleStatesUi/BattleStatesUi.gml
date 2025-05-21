@@ -221,15 +221,20 @@ function battle_state_interact() {
 	with(obj_battle_entity) {
 		in_target = false;
 	}
+
+	if (unit_hover != noone && array_contains(action_possible_targets, unit_hover.id)) {
+		current_target = array_get_index(action_possible_targets, unit_hover.id)			
+	}
 	
 	var _target = action_possible_targets[current_target];
+	
 	global.camera.follow = _target;
 	_target.in_target = true;
 	
 	var _offset = right_input - left_input;
 	current_target = clamp(current_target + _offset, 0, array_length(action_possible_targets)-1);
 	
-	if (confirm_input) {
+	if (confirm_input || l_click) {
 		state = battle_state_desc;
 	}
 }
@@ -316,6 +321,5 @@ function battle_state_guard() {
 
 function battle_state_attack() {
 	var _user = extra_action ? extra_turn_user : units[turns];
-	battle_send_trigger(new AttackEvent(_user, noone))
 	set_state_targeting(_user.unit.basic_attack);
 }

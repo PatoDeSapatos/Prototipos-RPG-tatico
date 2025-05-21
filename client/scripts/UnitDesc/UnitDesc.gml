@@ -32,6 +32,7 @@ function draw_unit_desc(_unit) {
 	
 	// Unit Name
 	draw_set_halign(fa_center);
+	draw_set_valign(fa_top);
 	draw_text_border(_x + _w/2, _y + _padding, _unit.unit.name, c_black);
 	
 	var _m = matrix_get(matrix_world); // get current matrix  

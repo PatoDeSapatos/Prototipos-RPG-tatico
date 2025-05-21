@@ -160,6 +160,8 @@ function cutscene_use_action(_user, _action, _targets, _origin_point, _area) {
 			_user.effect = _action.onUserEffect;
 		}
 		
+		battle_send_trigger(new AttackEvent(_user, _targets))
+		
 		setup = true;
 	}
 	
@@ -170,8 +172,8 @@ function cutscene_use_action(_user, _action, _targets, _origin_point, _area) {
 		var _missing_resource = battle_change_resource(_user, _action.resource, -_action.costValue);
 				
 		if (_missing_resource) {
-			add_battle_text(string("Not enough {0}", get_resource_name(_resource)));	
-			battle_text_set_color(get_resource_color(_resource), 2, 2);
+			add_battle_text(string("Not enough {0}", get_resource_name(_action._resource)));	
+			battle_text_set_color(get_resource_color(_action._resource), 2, 2);
 			_user.effect = noone;
 			_user.sprite_index = image;
 			_user.image_index = 0;

@@ -137,11 +137,7 @@ function set_state_targeting(_action) {
 			});
 		}
 		
-		if (!struct_exists(selected_action, "areaTarget") || !selected_action.areaTarget) {
-			var _first_target = action_possible_targets[0];
-			target_indicator = instance_create_depth(_first_target.x, _first_target.y, -10000, obj_target_indicator);
-			target_indicator.target = _first_target;
-		} else {
+		if (struct_exists(selected_action, "areaTarget") && selected_action.areaTarget) {
 			action_origin.x = _user.unit.position.x;
 			action_origin.y = _user.unit.position.y;
 		}
@@ -173,14 +169,23 @@ function battle_state_targeting() {
 	
 	if (struct_exists(selected_action, "targetCount") && selected_action.targetCount > 0) {
 		var _offset = right_input - left_input;
-		
+
+		for (var i = 0; i < array_length(action_possible_targets); ++i) {
+		    action_possible_targets[i].in_target = false
+		}
+
 		current_target = clamp(current_target + _offset, 0, array_length(action_possible_targets)-1);
+		if (unit_hover != noone && array_contains(action_possible_targets, unit_hover.id)) {
+			current_target = array_get_index(action_possible_targets, unit_hover.id)			
+		}
+		
 		if (instance_exists(action_possible_targets[current_target])) {
 			var _target = action_possible_targets[current_target];
-			global.camera.follow = _target;
-			target_indicator.target = _target;
 			
-			if (confirm_input) {
+			global.camera.follow = _target;
+			_target.in_target = true
+			
+			if (confirm_input || l_click) {
 				array_push(action_targets, _target);	
 			}
 		}
@@ -281,6 +286,20 @@ function calc_in_shape_range(_x1, _y1, _x2, _y2, _shape) {
 	}
 }
 
+function battle_set_state_extra_choosing() {
+	// Give Extra Turn
+	extra_units = array_filter(units, function(_unit) {
+		return !_unit.unit.is_enemy && _unit != obj_battle_manager.extra_turn_user && !_unit.is_dead;
+	});
+	current_extra_unit = 0;
+		
+	if (array_length(extra_units) > 0) {
+		state = battle_state_extra_choosing;
+	} else {
+		state = prev_state	
+	}
+}
+
 function battle_state_extra() {
 	check_charging();
 	turn_camera();
@@ -291,18 +310,6 @@ function battle_state_extra() {
 		check_attack();
 	}
 	
-	// Give Extra Turn
-	if (!extra_turn_given && keyboard_check_pressed(ord("G"))) {
-		extra_units = array_filter(units, function(_unit) {
-			return !_unit.unit.is_enemy && _unit != obj_battle_manager.extra_turn_user && !_unit.is_dead;
-		});
-		current_extra_unit = 0;
-		
-		if (array_length(extra_units) > 0) {
-			state = battle_state_extra_choosing;
-		}
-	}
-	
 	if (!animating && (!extra_action || extra_turn_user.ready)) {
 		extra_turn_user.ready = true;
 		extra_action = false;
@@ -311,9 +318,6 @@ function battle_state_extra() {
 }
 
 function battle_state_extra_choosing() {
-	var _curr = extra_units[current_extra_unit];
-	obj_camera.follow = _curr;
-	
 	// Change Unit
 	if (keyboard_check_pressed(vk_left)) {
 		current_extra_unit--;
@@ -323,9 +327,21 @@ function battle_state_extra_choosing() {
 	}
 	
 	current_extra_unit = clamp(current_extra_unit, 0, array_length(extra_units)-1);
+	if (unit_hover != noone && array_contains(extra_units, unit_hover.id)) {
+		current_extra_unit = array_get_index(extra_units, unit_hover.id)			
+	}
+	
+	for (var i = 0; i < array_length(extra_units); ++i) {
+	    extra_units[i].in_target = false
+	}
+	
+	var _curr = extra_units[current_extra_unit];
+	obj_camera.follow = _curr;
+	_curr.in_target = true;
 	
 	// Select Unit
-	if ( confirm_input ) {
+	if ( confirm_input || l_click ) {
+		_curr.in_target = false;
 		extra_turn_user.ready = true;
 		extra_turn_user = _curr;
 		obj_camera.follow = _curr;
@@ -334,10 +350,10 @@ function battle_state_extra_choosing() {
 	}
 	
 	// Cancel
-	if (keyboard_check_pressed(ord("G"))) {
+	if ( cancel_input ) {
 		obj_camera.follow = extra_turn_user;
 		current_extra_unit = 0;
-		state = battle_state_extra;
+		state = prev_state;
 	}
 }
 
@@ -366,7 +382,7 @@ function battle_state_waiting() {
 	}
 	
 	battle_check_dead_units();
-	turn_camera();
+	//turn_camera();
 	
 	if (!animating) {
 		
