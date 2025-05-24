@@ -5,7 +5,7 @@ function BattleUnit(_position, _stat_changes=new Stats(), _condition=noone, _pas
 	passives = _passives
 }
 
-function PartyUnit(_stats, _hp, _mana, _energy, _inventory, _position, _sprites, _movement, _weakness, _resistences, _immunities, _basic_attack, _player_username, _stat_changes=new Stats(), _condition=noone, _passives=[]) : BattleUnit(_position, _stat_changes, _condition, _passives) constructor {
+function PartyUnit(_stats, _hp, _mana, _energy, _inventory, _position, _sprites, _movement, _weakness, _resistences, _immunities, _basic_attack, _player_username, _stat_changes=new Stats(), _condition=noone, _passives=[], _companions=[], _max_companions=1) : BattleUnit(_position, _stat_changes, _condition, _passives) constructor {
 	name = _player_username;
 	stats = _stats;
 	max_hp = stats.hp;
@@ -23,6 +23,9 @@ function PartyUnit(_stats, _hp, _mana, _energy, _inventory, _position, _sprites,
 	is_player = _player_username == global.server.username;
 	is_enemy = false;
 	focus = false;
+	
+	companions = _companions
+	max_companions = _max_companions
 }
 
 function EnemyUnit(_position, _enemy_id, _stat_changes=new Stats(), _condition=noone, _passives=[]) : BattleUnit(_position, _stat_changes, _condition, _passives=[]) constructor {
@@ -44,6 +47,12 @@ function EnemyUnit(_position, _enemy_id, _stat_changes=new Stats(), _condition=n
 	is_player = false;
 	is_enemy = true;
 	inventory = [];
+	
+	function switch_side(_player_username) {
+		player_username = _player_username
+		is_player = _player_username == global.server.username;
+		is_enemy = false;
+	}
 }
 
 function init_demo_battle(_grid_size) {
@@ -59,7 +68,7 @@ function init_demo_battle(_grid_size) {
 	inventory_add_item(_inventory2, 5, 5);
 	inventory_add_item(_inventory2, 4, 5);
 	
-	var _player_unit1 = new PartyUnit(new Stats(100, 10, 10, 5, 5, 100, 0, 80, 30), 100, 80, 30, _inventory1, {x: 0, y: 0}, _player_sprites, 6, [MOVE_TYPES.BLUDGEONING], [], [], global.basic_attacks.magic_missile, global.server.username, new Stats(), noone, [{"info": global.passives_library.rage, "duration": -1}]);
+	var _player_unit1 = new PartyUnit(new Stats(100, 10, 10, 5, 5, 100, 0, 80, 30), 100, 80, 30, _inventory1, {x: 0, y: 0}, _player_sprites, 6, [MOVE_TYPES.BLUDGEONING], [], [], global.basic_attacks.magic_missile, global.server.username);
 	var _player_unit2 = new PartyUnit(new Stats(100, 10, 10, 5, 5, 100, 0, 80, 30), 100, 80, 30, _inventory2, {x: 0, y: 2}, _player_sprites, 6, [MOVE_TYPES.BLUDGEONING], [], [], global.basic_attacks.unarmed, global.server.username);
 	
 	var _enemy1 = new EnemyUnit({x: 1, y: 0}, "SLIME", new Stats());

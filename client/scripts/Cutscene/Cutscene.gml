@@ -172,8 +172,8 @@ function cutscene_use_action(_user, _action, _targets, _origin_point, _area) {
 		var _missing_resource = battle_change_resource(_user, _action.resource, -_action.costValue);
 				
 		if (_missing_resource) {
-			add_battle_text(string("Not enough {0}", get_resource_name(_action._resource)));	
-			battle_text_set_color(get_resource_color(_action._resource), 2, 2);
+			add_battle_text(string("Not enough {0}", get_resource_name(_action.resource)));	
+			battle_text_set_color(get_resource_color(_action.resource), 2, 2);
 			_user.effect = noone;
 			_user.sprite_index = image;
 			_user.image_index = 0;
@@ -271,4 +271,32 @@ function cutscene_change_sprite(_id, _sprite) {
 	}
 	
 	battle_action_end(_id);
+}
+
+function cutscene_flee_battle(_id) {
+	if (!setup) {
+		battle_action_start(_id)
+		add_battle_text(string("{0} flees from the battle.", _id.unit.name))
+		setup = true
+	}
+	
+	with(_id) {
+		image_alpha -= 0.1
+	}
+	
+	if (_id.image_alpha <= 0) {
+		battle_action_end(_id)
+		
+		var _index = array_get_index(obj_battle_manager.player_units, _id.unit)
+		
+		if (_index != -1) {
+			array_delete(obj_battle_manager.player_units, _index, 1)
+		} else {
+			_index = array_get_index(obj_battle_manager.enemies, _id.unit)
+			
+			if (_index != -1) {
+				array_delete(obj_battle_manager.enemies, _index, 1)
+			}
+		}
+	}
 }

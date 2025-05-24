@@ -1,4 +1,5 @@
 function PropInfo(_name, _sprite, _image, _coll, _hp, _func) constructor {
+	name = _name;
 	sprite = _sprite;
 	image = _image;
 	coll = _coll;
@@ -20,7 +21,7 @@ function PropInfo(_name, _sprite, _image, _coll, _hp, _func) constructor {
 	}
 }
 
-function battle_create_props(_prop_info, _position) {
+function battle_create_props(_prop_info, _position, _owner) {
 	with(obj_battle_manager) {
 		var _prop = instance_create_depth(
 			tileToScreenXExt(_position.x, _position.y, tile_size, init_x),
@@ -33,6 +34,7 @@ function battle_create_props(_prop_info, _position) {
 			x: _position.x,
 			y: _position.y
 		};
+		_prop_info.owner = _owner;
 		_prop.prop_info = _prop_info;
 		 
 		array_push(props, _prop);
@@ -40,5 +42,11 @@ function battle_create_props(_prop_info, _position) {
 }
 
 global.props = {
-	sticky_meal: new PropInfo("Sticky Meal", spr_props, 0, false, 20, noone)
+	sticky_meal: new PropInfo("Sticky Meal", spr_props, 0, false, 20, function(_user) {
+		if (struct_exists(_user.unit, "enemy_info") && _user.unit.enemy_info.display_name == "Slime") {
+			battle_change_hp(_user, _user.unit.max_hp div 2)
+		} else {
+			battle_inflict_condition(_user, global.conditions.poison, 100)	
+		}
+	})
 }

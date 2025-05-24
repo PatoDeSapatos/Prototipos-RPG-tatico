@@ -307,8 +307,40 @@ global.actions = {
 		shapeSize: 1,
 		
 		func: function (_user, _targets, _point) {
-			battle_create_props(global.props.sticky_meal, _point)
+			battle_create_props(global.props.sticky_meal, _point, _user)
 		}
-	}
+	},
+	tame: {
+		name: "Tame",
+		description: "Get tamed by a player",
+		costValue: 0,
+		resource: noone,
+		targetRequired: true,
+		targetCount: 1,
+		targetSelf: true,
+		userAnimation: "hurt",
+		
+		func: function(_user, _targets) {
+			// user = entity, _targets[0] = tame_props
+			var _index = array_get_index(obj_battle_manager.enemies, _user.unit)
+			
+			if (_index != -1) {
+				var _player = _targets[0].prop_info.owner
+				
+				if (array_length(_player.unit.companions) < _player.unit.max_companions) {
+					_user.unit.switch_side(_player.unit.player_username)
+					array_delete(obj_battle_manager.enemies, _index, 1)
+					array_push(obj_battle_manager.player_units)
+					array_push(_player.unit.companions, _user.unit)
+					
+					add_battle_text(string("{0} seems to get along with {1}", _user.unit.name, _player.unit.name))
+				}
+				
+				_targets[0].prop_info.func(_user)
+				instance_destroy(_targets[0])
+			}
+			
+		}
+	},
 	
 }

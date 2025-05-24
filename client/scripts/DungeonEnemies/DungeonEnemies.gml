@@ -1,4 +1,4 @@
-function Enemy(_display_name, _stats, _sprites, _init_state, _movement, _actions, _basic_attack, _weakness, _resistences, _immunities, _drops, _battle_script) constructor {
+function Enemy(_display_name, _stats, _sprites, _init_state, _movement, _actions, _basic_attack, _weakness, _resistences, _immunities, _drops, _battle_script, _tameable, _tame_prop, _tame_condition) constructor {
 	display_name = _display_name;
 	stats = _stats;
 	sprites = _sprites;
@@ -11,6 +11,11 @@ function Enemy(_display_name, _stats, _sprites, _init_state, _movement, _actions
 	immunities = _immunities;
 	drops = _drops;
 	battle_script = _battle_script;
+	
+	// Tame
+	tameable = _tameable;
+	tame_prop = _tame_prop;
+	tame_condition = _tame_condition;
 }
 
 function Drop(_item_id, _quantity, _drop_chance) constructor {
@@ -61,6 +66,11 @@ function init_enemies() {
 		[MOVE_TYPES.SLASHING],
 		[MOVE_TYPES.POISON],
 		[new Drop(0, 3, 33)],
-		global.enemy_ui.simple
+		global.enemy_ui.simple,
+		true,
+		global.props.sticky_meal,
+		function (_creature) {
+			return _creature.unit.hp <= _creature.unit.max_hp/2
+		}
 	));
 }

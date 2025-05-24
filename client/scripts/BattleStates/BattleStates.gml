@@ -401,7 +401,7 @@ function battle_state_waiting() {
 			camera_reset_bar();
 			camera_reset_buffer();
 			
-			if (units[turns].ready || extra_turn_user.ready) {
+			if (units[turns].ready || (is_struct(extra_turn_user) && extra_turn_user.ready)) {
 				state = battle_state_end_turn;
 			}
 			

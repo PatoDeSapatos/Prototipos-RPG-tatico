@@ -4,7 +4,6 @@ enum EFFECT_TRIGGERS {
 	ATTACK
 }
 
-
 global.conditions = {
 	poison: {
 		name: "poison",
