@@ -20,6 +20,10 @@ target_x = x;
 target_y = y;
 camera_delay = .05;
 
+// Inputs
+mouse_x_previous = device_mouse_x_to_gui(0);
+mouse_y_previous = device_mouse_y_to_gui(0);
+
 // ------------- VFX -------------
 state = noone;
 inside_room_camera = false;
@@ -34,6 +38,15 @@ view_set_camera(0, camera);
 // Zoom
 target_zoom = -1;
 zoom_rate = 0.5;
+
+// Buffer
+x_buffer = 0;
+x_buffer_rate = 0;
+x_buffer_target = 0;
+
+y_buffer = 0;
+y_buffer_rate = 0;
+y_buffer_target = 0;
 
 global.res_scale = 1280/camera_w;
 window_set_size(RES_W * global.res_scale, RES_H * global.res_scale)

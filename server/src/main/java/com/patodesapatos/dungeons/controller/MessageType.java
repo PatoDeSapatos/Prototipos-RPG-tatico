@@ -20,5 +20,12 @@ public enum MessageType {
 
     INVENTORY,
     UPDATE_INVENTORY,
-    GET_INVENTORY
+    GET_INVENTORY,
+
+    BATTLE_START,
+    BATTLE_STATE,
+    JOIN_BATTLE,
+    TURN_ACTION,
+    UNIT_READY,
+    BATTLE_END
 }

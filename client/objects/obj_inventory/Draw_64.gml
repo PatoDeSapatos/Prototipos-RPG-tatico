@@ -25,7 +25,8 @@ if (has_tabs) {
 	}
 }
 
-draw_set_color(c_white);
+draw_set_color(c_black);
+draw_set_alpha(.8);
 draw_rectangle( 
 	items_box_x,
 	items_box_y,
@@ -33,6 +34,8 @@ draw_rectangle(
 	items_box_y + items_box_h,
 	false
 );
+draw_set_alpha(1);
+draw_set_color(c_white);
 
 switch ( selected_tab ) {
 	case TABS.ITEMS:
@@ -40,6 +43,9 @@ switch ( selected_tab ) {
 		break;
 	case TABS.CRAFTING:
 		inventory_draw_recipes();
+		break;
+	case TABS.SKILLS:
+		inventory_draw_skills();
 		break;
 }
 
@@ -69,7 +75,7 @@ if (has_equipment_box) {
 	draw_set_color(c_white);
 	draw_rectangle(equipment_box_x, equipment_box_y, equipment_box_x2, equipment_box_y2, false);
 	draw_set_color(c_black);
-	draw_line_width(equipment_box_x - global.res_scale, status_box_y - equipment_box_border, equipment_box_x2, status_box_y - equipment_box_border, 2);
+	draw_line_width(equipment_box_x - global.res_scale, stats_box_y - equipment_box_border, equipment_box_x2, stats_box_y - equipment_box_border, 2);
 	draw_sprite_stretched(spr_inventory_bg, 0, equipment_box_x, equipment_box_y, equipment_box_x2 - equipment_box_x, equipment_box_y2 - equipment_box_y);
 
 	var _current_x = equipment_box_x + equipment_box_border;
@@ -112,51 +118,60 @@ if (has_equipment_box) {
 	}
 
 	_current_x = equipment_box_x + equipment_box_border;
-	_current_y = status_box_y;
-	_names = struct_get_names(player_equipment_status);
-	_rows = status_rows;
+	_current_y = stats_box_y;
+	_names = struct_get_names(player_equipment_stats);
+	_rows = stats_rows;
 	var _active_item_exists = false;
 	var _comparing_names = noone;
-	var _status = noone;
+	var _stats = noone;
 
 	if ( is_struct(active_item) && focus == FOCUS.ITEM ) {
 		if (is_instanceof(active_item, Equipment_Stack)) {
-			_status = active_item.status;
-			_comparing_names = struct_get_names(_status);	
+			_stats = active_item.stats;
+			_comparing_names = struct_get_names(_stats);	
 			_active_item_exists = true;
 		} else if (is_instanceof(active_item, Recipe_Stack)) {
 			var _recipe = get_recipe_by_id(active_item.id);
 			_result = get_item_by_id(_recipe.result_id);
 		
-			_status = _result.status;
-			_comparing_names = struct_get_names(_status);
+			_stats = _result.stats;
+			_comparing_names = struct_get_names(_stats);
 			_active_item_exists = true;
 		}
 	}
 
-	for (var i = 0; i < struct_names_count(player_equipment_status); ++i) {
+	for (var i = 0; i < struct_names_count(player_equipment_stats); ++i) {
 		var _key = _names[i];
-		var _value = struct_get(player_equipment_status, _key);
-		var _string = _key + ": " + string(struct_get(player_base_status, _key) + _value);
+		var _value = struct_get(player_equipment_stats, _key);
+		var _string = _key + ": " + string(struct_get(player_base_stats, _key) + _value);
 		var _string_width = string_width(_string);
 	
 		if (i > 0 && i % _rows == 0) {
-			_current_x += status_w;
-			_current_y = status_box_y;
+			_current_x += stats_w;
+			_current_y = stats_box_y;
 		}
 	
 		draw_set_color(c_black);
-	    draw_text(_current_x, _current_y + status_h/2, _string);
+	    draw_text(_current_x, _current_y + stats_h/2, _string);
 		if ( _active_item_exists ) {
-			var _comparing_status = (struct_get(player_base_status, _comparing_names[i]) ) + struct_get(_status, _comparing_names[i]);
+			var _comparing_stats = (struct_get(player_base_stats, _comparing_names[i]) ) + struct_get(_stats, _comparing_names[i]);
 		
-			if (_comparing_status != _value + struct_get(player_base_status, _comparing_names[i])) {
-				draw_set_color(_comparing_status > _value ? (c_green) : (c_red));
-				draw_text(_current_x + _string_width, _current_y + status_h/2, " -> " + string(_comparing_status));
+			if (_comparing_stats != _value + struct_get(player_base_stats, _comparing_names[i])) {
+				draw_set_color(_comparing_stats > _value ? (c_green) : (c_red));
+				draw_text(_current_x + _string_width, _current_y + stats_h/2, " -> " + string(_comparing_stats));
 			}
 		}
 	
-		_current_y += status_h;
+		_current_y += stats_h;
 	}
 }
 draw_set_color(c_white);
+
+// Skil Selector
+if (selector_y != noone) {
+	draw_sprite_ext(spr_skill_selector, selector_image, items_box_x, items_box_name_y + selector_y, global.res_scale*2, global.res_scale*2, 0, c_white, 1);
+	selector_image += sprite_get_speed(spr_skill_selector)/FRAME_RATE;
+	if (selector_image > sprite_get_number(spr_skill_selector)) {
+		selector_image = 0;	
+	}
+}

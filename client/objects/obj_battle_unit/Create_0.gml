@@ -3,9 +3,7 @@
 // Pre set variables
 // unit = new Battle_Unit();
 // scale = 1;
-
-image_xscale = scale;
-image_yscale = scale;
+event_inherited();
 
 sprites = unit.sprites
 idle_frames = 4;
@@ -18,5 +16,23 @@ facing_up = false;
 clothing = 0;
 
 ready = false;
+charging_turns = 0;
+charging_action = noone;
+charging_targets = noone;
+focusing = false;
 
-z = obj_battle_manager.tile_size/4;
+effect = noone;
+effect_image = 0;
+
+// Damage changes that lasts one turn
+physical_damage_temp = 0;
+magical_damage_temp = 0;
+
+for (var i = 0; i < array_length(unit.passives); ++i) {
+	var _passive = unit.passives[i]
+	
+    for (var j = 0; j < array_length(_passive.info.battle_effects); ++j) {
+		var _effect = _passive.info.battle_effects[j]
+	    battle_connect_trigger(_effect.trigger, _effect.func, self)
+	}
+}

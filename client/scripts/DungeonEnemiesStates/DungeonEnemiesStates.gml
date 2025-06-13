@@ -22,7 +22,6 @@ function enemy_chase_walking() {
 	if (!moving) {
 		var _grid = obj_dungeon_manager.grid;
 		
-		
 		path = get_shortest_path(_grid, _x, _y, _player_x, _player_y, range div obj_dungeon_manager.tile_size);
 		if (is_undefined(path) || array_length(path) <= 0) {
 			state = enemy_chase_idle;

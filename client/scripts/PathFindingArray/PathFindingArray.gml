@@ -1,9 +1,9 @@
-function get_shortest_path_array(_grid, _x1, _y1, _x2, _y2, _range=0) {
+function get_shortest_path_array(_grid, _x1, _y1, _x2, _y2, _has_coll=false, _range=0) {
 	var _start = new Cell(_x1, _y1, 0, -1,false);
 	var _end = new Cell(_x2, _y2, 0, -1, false);
 	var _grid_copy = [];
 	
-	if ( (!is_inside_grid_array(_grid, _x1, _y1) || !is_inside_grid_array(_grid, _x2, _y2)) || (_grid[_x2, _y2].coll) ) {
+	if ( (!is_inside_grid_array(_grid, _x1, _y1) || !is_inside_grid_array(_grid, _x2, _y2)) ) {
 		return [];	
 	}
 	
@@ -43,7 +43,7 @@ function get_shortest_path_array(_grid, _x1, _y1, _x2, _y2, _range=0) {
 		    if ( is_inside_grid_array(_grid, _next_cell_x, _next_cell_y) ) {
 				var _next_cell = _grid_copy[_next_cell_x, _next_cell_y];
 				
-				if (!is_struct(_next_cell) && !_grid[_next_cell_x, _next_cell_y].coll) {
+				if (!is_struct(_next_cell) && (!_has_coll || !_grid[_next_cell_x, _next_cell_y].coll || (_next_cell_x == _end.x && _next_cell_y == _end.y ))) {
 					var _new_cell = new Cell(_next_cell_x, _next_cell_y, _cell.h + 1, _cell, _next_cell);
 					_new_cell.calc_distance(_end.x, _end.y);
 					
@@ -57,6 +57,7 @@ function get_shortest_path_array(_grid, _x1, _y1, _x2, _y2, _range=0) {
 		});
 	}
 	
+	return [];
 }
 
 function is_inside_grid_array(_grid, _x, _y) {

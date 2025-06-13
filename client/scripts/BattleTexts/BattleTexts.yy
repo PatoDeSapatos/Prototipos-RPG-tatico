@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"BattleTexts",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BattleTexts",
+  "parent":{
+    "name":"battle",
+    "path":"folders/Scripts/Dungeon/battle.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

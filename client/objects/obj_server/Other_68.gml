@@ -44,7 +44,7 @@ switch(async_load[? "type"]){
 					global.server.dungeon_code = _dungeon_code;
 					obj_waiting_room_menu.dungeon_privacy = _is_dungeon_public ? ("Public") : ("Private");
 					obj_waiting_room_menu.waiting_server = false;
-					obj_waiting_room_menu.admin_username = _adm;
+					global.server.admin_username = _adm;
 					global.server.mapSeed = _map_seed
 					
 					if ( obj_waiting_room_menu.joined ) {

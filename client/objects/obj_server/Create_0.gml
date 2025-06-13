@@ -9,6 +9,7 @@ global.user_token = "";
 socket = -1
 user_logged = false;
 username = "";
+admin_username = "";
 dungeon_code = "";
 level = 1
 is_user_guest = false;

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.patodesapatos.dungeons.domain.battle.Battle;
+import com.patodesapatos.dungeons.domain.battle.dto.BattleStartDTO;
 import com.patodesapatos.dungeons.domain.dungeon.dto.DungeonDTO;
 import com.patodesapatos.dungeons.domain.dungeon.dto.WaitingDTO;
 
@@ -19,9 +22,11 @@ import lombok.Data;
 public class Dungeon {
     private String id;
     private ArrayList<Player> players;
-    private ArrayList<Entity> entities;
     private ArrayList<TileEntity> tileEntities;
+    private ArrayList<Entity> entities;
     private int entitiesId;
+    private ArrayList<Battle> battles;
+    private int battlesId;
     private String admUsername;
     private String invite;
     private boolean isPublic;
@@ -34,6 +39,8 @@ public class Dungeon {
         this.isPublic = false;
         generateMapSeed();
 
+        this.battles = new ArrayList<>();
+        this.battlesId = 0;
         this.tileEntities = new ArrayList<>();
         this.entities = new ArrayList<>();
         this.entitiesId = 0;
@@ -44,7 +51,7 @@ public class Dungeon {
 
     public void addPlayer(Player player) {
         players.add(player);
-        entities.add(new Entity(player, ++entitiesId));
+        entities.add(new Entity(player, String.valueOf(++entitiesId)));
     }
 
     public Player getPlayerByUsername(String username) {
@@ -80,10 +87,10 @@ public class Dungeon {
         return RandomStringUtils.randomAlphanumeric(4).toUpperCase();
     }
 
-    public Entity getEntityById(int id) {
+    public Entity getEntityById(String id) {
         for (int i = 0; i < entities.size(); i++) {
             var entity = entities.get(i);
-            if (entity.getId() == id) return entity;
+            if (entity.getId().equals(id)) return entity;
         }
         return null;
     }
@@ -101,7 +108,7 @@ public class Dungeon {
     }
 
     public Entity updateEntity(JSONObject data) {
-        var entity = getEntityById(data.getInt("entityId"));
+        var entity = getEntityById(data.getString("entityId"));
         entity.setData(data.getJSONObject("data"));
         return entity;
     }
@@ -136,6 +143,35 @@ public class Dungeon {
     }
 
     public void addTileEntity(TileEntity tileEntity) {
-        if (getTileEntityById(tileEntity.getId()) == null) tileEntities.add(tileEntity);
+        if (!tileEntities.contains(tileEntity)) tileEntities.add(tileEntity);
+    }
+
+    public Battle getBattleById(int id) {
+        for (int i = 0; i < battles.size(); i++) {
+            var battle = battles.get(i);
+            if (battle.getId() == id) return battle;
+        }
+        return null;
+    }
+
+    public BattleStartDTO createBattle(JSONObject room, ArrayList<Player> players, JSONArray units, JSONArray eUnits) {
+        for (var player : players) {
+            if (player.getBattleId() != -1) return null;
+        }
+
+        var battle = new Battle(++battlesId, room, players, units, eUnits);
+        battles.add(battle);
+        return battle.toStartDTO();
+    }
+
+    public void endBattle(int id) {
+        var battle = getBattleById(id);
+
+        var players = battle.getPlayers();
+        for (var player : players) {
+            player.setBattleId(-1);
+        }
+
+        battles.remove(battle);
     }
 }

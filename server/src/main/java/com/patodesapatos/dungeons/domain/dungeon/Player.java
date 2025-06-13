@@ -12,12 +12,14 @@ public class Player implements Cloneable {
     private String username;
     private boolean ready;
     private boolean online;
+    private int battleId;
 
     public Player(String userId, String username) {
         this.userId = userId;
         this.username = username;
         this.ready = false;
         this.online = true;
+        this.battleId = -1;
     }
 
     public Player(User user) {
@@ -25,6 +27,7 @@ public class Player implements Cloneable {
         this.username = user.getUsername();
         this.ready = false;
         this.online = true;
+        this.battleId = -1;
     }
 
     public Player toDTO() {

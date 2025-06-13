@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"EnemiesUiLibrary",
   "parent":{
-    "name":"enemies",
-    "path":"folders/Scripts/Dungeon/entities/enemies.yy",
+    "name":"battle",
+    "path":"folders/Scripts/Dungeon/battle.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

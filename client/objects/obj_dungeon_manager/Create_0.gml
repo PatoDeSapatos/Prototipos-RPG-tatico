@@ -46,7 +46,6 @@ map = -1
 generate_map()
 
 instance_create_layer(0, 0, "Instances", obj_dungeon_chat)
-instance_create_layer(0, 0, "Instances", obj_player_inventory)
 
 update_entities = function (_data) {
 	var _entities = struct_get(_data, "entities");
@@ -55,7 +54,7 @@ update_entities = function (_data) {
 	
 	for (var i = 0; i < array_length(_entities); ++i) {
 		if ( !is_struct(_entities[i]) ) {
-			show_debug_message(_entities[i]);
+			//show_debug_message(_entities[i]);
 			continue;
 		}
 		
@@ -63,7 +62,7 @@ update_entities = function (_data) {
 		
 		if ( ds_map_exists(entities, _entity_id) ) {
 			if (is_struct(struct_get(_entities[i], "data"))) {
-				ds_map_find_value(entities, _entity_id).update_entity_values( struct_get(_entities[i], "data"), struct_get(_entities[i], "username"), struct_get(_entities[i], "level") );
+				ds_map_find_value(entities, _entity_id).update_entity_values(struct_get(_entities[i], "data"), struct_get(_entities[i], "username"), struct_get(_entities[i], "level"));
 			}
 		} else {
 			if (struct_get(_entities[i], "level") != global.server.level) return;
@@ -75,6 +74,7 @@ update_entities = function (_data) {
 			_entity.entity_id = _entity_id;
 			ds_map_set(entities, _entity_id, _entity);
 			if ( global.server.username == _username ) {
+                instance_create_layer(0, 0, "Instances", obj_player_inventory)
 				player_entity_id = _entity_id
 				global.camera.follow = _entity
 
@@ -123,7 +123,6 @@ function check_level() {
 	   var _entity = _entities_array[i]
 	   if (_entity.player_username != global.server.username) {
 			if (_entity.level != global.server.level) {
-				show_debug_message("oi")
 				instance_destroy(_entity.id)
 			}
 	   }

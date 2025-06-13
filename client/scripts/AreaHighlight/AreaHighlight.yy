@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AreaHighlight",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AreaHighlight",
+  "parent":{
+    "name":"battle",
+    "path":"folders/Scripts/Dungeon/battle.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

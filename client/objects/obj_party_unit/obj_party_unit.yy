@@ -9,8 +9,8 @@
   "name":"obj_party_unit",
   "overriddenProperties":[],
   "parent":{
-    "name":"battle",
-    "path":"folders/Objetos/dungeon/battle.yy",
+    "name":"entities",
+    "path":"folders/Objetos/dungeon/battle/entities.yy",
   },
   "parentObjectId":{
     "name":"obj_battle_unit",

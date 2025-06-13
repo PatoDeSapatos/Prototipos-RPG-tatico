@@ -3,8 +3,8 @@ function Item_Stack( _item_id, _quantity ) constructor {
 	quantity = _quantity;
 }
 
-function Equipment_Stack(_item_id, _quantity, _status, _equipped) : Item_Stack(_item_id, _quantity) constructor {
-	status = _status;
+function Equipment_Stack(_item_id, _quantity, _stats, _equipped) : Item_Stack(_item_id, _quantity) constructor {
+	stats = _stats;
 	equipped = _equipped;
 }
 
@@ -100,7 +100,6 @@ function draw_items(_inventory, _is_recipe) {
 				focus = FOCUS.ORDER;
 			}
 		}
-	
 
 		// Items Categories
 		var _categories_space = sprite_get_width(spr_items_categories)*global.res_scale*2.5 + items_box_border/4
@@ -121,24 +120,25 @@ function draw_items(_inventory, _is_recipe) {
 	}
 
 	// Items Title
-	draw_set_color(c_yellow);
+	draw_set_color(make_color_rgb(129, 151, 150));
 
 	draw_rectangle(items_box_x, items_box_title_y, items_box_x + items_box_w, items_box_title_y + items_box_title_h, false)
 
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_middle);
-	draw_set_color(c_black);
-	draw_text(items_box_x + items_box_name_x, items_box_title_y + items_box_title_h/2, "Name");
+	draw_set_color(c_white);
+	draw_set_font(fnt_inventory);
+	draw_text_border(items_box_x + items_box_name_x, items_box_title_y + items_box_title_h/2, "Name", c_black);
 
 	draw_set_halign(fa_center);
-	draw_text(items_box_x + items_box_quantity_x, items_box_title_y + items_box_title_h/2, "Qtd");
-	draw_text(items_box_x + items_box_category_x, items_box_title_y + items_box_title_h/2, "Category");
+	draw_text_border(items_box_x + items_box_quantity_x, items_box_title_y + items_box_title_h/2, "Qtd", c_black);
+	draw_text_border(items_box_x + items_box_category_x, items_box_title_y + items_box_title_h/2, "Categ.", c_black);
 	
 	if ( !surface_exists(items_box_list_surf) ) {
 		items_box_list_surf = surface_create(items_box_w, items_box_h);	
 	}
 
-	draw_set_color(c_black);
+	draw_set_color(c_white);
 	draw_set_valign(fa_middle);
 	draw_set_halign(fa_center);
 
@@ -179,8 +179,32 @@ function draw_items(_inventory, _is_recipe) {
 	array_sort(_inventory_copy, inventory_sort);
 	var _current_y = items_box_name_offset;
 	var _prev_selected_item = selected_item;
+	mouse_hover_option = false;
 	for (var i = 0; i < array_length(_inventory_copy); ++i) {
 		var _y = _current_y + items_box_name_h/2 + items_box_border/2;
+		selector_y = _y;
+		
+		var _mouse_hover = point_in_rectangle(mouse_gui_x, mouse_gui_y, items_box_x, items_box_name_y + _y - items_box_name_h/2, items_box_x + items_box_w, items_box_name_y + _y + items_box_name_h/2);
+	
+		if (mouse_navigation && _mouse_hover) {
+			mouse_hover_option = true;
+			selected_item = i;
+		}
+		
+		var _alpha = .65;
+		
+		if ( (focus == FOCUS.LIST || focus == FOCUS.ITEM) && selected_item == i ) {	
+			_alpha = .8;
+			
+			if (focus == FOCUS.ITEM && mouse_hover_option) {
+				if ((_mouse_hover && mouse_l) || (confirm_input)) {
+					active_item = _inventory_copy[i];
+					focus = FOCUS.ITEM;	
+				}
+			}
+		}		
+		
+		draw_sprite_stretched_ext(spr_selected_item_border, 0, 0, _y - items_box_name_h/2 - items_box_border/4, items_box_w, items_box_name_h + items_box_border/2, c_white, _alpha );
 		
 		if ( !_is_recipe ) {
 			var _item = get_item_by_id( _inventory_copy[i].id );	
@@ -192,38 +216,20 @@ function draw_items(_inventory, _is_recipe) {
 			
 			// Item Quantity
 			draw_set_halign(fa_center);
+			
+			draw_set_color(c_black);
+			draw_text( items_box_quantity_x + 2, _y, _quantity );
+			draw_text( items_box_quantity_x - 2, _y, _quantity );
+			draw_text( items_box_quantity_x, _y + 2, _quantity );
+			draw_text( items_box_quantity_x, _y - 2, _quantity );
+			draw_set_color(c_white);
+			
 			draw_text( items_box_quantity_x, _y, _quantity );
 		} else {
 			var _item = get_item_by_id( get_recipe_by_id( _inventory_copy[i].id ).result_id );
 			var _craftable = _inventory_copy[i].craftable;
 		}
 	
-		var _mouse_hover = mouse_navigation && point_in_rectangle(mouse_gui_x, mouse_gui_y, items_box_x, items_box_name_y + _y - items_box_name_h/2, items_box_x + items_box_w, items_box_name_y + _y + items_box_name_h/2);
-	
-		if (_mouse_hover) {
-			selected_item = i;
-		}
-	
-		if ( (focus == FOCUS.LIST || focus == FOCUS.ITEM) && selected_item == i ) {
-			if (focus == FOCUS.ITEM) {
-				if (!mouse_hover_option) {
-					draw_sprite_stretched(spr_selected_item_border, 0, 0, _y - items_box_name_h/2 - items_box_border/4, items_box_w, items_box_name_h + items_box_border/2 );
-					if ( (focus == FOCUS.LIST || focus == FOCUS.ORDER || focus == FOCUS.ITEM) && (_mouse_hover && mouse_l) || (confirm_input) ) {
-						if ( focus == FOCUS.ITEM && mouse_hover_option ) break;
-						active_item = _inventory_copy[i];
-						focus = FOCUS.ITEM;	
-					}
-				}
-			} else {	
-				draw_sprite_stretched(spr_selected_item_border, 0, 0, _y - items_box_name_h/2 - items_box_border/4, items_box_w, items_box_name_h + items_box_border/2 );
-				if ( (focus == FOCUS.LIST || focus == FOCUS.ORDER || focus == FOCUS.ITEM) && (_mouse_hover && mouse_l) || (confirm_input) ) {
-					if ( focus == FOCUS.ITEM && mouse_hover_option ) break;
-					active_item = _inventory_copy[i];
-					focus = FOCUS.ITEM;	
-				}
-			}
-		}
-		
 		if (_inventory_copy[i] == active_item) {
 			active_item_y = _y + items_box_name_y - items_box_name_h/2;	
 		}
@@ -236,10 +242,16 @@ function draw_items(_inventory, _is_recipe) {
 			draw_set_color( _craftable ? (c_green) : (c_red) );
 		}
 		
-		draw_set_halign(fa_left);
-		draw_text( items_box_name_x, _y, _item.display_name );
 		draw_set_color(c_black);
-	
+		draw_set_halign(fa_left);
+		draw_text( items_box_name_x - 2, _y, _item.display_name );
+		draw_text( items_box_name_x + 2, _y, _item.display_name );
+		draw_text( items_box_name_x, _y - 2, _item.display_name );
+		draw_text( items_box_name_x, _y + 2, _item.display_name );
+		
+		draw_set_color(c_white);
+		draw_text( items_box_name_x, _y, _item.display_name );
+		
 		// Item Category
 		draw_sprite_ext( spr_items_categories, _item.category, items_box_category_x, _y, global.res_scale * 2, global.res_scale * 2, 0, c_white, 1 );
 	
@@ -255,8 +267,41 @@ function draw_items(_inventory, _is_recipe) {
 	if (focus == FOCUS.LIST) {
 		selected_item += down_input - up_input;
 		box_delay = 0;
+		
+		if (down_input - up_input != 0) {
+			selector_y = _y;	
+			selected_item = clamp(selected_item, 0, array_length(_inventory_copy) - 1);
+		}
 	}
-	selected_item = clamp(selected_item, 0, array_length(_inventory_copy) - 1);
+	
+	if (!has_description || selected_item < 0 || array_length(inventory) <= 0) return;
+	
+	var _item = get_item_by_id(inventory[selected_item].id);
+	
+	draw_set_color(c_black);
+	draw_set_alpha(.8);
+	draw_rectangle(equipment_box_x, equipment_box_y, equipment_box_x + equipment_box_w, equipment_box_y + equipment_box_h, false);
+	draw_set_color(c_white);
+	draw_set_alpha(1);
+	draw_sprite_stretched(spr_inventory_bg, 0, equipment_box_x, equipment_box_y, equipment_box_w + global.res_scale, equipment_box_h);
+	
+	// item name
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_top);
+	var _col = c_white;
+	draw_text_color(equipment_box_x + equipment_box_w/2, equipment_box_y + equipment_box_border, _item.display_name, _col, _col, _col, _col, 1);
+	
+	// item description
+	draw_set_valign(fa_top);
+	draw_set_halign(fa_center);
+	var _desc = _item.description;
+	var _start_x = equipment_box_x;
+	var _start_y = equipment_box_y + equipment_box_border + string_height(_item.display_name);
+		
+	draw_desc_center(_start_x, _start_y, _desc, equipment_box_w, string_height(_desc));
+	
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_bottom);
 }
 
 function draw_item_quantity_panel() {
@@ -422,8 +467,8 @@ function equip_item(_item, _struct = equipments) {
 		}
 	}
 	
-	update_inventory();
-	inventory_update_status(inventory, _struct, player_equipment_status);
+	update_inventory(inventory);
+	inventory_update_stats(inventory, _struct, player_equipment_stats);
 }
 
 function inventory_add_item( _inventory, _item_id, _quantity ) {
@@ -461,7 +506,7 @@ function inventory_add_item( _inventory, _item_id, _quantity ) {
 			array_push(_inventory, new Equipment_Stack(
 				_item_id,
 				_excess > 0 ? (_excess) : (_quantity),
-				_item_data.status,
+				_item_data.stats,
 				false
 			));
 		} else {
@@ -473,7 +518,7 @@ function inventory_add_item( _inventory, _item_id, _quantity ) {
 	}
 
 	if (global.player_inventory == self) create_inventory_operation(_item_id, _quantity, "Added");
-	update_inventory();
+	update_inventory(_inventory);
 }
 
 function inventory_remove_item( _inventory, _item_id, _quantity ) {
@@ -495,7 +540,7 @@ function inventory_remove_item( _inventory, _item_id, _quantity ) {
 				if (is_instanceof(_inventory[i], Equipment_Stack) && _inventory[i].equipped) {
 					var _item_slot = get_item_by_id(_item_id).slot;
 					struct_set(equipments, _item_slot, noone);
-					inventory_update_status(_inventory, equipments, player_equipment_status);
+					inventory_update_stats(_inventory, equipments, player_equipment_stats);
 				}
 				array_delete( _inventory, i, 1 );
 			}
@@ -504,7 +549,7 @@ function inventory_remove_item( _inventory, _item_id, _quantity ) {
 		}
 	}
 	
-	update_inventory();
+	update_inventory(_inventory);
 }
 
 function inventory_merge_items(_inventory) {
@@ -561,7 +606,7 @@ function get_item_quantity_in_inventory(_inventory, _item_id) {
 
 function inventory_add_recipe(_recipes_index, _recipe_id) {
 	array_push(_recipes_index, new Recipe_Stack( _recipe_id ));
-	update_inventory();
+	update_inventory(inventory);
 }
 
 function inventory_craft_recipe(_recipes_index, _recipe) {
@@ -582,7 +627,7 @@ function inventory_craft_recipe_all(_recipes_index, _recipe) {
 	}
 }
 
-function update_inventory() {
+function update_inventory(_inventory) {
 	if (variable_instance_exists(self, "recipes")) {
 		array_foreach(recipes, function(_value, _index) {
 			var _recipe = get_recipe_by_id(_value.id);
@@ -596,7 +641,7 @@ function update_inventory() {
 		}
 	}
 	
-	inventory_merge_items(inventory);
+	inventory_merge_items(_inventory);
 
 	if (self == global.player_inventory) {
 		var _data = {
@@ -608,23 +653,23 @@ function update_inventory() {
 	}
 }
 
-function inventory_update_status(_inventory, _equipped_items, _status) {
+function inventory_update_stats(_inventory, _equipped_items, _stats) {
 	var _item_names = struct_get_names(_equipped_items);
-	var _status_names = struct_get_names(_status);
+	var _stats_names = struct_get_names(_stats);
 	
-	for (var i = 0; i < array_length(_status_names); ++i) {
-	    struct_set(_status, _status_names[i], 0);
+	for (var i = 0; i < array_length(_stats_names); ++i) {
+	    struct_set(_stats, _stats_names[i], 0);
 	}
 	
 	for (var i = 0; i < struct_names_count(_equipped_items); ++i) {
 		var _item = struct_get(_equipped_items, _item_names[i]);
 		if (!is_struct(_item)) continue;
 		
-	    for (var j = 0; j < struct_names_count(_item.status); ++j) {
-			var _item_status = struct_get(_item.status, _status_names[j]);
-			var _current_status = struct_get(_status, _status_names[j]);
+	    for (var j = 0; j < struct_names_count(_item.stats); ++j) {
+			var _item_stats = struct_get(_item.stats, _stats_names[j]);
+			var _current_stats = struct_get(_stats, _stats_names[j]);
 			
-		    struct_set(_status, _status_names[j], _current_status + _item_status);
+		    struct_set(_stats, _stats_names[j], _current_stats + _item_stats);
 		}
 	}
 }

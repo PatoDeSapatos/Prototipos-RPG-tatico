@@ -9,8 +9,8 @@ function Equipment_Set(_head = noone, _body = noone, _legs = noone, _hand1 = noo
 	accessorie3 = _accessorie3;
 }
 
-function Player(_equipment, _base_status, _inventory) constructor {
+function Player(_equipment, _base_stats, _inventory) constructor {
 	equipment = _equipment;
-	base_status = _base_status;
+	base_stats = _base_stats;
 	inventory = _inventory;
 }

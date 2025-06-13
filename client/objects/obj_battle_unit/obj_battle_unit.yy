@@ -4,16 +4,18 @@
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_battle_unit",
   "overriddenProperties":[],
   "parent":{
-    "name":"battle",
-    "path":"folders/Objetos/dungeon/battle.yy",
+    "name":"entities",
+    "path":"folders/Objetos/dungeon/battle/entities.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"obj_battle_entity",
+    "path":"objects/obj_battle_entity/obj_battle_entity.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,

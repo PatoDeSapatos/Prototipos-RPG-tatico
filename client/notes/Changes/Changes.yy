@@ -1,0 +1,11 @@
+{
+  "$GMNotes":"",
+  "%Name":"Changes",
+  "name":"Changes",
+  "parent":{
+    "name":"dungeons_prototipo",
+    "path":"dungeons_prototipo.yyp",
+  },
+  "resourceType":"GMNotes",
+  "resourceVersion":"2.0",
+}

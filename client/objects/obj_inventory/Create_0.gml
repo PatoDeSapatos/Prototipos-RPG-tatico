@@ -3,7 +3,7 @@
 enum TABS {
 	ITEMS,
 	CRAFTING,
-	HABILITYS,
+	SKILLS,
 	LENGTH
 }
 
@@ -258,6 +258,7 @@ typing_bar = false;
 
 inventory = [];
 recipes = [];
+skills = [];
 recipe_ingredients = [];
 
 // Equipment Box
@@ -272,8 +273,8 @@ equipment_box_border = 10;
 equipment_box_w = (equipment_box_x2 - equipment_box_x) - equipment_box_border*2;
 equipment_box_h = (equipment_box_y2 - equipment_box_y) - equipment_box_border*4;
 
-status_box_x = equipment_box_x;
-status_box_y = equipment_box_y + equipment_box_border + (equipment_box_y2 - equipment_box_y)*0.60;
+stats_box_x = equipment_box_x;
+stats_box_y = equipment_box_y + equipment_box_border + (equipment_box_y2 - equipment_box_y)*0.60;
 
 equipments = new Equipment_Set();
 
@@ -281,12 +282,13 @@ equipment_rows = 4;
 equipment_slot_w = equipment_box_w/(ceil( struct_names_count(equipments)/equipment_rows ));
 equipment_slot_h = (equipment_box_h*0.60)/equipment_rows;
 
-player_base_status = new Status(5, 5, 5, 5, 5, 5);
-player_equipment_status = new Status(0, 0, 0, 0, 0, 0);
+player_base_stats = new Stats(5, 5, 5, 5, 5, 5);
+player_equipment_stats = new Stats(0, 0, 0, 0, 0, 0);
 
-status_rows = 4;
-status_w = equipment_box_w/(ceil( struct_names_count(player_equipment_status)/status_rows ));
-status_h = (equipment_box_h*0.40)/status_rows;
+stats_rows = 4;
+stats_w = equipment_box_w/(ceil( struct_names_count(player_equipment_stats)/stats_rows ));
+stats_h = (equipment_box_h*0.40)/stats_rows;
 
 // Item desc box
+has_description = false;
 inventory_add_recipe(recipes, 0);

@@ -15,7 +15,7 @@ if (sprite_index == spr_base_idle) {
 struct_foreach(sprites, function(_key, _value) {
 	var _x = x;
 	var _y = y + z;
-	
+	if (_key=="clothing") return; // gambiarra
 	if (sprite_index == spr_base_idle && _value.image != -1) {
 		if ((image_index >= 1 + (facing_up*idle_frames) && image_index < 2 + (facing_up*idle_frames)) || (image_index >= 2 + (facing_up*idle_frames) && image_index < 3 + (facing_up*idle_frames)) ) {
 			if (array_contains(head_sprites, _value.sprite)) {

@@ -1,10 +1,10 @@
 /// @description Insert description here
-if ( follow != noone && instance_exists(follow) ) {
+if ( follow != noone && instance_exists(follow) || is_struct(follow) ) {
 	target_x = follow.x;
 	target_y = follow.y;
 	
-	x = lerp(x, target_x, camera_delay);
-	y = lerp(y, target_y, camera_delay);
+	x = lerp(x, target_x + x_buffer, camera_delay);
+	y = lerp(y, target_y + y_buffer, camera_delay);
 }
 
 if (state != noone) {
@@ -29,6 +29,11 @@ if ( global.can_zoom ) {
 }
 camera_set_view_size( view_camera[0], camera_w, camera_h );
 
+if ( global.can_pan && mouse_check_button(mb_right) ) {
+	x -= (device_mouse_x_to_gui(0) - mouse_x_previous) * ((global.settings.camera_sensibility * camera_w/RES_W) / 200);
+	y -= (device_mouse_y_to_gui(0) - mouse_y_previous) * ((global.settings.camera_sensibility * camera_h/RES_H ) / 200)
+}
+
 if (inside_room_camera) { 
 	x = clamp(x, camera_w * 0.5, room_width - (camera_w * 0.5));
 	y = clamp(y, camera_h * 0.5, room_height - (camera_h * 0.5));
@@ -45,3 +50,6 @@ if (keyboard_check_pressed(ord("V"))) {
 		view_visible[1] = 0
 	}
 }
+
+mouse_x_previous = device_mouse_x_to_gui(0);
+mouse_y_previous = device_mouse_y_to_gui(0);

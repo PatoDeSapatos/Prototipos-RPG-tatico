@@ -18,8 +18,8 @@ switch (page) {
 				_menu_height += string_height(_string) + offset;
 			}
 			
-			start_x = width/2;
-			start_y = (height - _menu_height)/2;
+			//start_x = width/2;
+			//start_y = (height - _menu_height)/2;
 			setup = false;
 		}
 		

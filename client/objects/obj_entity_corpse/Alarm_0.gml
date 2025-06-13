@@ -1,0 +1,2 @@
+/// @description
+vanish = true;

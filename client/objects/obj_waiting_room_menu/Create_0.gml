@@ -25,7 +25,6 @@ function WaitingPlayer(_username, _ready) constructor {
 
 setup = true;
 waiting_server = true;
-admin_username = -1;
 menu_depth = depth;
 alarm[0] = 20*60;
 joined = true;

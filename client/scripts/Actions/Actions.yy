@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"Actions",
   "parent":{
-    "name":"battle",
-    "path":"folders/Scripts/Dungeon/battle.yy",
+    "name":"Actions",
+    "path":"folders/Scripts/Dungeon/battle/Actions.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

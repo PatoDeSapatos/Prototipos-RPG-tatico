@@ -26,10 +26,10 @@ if ( keyboard_check_pressed(ord("N")) ) {
 var _previous_mouse_gui_x = mouse_gui_x;
 var _previous_mouse_gui_y = mouse_gui_y;
 
-up_input = keyboard_check_pressed(vk_up);
-down_input = keyboard_check_pressed(vk_down);
-left_input = keyboard_check_pressed(vk_left);
-right_input = keyboard_check_pressed(vk_right);
+up_input = keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W"));
+down_input = keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"));
+left_input = keyboard_check_pressed(vk_left) || keyboard_check_pressed(ord("A"));
+right_input = keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"));
 confirm_input = keyboard_check_pressed(vk_space) || keyboard_check_pressed(vk_enter);
 cancel_input = keyboard_check_pressed(vk_backspace) || keyboard_check_pressed(vk_escape);
 

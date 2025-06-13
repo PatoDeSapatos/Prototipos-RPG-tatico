@@ -1,0 +1,3 @@
+/// @descriptions
+inventory = [];
+vanish = false;

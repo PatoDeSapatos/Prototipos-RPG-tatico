@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Passives",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Passives",
+  "parent":{
+    "name":"battle",
+    "path":"folders/Scripts/Dungeon/battle.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

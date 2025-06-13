@@ -20,11 +20,11 @@ function screenToTileY(_x, _y) {
 	return floor(((screen_y / (obj_dungeon_manager.tile_size / 4)) - (screen_x / (obj_dungeon_manager.tile_size / 2))) / 2)
 }
 
-function tileToScreenXG(_x, _y, _tile_size, _start_x) {
+function tileToScreenXExt(_x, _y, _tile_size, _start_x) {
 	return ((_x - _y) * (_tile_size / 2)) + _start_x
 }
 
-function tileToScreenYG(_x, _y, _tile_size, _start_y) {
+function tileToScreenYExt(_x, _y, _tile_size, _start_y) {
 	return ((_x + _y) * (_tile_size / 4)) + _start_y
 }
 

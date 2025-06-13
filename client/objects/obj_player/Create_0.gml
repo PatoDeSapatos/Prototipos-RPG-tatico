@@ -13,6 +13,8 @@ head_sprites = [spr_hair, spr_head_acessories, spr_hats];
 facing_right = 1;
 facing_up = false;
 
+entity_data = {}
+
 state = -1;
 hspd = -1;
 vspd = -1;

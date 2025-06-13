@@ -28,3 +28,37 @@ function camera_state_zoom() {
 		}
 	}
 }
+
+function camera_set_bar(_percent, _rate=.2) {
+	with (obj_camera) {
+		cinematic_bar = camera_w*_percent/100;
+		cinematic_bar_rate = _rate;
+	}
+}
+
+function camera_reset_bar() {
+	with (obj_camera) {
+		cinematic_bar = 0;
+	}
+}
+
+function camera_set_x_buffer(_value, _rate) {
+	with(obj_camera) {
+		x_buffer = _value;
+		x_buffer_rate = _rate;
+	}
+}
+
+function camera_set_y_buffer(_value, _rate) {
+	with(obj_camera) {
+		y_buffer = _value;
+		y_buffer_rate = _rate;
+	}
+}
+
+function camera_reset_buffer() {
+	with(obj_camera) {
+		x_buffer = 0;
+		y_buffer = 0;
+	}
+}

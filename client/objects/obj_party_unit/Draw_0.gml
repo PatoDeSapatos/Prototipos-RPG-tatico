@@ -1,8 +1,12 @@
 /// @description Insert description here
-event_inherited();
 var _y = y + z;
 
-
+if (sprite_exists(effect)) {
+	effect_image += sprite_get_speed(effect) / FRAME_RATE;
+	if (effect_image > sprite_get_number(effect)) effect_image = 0;
+	
+	draw_sprite_ext(effect, effect_image, x, y, image_xscale, image_yscale, 0, c_white, 1);
+}
 
 if (facing_up) {		
 	if (image_index < idle_frames) {
@@ -44,3 +48,4 @@ struct_foreach(sprites, function(_key, _value) {
 	if (_value.image != -1 && !(facing_up && _value.sprite == spr_hand_acessories)) draw_sprite_ext(_value.sprite, _value.image + facing_up, _x, _y, scale*facing_right, scale, 0, c_white, 1);
 });
 
+event_inherited();
