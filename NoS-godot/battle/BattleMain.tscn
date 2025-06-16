@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dekb10seqdb8i"]
+
+[ext_resource type="PackedScene" uid="uid://cmggydx8omhwi" path="res://battle/agents/BattleUnit.tscn" id="1_cinvm"]
+
+[node name="BattleMain" type="Node2D"]
+
+[node name="BattleUnit" parent="." instance=ExtResource("1_cinvm")]
+position = Vector2(241, 133)

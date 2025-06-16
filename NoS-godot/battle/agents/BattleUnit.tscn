@@ -1,0 +1,117 @@
+[gd_scene load_steps=21 format=3 uid="uid://cmggydx8omhwi"]
+
+[ext_resource type="Texture2D" uid="uid://daf8x6hx8rhh1" path="res://battle/assets/body_parts/perna esquerda.png" id="1_8fe2o"]
+[ext_resource type="Texture2D" uid="uid://c7nf08ja3itce" path="res://battle/assets/body_parts/ombro esquerdo.png" id="2_ku7by"]
+[ext_resource type="Texture2D" uid="uid://cxs3f7b51fyw0" path="res://battle/assets/body_parts/braço esquerdo.png" id="3_g1x18"]
+[ext_resource type="Texture2D" uid="uid://dscha1s2cgx6r" path="res://battle/assets/body_parts/torso.png" id="4_2p8ej"]
+[ext_resource type="Texture2D" uid="uid://kucjpdfivoce" path="res://battle/assets/body_parts/boca.png" id="5_2njls"]
+[ext_resource type="Texture2D" uid="uid://p02xvmhtvoab" path="res://battle/assets/body_parts/cabeça.png" id="6_trwpt"]
+[ext_resource type="Texture2D" uid="uid://doxu7p7mwj5oc" path="res://battle/assets/horns/chifres.png" id="7_ixjkc"]
+[ext_resource type="Texture2D" uid="uid://4yu5lhx2bj7s" path="res://battle/assets/cloths/luva direita.png" id="8_pb3ef"]
+[ext_resource type="Texture2D" uid="uid://bgstk7or1kpk4" path="res://battle/assets/cloths/luva esquerda.png" id="9_6xgro"]
+[ext_resource type="Texture2D" uid="uid://dg8ay1ono71u8" path="res://battle/assets/hairs/cabelo01_inferior.png" id="10_2p8ej"]
+[ext_resource type="Texture2D" uid="uid://cn0ggxw3d1xkx" path="res://battle/assets/hairs/cabelo01_superior.png" id="10_g1x18"]
+[ext_resource type="Texture2D" uid="uid://dav0fg228x1w2" path="res://battle/assets/body_parts/mão direita.png" id="10_sruhc"]
+[ext_resource type="Texture2D" uid="uid://chqrgmajerd3y" path="res://battle/assets/eyes/olhos.png" id="11_n2sg7"]
+[ext_resource type="Texture2D" uid="uid://cn4qnoe2m3w0r" path="res://battle/assets/body_parts/ombro direito.png" id="12_q0t7t"]
+[ext_resource type="Texture2D" uid="uid://6d0f51bjw0q0" path="res://battle/assets/body_parts/orelha.png" id="13_yvcob"]
+[ext_resource type="Texture2D" uid="uid://cxrj38ku60818" path="res://battle/assets/body_parts/perna direita.png" id="14_m1bch"]
+[ext_resource type="Texture2D" uid="uid://1n8n82bhsmex" path="res://battle/assets/cloths/roupa inferior direita.png" id="15_0ani6"]
+[ext_resource type="Texture2D" uid="uid://b22ombcgad5vv" path="res://battle/assets/cloths/roupa inferior esquerda.png" id="16_g8x4i"]
+[ext_resource type="Texture2D" uid="uid://b0td67rvprl1x" path="res://battle/assets/cloths/spine-corpo-roupa superior.png" id="18_2p8ej"]
+
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_g1x18"]
+
+[node name="BattleUnit" type="Node2D"]
+
+[node name="BodyParts" type="Node2D" parent="."]
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="Torso" type="Sprite2D" parent="BodyParts"]
+position = Vector2(0, 16)
+texture = ExtResource("4_2p8ej")
+
+[node name="PernaEsquerda" type="Sprite2D" parent="BodyParts/Torso"]
+z_index = -1
+position = Vector2(3.5, 8.5)
+texture = ExtResource("1_8fe2o")
+
+[node name="PernaDireita" type="Sprite2D" parent="BodyParts/Torso"]
+position = Vector2(-3.5, 8.5)
+texture = ExtResource("14_m1bch")
+
+[node name="OmbroEsquerdo" type="Sprite2D" parent="BodyParts/Torso"]
+z_index = -1
+position = Vector2(6, -3.5)
+texture = ExtResource("2_ku7by")
+
+[node name="MãoEsquerda" type="Sprite2D" parent="BodyParts/Torso"]
+z_index = -1
+position = Vector2(8, -1)
+texture = ExtResource("3_g1x18")
+
+[node name="OmbroDireito" type="Sprite2D" parent="BodyParts/Torso"]
+position = Vector2(-5, -4)
+texture = ExtResource("12_q0t7t")
+
+[node name="MãoDireita" type="Sprite2D" parent="BodyParts/Torso"]
+position = Vector2(-9, -1)
+texture = ExtResource("10_sruhc")
+
+[node name="Cabeça" type="Sprite2D" parent="BodyParts"]
+position = Vector2(-0.5, 0)
+texture = ExtResource("6_trwpt")
+
+[node name="Boca" type="Sprite2D" parent="BodyParts/Cabeça"]
+position = Vector2(3, 6)
+texture = ExtResource("5_2njls")
+
+[node name="Cabelo01Inferior" type="Sprite2D" parent="BodyParts/Cabeça"]
+z_index = -1
+position = Vector2(-2.5, -1)
+texture = ExtResource("10_2p8ej")
+
+[node name="Cabelo01Superior" type="Sprite2D" parent="BodyParts/Cabeça"]
+position = Vector2(-2, -1)
+texture = ExtResource("10_g1x18")
+
+[node name="Chifres" type="Sprite2D" parent="BodyParts/Cabeça"]
+position = Vector2(1.5, -10)
+texture = ExtResource("7_ixjkc")
+
+[node name="Olhos" type="Sprite2D" parent="BodyParts/Cabeça"]
+position = Vector2(1.5, 1.5)
+texture = ExtResource("11_n2sg7")
+
+[node name="Orelha" type="Sprite2D" parent="BodyParts/Cabeça"]
+position = Vector2(-11, 0)
+texture = ExtResource("13_yvcob")
+
+[node name="Roupa" type="Node2D" parent="BodyParts"]
+
+[node name="LuvaDireita" type="Sprite2D" parent="BodyParts/Roupa"]
+position = Vector2(-12, 17.5)
+texture = ExtResource("8_pb3ef")
+
+[node name="LuvaEsquerda" type="Sprite2D" parent="BodyParts/Roupa"]
+position = Vector2(10.5, 17)
+texture = ExtResource("9_6xgro")
+
+[node name="RoupaInferiorDireita" type="Sprite2D" parent="BodyParts/Roupa"]
+position = Vector2(-3.5, 24.5)
+texture = ExtResource("15_0ani6")
+
+[node name="RoupaInferiorEsquerda" type="Sprite2D" parent="BodyParts/Roupa"]
+z_index = -1
+position = Vector2(3.5, 25)
+texture = ExtResource("16_g8x4i")
+
+[node name="Spine-corpo-roupaSuperior" type="Sprite2D" parent="BodyParts/Roupa"]
+position = Vector2(0.5, 14)
+texture = ExtResource("18_2p8ej")
+
+[node name="Skeleton01" type="Skeleton2D" parent="."]
+modification_stack = SubResource("SkeletonModificationStack2D_g1x18")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
