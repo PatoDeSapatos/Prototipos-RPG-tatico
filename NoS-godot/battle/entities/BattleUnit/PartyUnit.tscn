@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://d03d00r8fn2gk"]
+
+[ext_resource type="Script" uid="uid://bjuomv1qf6t5l" path="res://battle/entities/BattleUnit/scripts/party_unit.gd" id="1_lttcd"]
+[ext_resource type="PackedScene" uid="uid://cmggydx8omhwi" path="res://entities/PlayerCharAnimator.tscn" id="2_01auu"]
+
+[node name="PartyUnit" type="Node2D"]
+script = ExtResource("1_lttcd")
+metadata/_custom_type_script = "uid://bjuomv1qf6t5l"
+
+[node name="PlayerCharAnimator" parent="." instance=ExtResource("2_01auu")]

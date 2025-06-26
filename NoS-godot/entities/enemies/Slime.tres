@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=4 format=3 uid="uid://jf6y2eycwa2i"]
+
+[ext_resource type="Script" uid="uid://kjcuupkq7hqc" path="res://entities/enemies/scripts/enemy.gd" id="1_7b3oh"]
+[ext_resource type="Script" uid="uid://isrna6u5sg8n" path="res://resources/stats.gd" id="2_m8638"]
+
+[sub_resource type="Resource" id="Resource_xvgqp"]
+script = ExtResource("2_m8638")
+hp = 0
+mana = 0
+energy = 0
+defense = 0
+magic_defense = 0
+attack = 0
+magic_attack = 0
+spd = 0
+luck = 0
+metadata/_custom_type_script = "uid://isrna6u5sg8n"
+
+[resource]
+script = ExtResource("1_7b3oh")
+display_name = "Slime"
+stats = SubResource("Resource_xvgqp")
+movement = 6
+actions = []
+weakness = []
+resistences = []
+immunities = []
+tameable = true
+metadata/_custom_type_script = "uid://kjcuupkq7hqc"

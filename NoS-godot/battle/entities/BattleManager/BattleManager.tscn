@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4fgvulfnysos"]
+
+[ext_resource type="Script" uid="uid://b27y0fscbokd3" path="res://battle/entities/BattleManager/battle_manager.gd" id="1_xw8pw"]
+
+[node name="BattleManager" type="Node2D"]
+script = ExtResource("1_xw8pw")
+
+[node name="Camera2D" type="Camera2D" parent="."]

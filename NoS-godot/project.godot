@@ -15,6 +15,12 @@ run/main_scene="uid://dekb10seqdb8i"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Server="*res://globals/server.gd"
+Game="*res://globals/game.gd"
+Battle="*res://battle/scripts/battle.gd"
+
 [display]
 
 window/size/viewport_width=480

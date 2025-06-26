@@ -1,0 +1,1 @@
+class_name enemy_unit_info extends BattleUnitInfo
