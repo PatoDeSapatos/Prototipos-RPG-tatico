@@ -128,6 +128,7 @@ function unit_use_action(_action, _user, _targets, _origion_point, _area) {
 	with (obj_battle_manager) {		
 		var _cutscene = [cutscene_use_action,_user, _action, _targets, _origion_point, _area];
 		battle_create_cutscene([_cutscene]);
+		
 	}	
 }
 

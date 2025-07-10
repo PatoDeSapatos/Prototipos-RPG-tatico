@@ -9,7 +9,7 @@ class_name Enemy extends Resource
 @export var immunities : Array
 var basic_attack
 
-var sprites
+@export var animator_path : String
 var init_state
 var drops
 var battle_script

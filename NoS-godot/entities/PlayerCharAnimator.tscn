@@ -547,7 +547,7 @@ bone_angle = 0.0
 [node name="RightShoulder" type="Bone2D" parent="Skeleton/Torso"]
 position = Vector2(-4.04364, -10.9918)
 rotation = 0.00164628
-scale = Vector2(0.999996, 0.999996)
+scale = Vector2(0.999994, 0.999994)
 rest = Transform2D(0.999998, 0.00164628, -0.00164628, 0.999998, -4.04364, -10.9918)
 auto_calculate_length_and_angle = false
 length = 6.40974

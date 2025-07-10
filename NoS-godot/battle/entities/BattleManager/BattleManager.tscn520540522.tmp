@@ -11,5 +11,6 @@ script = ExtResource("1_xw8pw")
 anchor_mode = 0
 script = ExtResource("2_dk84a")
 
-[node name="PlayerTurnUi" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_8byl5")]
-camera = NodePath("../Camera")
+[node name="PlayerTurnUi" parent="Camera" instance=ExtResource("2_8byl5")]
+radius = 20
+animation_speed = 0.2

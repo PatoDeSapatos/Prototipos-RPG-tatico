@@ -25,5 +25,6 @@ actions = []
 weakness = []
 resistences = []
 immunities = []
+animator_path = "res://entities/enemies/animations/SlimeAnimator.tscn"
 tameable = true
 metadata/_custom_type_script = "uid://kjcuupkq7hqc"

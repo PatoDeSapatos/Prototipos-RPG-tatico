@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyofdeai76sd3"]
+
+[ext_resource type="PackedScene" uid="uid://yu0kn7rb0lbv" path="res://battle/entities/BattleManager/ui/action_button.tscn" id="1_4jmgf"]
+[ext_resource type="Script" uid="uid://dqgqwp07hntg1" path="res://battle/entities/BattleManager/ui/scripts/player_turn_ui.gd" id="1_up1na"]
+
+[node name="PlayerTurnUi" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_up1na")
+
+[node name="ButtonContainer" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+
+[node name="SkillButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+layout_mode = 0
+offset_right = 82.0
+offset_bottom = 26.0
+text = "  Skill
+"
+trigger_input = &"skill_action"
