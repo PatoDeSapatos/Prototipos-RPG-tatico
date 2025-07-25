@@ -1,5 +1,4 @@
-class_name Stats
-extends Resource
+class_name Stats extends Resource
 
 @export var hp : int
 @export var mana : int

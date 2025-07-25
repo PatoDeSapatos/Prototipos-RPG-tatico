@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Source" load_steps=2 format=3 uid="uid://bij3pq7jp01ws"]
+
+[ext_resource type="Script" uid="uid://hnwhd4dnodso" path="res://actions/classes/source.gd" id="1_ep8cw"]
+
+[resource]
+script = ExtResource("1_ep8cw")
+name = "Spirit"
+color = Color(0.45098, 0.745098, 0.827451, 1)
+short = "sp"
+metadata/_custom_type_script = "uid://hnwhd4dnodso"

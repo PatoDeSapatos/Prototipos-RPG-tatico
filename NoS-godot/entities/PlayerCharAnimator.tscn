@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cmggydx8omhwi"]
+[gd_scene load_steps=24 format=3 uid="uid://cmggydx8omhwi"]
 
 [ext_resource type="Texture2D" uid="uid://cxs3f7b51fyw0" path="res://entities/assets/player_char/body_parts/braço esquerdo.png" id="1_f6f05"]
 [ext_resource type="Texture2D" uid="uid://c7nf08ja3itce" path="res://entities/assets/player_char/body_parts/ombro esquerdo.png" id="2_eut51"]
@@ -323,13 +323,12 @@ _data = {
 &"idle": SubResource("Animation_uxf80")
 }
 
-[node name="PlayerCharAnimator" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jmcx7"]
+size = Vector2(28, 42)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_x6ohb")
-}
-autoplay = "idle"
+[node name="Animator" type="Node2D"]
+show_behind_parent = true
+z_as_relative = false
 
 [node name="Polygons" type="Node2D" parent="."]
 
@@ -437,7 +436,7 @@ polygons = [PackedInt32Array(1, 12, 13), PackedInt32Array(2, 1, 12), PackedInt32
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="Face" type="Node2D" parent="Polygons"]
-position = Vector2(-10.9999, -35.0035)
+position = Vector2(-11.0082, -34.8423)
 
 [node name="Olhos" type="Sprite2D" parent="Polygons/Face"]
 position = Vector2(12.0082, 11.0218)
@@ -547,7 +546,7 @@ bone_angle = 0.0
 [node name="RightShoulder" type="Bone2D" parent="Skeleton/Torso"]
 position = Vector2(-4.04364, -10.9918)
 rotation = 0.00164628
-scale = Vector2(0.999994, 0.999994)
+scale = Vector2(0.999976, 0.999976)
 rest = Transform2D(0.999998, 0.00164628, -0.00164628, 0.999998, -4.04364, -10.9918)
 auto_calculate_length_and_angle = false
 length = 6.40974
@@ -569,7 +568,20 @@ rest = Transform2D(0.64169, 0.766964, -0.766964, 0.64169, 3.95633, -11.0136)
 [node name="LeftArm" type="Bone2D" parent="Skeleton/Torso/LeftShoulder"]
 position = Vector2(5.76234, 0.89184)
 rotation = 0.0160319
+scale = Vector2(0.999999, 0.999999)
 rest = Transform2D(0.900315, -0.435237, 0.435237, 0.900315, 5.76234, 0.89184)
 auto_calculate_length_and_angle = false
 length = 6.0
 bone_angle = 0.0
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_x6ohb")
+}
+autoplay = "idle"
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="Coll" type="CollisionShape2D" parent="Area"]
+position = Vector2(-1, -21)
+shape = SubResource("RectangleShape2D_jmcx7")

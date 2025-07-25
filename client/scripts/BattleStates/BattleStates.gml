@@ -152,7 +152,7 @@ function battle_state_targeting() {
 	
 	// No target action
 	if (!selected_action.targetRequired) {
-		unit_use_action( selected_action, _user, noone );
+		unit_use_action( selected_action, _user, noone, noone, noone );
 		main_actions--;
 		extra_action = false;
 		end_state_targeting();

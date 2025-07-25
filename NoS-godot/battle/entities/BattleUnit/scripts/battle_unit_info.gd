@@ -1,14 +1,14 @@
 class_name BattleUnitInfo extends Resource
 
 var in_target = false;
-var defended = false;
+var is_guarding = false;
 
 var is_broken = false;
 var is_dead = false;
 var animating = false;
 
 var grid_pos : Vector2
-var stat_changes
+var stat_changes: Stats
 var condition
 var passives : Array
 
@@ -48,7 +48,7 @@ func _init(_position, _stat_changes, _stats, _hp, _mana, _energy, _inventory, _a
 func _to_string() -> String:
 	var result := "=== Object State ===\n"
 	result += "in_target: %s\n" % in_target
-	result += "defended: %s\n" % defended
+	result += "is_guarding: %s\n" % is_guarding
 	result += "is_broken: %s\n" % is_broken
 	result += "is_dead: %s\n" % is_dead
 	result += "animating: %s\n" % animating

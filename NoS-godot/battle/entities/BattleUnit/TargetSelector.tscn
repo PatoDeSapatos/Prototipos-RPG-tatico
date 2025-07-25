@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5p8g6xbj15lu"]
+
+[ext_resource type="Script" uid="uid://ngj062fl46mt" path="res://battle/entities/BattleUnit/scripts/selector_layer.gd" id="1_1p2xm"]
+[ext_resource type="Script" uid="uid://bj4a01knr8s7n" path="res://battle/entities/BattleUnit/scripts/selector.gd" id="2_1aub4"]
+
+[node name="TargetSelector" type="CanvasLayer"]
+script = ExtResource("1_1p2xm")
+metadata/_custom_type_script = "uid://ngj062fl46mt"
+
+[node name="Selector" type="Node2D" parent="."]
+script = ExtResource("2_1aub4")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="Selector" method="_on_timer_timeout"]

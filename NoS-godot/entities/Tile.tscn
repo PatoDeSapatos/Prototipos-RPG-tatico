@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://di4a22dwkx52f"]
+[gd_scene load_steps=8 format=3 uid="uid://di4a22dwkx52f"]
 
+[ext_resource type="Script" uid="uid://td0q26pe526y" path="res://entities/scripts/tile.gd" id="1_1imow"]
 [ext_resource type="Texture2D" uid="uid://ds1mpcwrfvp2v" path="res://entities/assets/tiles/default_tile_set.png" id="2_1imow"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rqifg"]
@@ -39,6 +40,10 @@ animations = [{
 }]
 
 [node name="Tile" type="Node2D"]
+script = ExtResource("1_1imow")
+metadata/_custom_type_script = "uid://td0q26pe526y"
 
 [node name="Image" type="AnimatedSprite2D" parent="."]
+show_behind_parent = true
 sprite_frames = SubResource("SpriteFrames_bhirc")
+frame = 1

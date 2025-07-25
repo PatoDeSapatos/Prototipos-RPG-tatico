@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="Action" load_steps=6 format=3 uid="uid://cfsnfgbh2l7dj"]
+
+[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://actions/classes/action.gd" id="1_b6lov"]
+[ext_resource type="Resource" uid="uid://6pvcvekme7jt" path="res://actions/categories/magical.tres" id="1_ujhee"]
+[ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="2_mkrqs"]
+[ext_resource type="Resource" uid="uid://bij3pq7jp01ws" path="res://actions/sources/spirit.tres" id="3_wtip6"]
+[ext_resource type="Resource" uid="uid://cxmnakdb86efl" path="res://actions/types/poison.tres" id="5_eri5f"]
+
+[resource]
+script = ExtResource("1_b6lov")
+name = "Poison Mist"
+description = "Spread a venomous mist around the caster that gives damage and has a chance to poison"
+types = Array[ExtResource("2_mkrqs")]([ExtResource("5_eri5f")])
+category = ExtResource("1_ujhee")
+cost_value = 5
+source = ExtResource("3_wtip6")
+user_animation = ""
+target_required = true
+prioritize_enemies = true
+target_count = -1
+target_self = false
+target_dead = false
+range = 3
+area_target = true
+origin_in_player = true
+shape = 0
+function = Callable()
+is_physical = false
+metadata/_custom_type_script = "uid://b3it801ahjdjt"

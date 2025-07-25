@@ -1,4 +1,4 @@
-function inventory_draw_skills() {
+ function inventory_draw_skills() {
 	if ( !surface_exists(items_box_list_surf) ) {
 		items_box_list_surf = surface_create(items_box_w, items_box_h);	
 	}

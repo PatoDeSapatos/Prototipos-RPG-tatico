@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyofdeai76sd3"]
+
+[ext_resource type="PackedScene" uid="uid://yu0kn7rb0lbv" path="res://battle/ui/action_button.tscn" id="1_4jmgf"]
+[ext_resource type="Script" uid="uid://dqgqwp07hntg1" path="res://battle/ui/scripts/player_turn_ui.gd" id="1_up1na"]
+[ext_resource type="PackedScene" uid="uid://d374x7qt41biq" path="res://battle/ui/skill_menu.tscn" id="3_0bo8n"]
+
+[node name="PlayerTurnUi" type="Control"]
+top_level = true
+z_index = 1000
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
+script = ExtResource("1_up1na")
+
+[node name="ButtonContainer" type="Control" parent="."]
+unique_name_in_owner = true
+z_index = -1000
+layout_mode = 3
+anchors_preset = 0
+
+[node name="SkillButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+layout_mode = 0
+text = "  Skill
+"
+trigger_input = &"skill_action"
+state_name = "start_state_skill"
+angle = 170
+
+[node name="AttackButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+layout_mode = 0
+text = "attack"
+angle = 10
+
+[node name="ItemButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+layout_mode = 0
+text = "Item"
+trigger_input = &"item_action"
+angle = 330
+
+[node name="GuardButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+layout_mode = 0
+text = "Guard"
+trigger_input = &"guard_action"
+angle = 210
+
+[node name="MoveButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+layout_mode = 0
+text = "Move "
+trigger_input = &"move_action"
+angle = 270
+
+[node name="PassButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+layout_mode = 0
+disabled = true
+text = "Pass "
+trigger_input = &"pass_action"
+angle = 90
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SkillMenu" parent="CanvasLayer" instance=ExtResource("3_0bo8n")]
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]

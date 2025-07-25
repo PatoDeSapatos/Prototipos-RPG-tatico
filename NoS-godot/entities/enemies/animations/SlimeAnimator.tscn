@@ -1,7 +1,32 @@
-[gd_scene load_steps=9 format=3 uid="uid://dgs436eoxm0l5"]
+[gd_scene load_steps=10 format=3 uid="uid://dgs436eoxm0l5"]
 
 [ext_resource type="Texture2D" uid="uid://b5ht5mbxdpu20" path="res://entities/enemies/assets/slime.png" id="1_7qrjt"]
 [ext_resource type="Script" uid="uid://darjqt33livn5" path="res://entities/enemies/animations/blink.gd" id="2_28iu7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28iu7"]
+size = Vector2(26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qrjt"]
+atlas = ExtResource("1_7qrjt")
+region = Rect2(0, 30, 16, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28iu7"]
+atlas = ExtResource("1_7qrjt")
+region = Rect2(16, 30, 16, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_28iu7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qrjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28iu7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="Animation" id="Animation_28iu7"]
 length = 0.001
@@ -185,41 +210,21 @@ _data = {
 &"idle": SubResource("Animation_7qrjt")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7qrjt"]
-atlas = ExtResource("1_7qrjt")
-region = Rect2(0, 30, 16, 10)
+[node name="Animator" type="Node2D"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_28iu7"]
-atlas = ExtResource("1_7qrjt")
-region = Rect2(16, 30, 16, 10)
+[node name="Area" type="Area2D" parent="."]
+position = Vector2(0, -13.0194)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_28iu7"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7qrjt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_28iu7")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[node name="AnimationPlayer" type="AnimationPlayer"]
-root_node = NodePath("Node2D")
-libraries = {
-&"": SubResource("AnimationLibrary_28iu7")
-}
-autoplay = "idle"
-
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Coll" type="CollisionShape2D" parent="Area"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_28iu7")
 
 [node name="Polygons" type="Node2D" parent="."]
+position = Vector2(0, -13.0194)
 
 [node name="Lower" type="Polygon2D" parent="Polygons"]
-position = Vector2(0, 1)
+position = Vector2(-30, -27)
+offset = Vector2(-13, 21)
 texture = ExtResource("1_7qrjt")
 skeleton = NodePath("../../Skeleton")
 polygon = PackedVector2Array(29, 12, 30, 14, 31, 15, 33, 16, 36, 17, 38, 18, 41, 19, 46, 19, 49, 18, 51, 17, 53, 16, 54, 15, 55, 14, 55, 12, 55, 10, 54, 8, 53, 7, 51, 5, 49, 4, 46, 3, 35, 3, 32, 4, 31, 5, 30, 6, 29, 8, 29, 10)
@@ -227,7 +232,8 @@ uv = PackedVector2Array(29, 12, 30, 14, 31, 15, 33, 16, 36, 17, 38, 18, 41, 19, 
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Lower", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/Upper", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="Upper" type="Polygon2D" parent="Polygons"]
-position = Vector2(29, -8)
+position = Vector2(-30, -27)
+offset = Vector2(16, 12)
 texture = ExtResource("1_7qrjt")
 skeleton = NodePath("../../Skeleton")
 polygon = PackedVector2Array(11, 3, 17, 3, 19, 4, 21, 6, 22, 8, 23, 10, 24, 13, 24, 16, 24, 19, 23, 21, 21, 23, 19, 24, 17, 25, 14, 25, 10, 25, 8, 24, 6, 23, 4, 22, 2, 20, 3, 11, 4, 9, 5, 7, 7, 5, 9, 4, 14, 15, 2.54702, 14.9799)
@@ -237,7 +243,8 @@ bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 internal_vertex_count = 2
 
 [node name="Light" type="Polygon2D" parent="Polygons"]
-position = Vector2(-31, -26)
+position = Vector2(-30, -27)
+offset = Vector2(-44, -6)
 texture = ExtResource("1_7qrjt")
 skeleton = NodePath("../../Skeleton")
 polygon = PackedVector2Array(64, 33, 81, 33, 81, 23, 64, 23)
@@ -245,7 +252,8 @@ uv = PackedVector2Array(64, 33, 81, 33, 81, 23, 64, 23)
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0), "Torso/Lower", PackedFloat32Array(0, 0, 0, 0), "Torso/Upper", PackedFloat32Array(1, 1, 1, 1)]
 
 [node name="Shadow" type="Polygon2D" parent="Polygons"]
-position = Vector2(4, -14)
+position = Vector2(-30, -27)
+offset = Vector2(-9, 6)
 texture = ExtResource("1_7qrjt")
 skeleton = NodePath("../../Skeleton")
 polygon = PackedVector2Array(29, 24, 47, 24, 47, 32, 29, 32)
@@ -253,7 +261,8 @@ uv = PackedVector2Array(29, 24, 47, 24, 47, 32, 29, 32)
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0), "Torso/Lower", PackedFloat32Array(1, 1, 1, 1), "Torso/Upper", PackedFloat32Array(0, 0, 0, 0)]
 
 [node name="Details" type="Polygon2D" parent="Polygons"]
-position = Vector2(-25, -2)
+position = Vector2(-30, -27)
+offset = Vector2(-38, 18)
 texture = ExtResource("1_7qrjt")
 skeleton = NodePath("../../Skeleton")
 polygon = PackedVector2Array(60, 3, 76, 3, 76, 19, 60, 19)
@@ -261,16 +270,17 @@ uv = PackedVector2Array(60, 3, 76, 3, 76, 19, 60, 19)
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0), "Torso/Lower", PackedFloat32Array(0, 0, 0, 0), "Torso/Upper", PackedFloat32Array(1, 1, 1, 1)]
 
 [node name="Skeleton" type="Skeleton2D" parent="."]
+position = Vector2(0, -13.0194)
 
 [node name="Torso" type="Bone2D" parent="Skeleton"]
-position = Vector2(45, 15)
+position = Vector2(1, 8)
 rotation = -1.57016
-rest = Transform2D(0.000641064, -1, 1, 0.000641064, 45, 15)
+rest = Transform2D(0.000636295, -1, 1, 0.000636295, 1, 8)
 
 [node name="Lower" type="Bone2D" parent="Skeleton/Torso"]
 position = Vector2(-0.996154, 6.00064)
 rotation = -1.33388
-rest = Transform2D(0.234709, -0.972066, 0.972066, 0.234709, -0.996154, 6.00064)
+rest = Transform2D(0.234706, -0.972066, 0.972066, 0.234706, -0.996154, 6.00064)
 auto_calculate_length_and_angle = false
 length = 20.0
 bone_angle = 0.0
@@ -278,7 +288,7 @@ bone_angle = 0.0
 [node name="Upper" type="Bone2D" parent="Skeleton/Torso"]
 position = Vector2(0.998718, -2.00064)
 rotation = -0.00323621
-rest = Transform2D(0.999995, -0.00323621, 0.00323621, 0.999995, 0.998718, -2.00064)
+rest = Transform2D(0.999995, -0.0032362, 0.0032362, 0.999995, 0.998718, -2.00064)
 
 [node name="FaceTransform" type="RemoteTransform2D" parent="Skeleton/Torso/Upper"]
 position = Vector2(7.9844, 6.02074)
@@ -287,8 +297,8 @@ remote_path = NodePath("../../../../Face")
 update_scale = false
 
 [node name="Face" type="Node2D" parent="."]
-position = Vector2(49, 5.99998)
-rotation = -0.00259629
+position = Vector2(5.00124, -13.0165)
+rotation = -0.000467901
 scale = Vector2(0.980869, 0.980869)
 
 [node name="Eyes" type="AnimatedSprite2D" parent="Face"]
@@ -308,5 +318,12 @@ closed_eyes_frame = 1
 blink_interval = 5.0
 interval_range = 1.5
 metadata/_custom_type_script = "uid://darjqt33livn5"
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+root_node = NodePath(".")
+libraries = {
+&"": SubResource("AnimationLibrary_28iu7")
+}
+autoplay = "idle"
 
 [connection signal="timeout" from="Face/Blink" to="Face/Blink" method="_on_timeout"]

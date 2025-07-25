@@ -37,7 +37,16 @@ func init_demo_battle(grid_size : Vector2):
 	
 	var enemy1 = EnemyUnitInfo.new(
 		"slime",
-		Vector2(1, 1), 
+		Vector2(5, 5), 
+		Stats.new(25, 0, 10), 
+		25,
+		0,
+		10
+		)
+	
+	var enemy2 = EnemyUnitInfo.new(
+		"slime",
+		Vector2(0, 1), 
 		Stats.new(25, 0, 10), 
 		25,
 		0,
@@ -47,6 +56,6 @@ func init_demo_battle(grid_size : Vector2):
 	for y in grid_size.y:
 		grid.append([])
 		for x in grid_size.x:
-			grid[y].append(Tile.new(1))
+			grid[y].append(TileInfo.new(1))
 	
-	init_battle(grid, [unit1], [enemy1], Server.username)
+	init_battle(grid, [unit1], [enemy1, enemy2], Server.username)
