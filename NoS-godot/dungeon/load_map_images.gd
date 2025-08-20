@@ -16,7 +16,7 @@ func init_dir() -> DirAccess:
 	
 	return gen_dir
 
-func load_map_images():
+func load_map_images() -> Array[Image]:
 	var gen_dir := init_dir()
 	var images: Array[Image] = []
 	
@@ -26,22 +26,37 @@ func load_map_images():
 		var file_name = dir.get_next()
 		if file_name == "":
 			break
+		
 		var image: Image = load("res://resources/rooms/" + file_name)
-		images.append_array(rotate_image(image, file_name))
-	dir.list_dir_end()
+		images.append(image)
+		
+		var rotated_images := rotate_image(image, file_name)
+		for i in images:
+			i.save_png(Game.GENERATED_RESOURCES + i.resource_name)
+		images.append_array(rotated_images)
 	
-	for i in images:
-		i.save_png(Game.GENERATED_RESOURCES + i.resource_name)
+	dir.list_dir_end()
+	return images
 
 func rotate_image(_image: Image, _image_name: String) -> Array[Image]:
-	var _name_splited := _image_name.split("_")
-	var _room_identifier := _name_splited[0] + "_" + _name_splited[1] + "_";
-	var _room_directions := _name_splited[2]
+	var name_splited := _image_name.split("_")
+	var room_identifier := name_splited[0] + "_" + name_splited[1] + "_";
+	var room_directions := name_splited[2]
+	var current_direction := room_directions
 	
-	var cycles := 1 if is_room_ud(_room_directions) else 3
+	var rotated_images: Array[Image] = []
+	
+	var cycles := 1 if is_room_ud(room_directions) else 3
 	for i in cycles:
-		if (_rotated_name == "" || file_exists(_new_file_name)):
+		var rotated_name = generate_rotated_name(current_direction);
+		if (rotated_name == ""):
 			continue;
+		
+		var rotated_image: Image = _image.duplicate(true)
+		rotated_image.rotate_90(CLOCKWISE)
+		rotated_images.append(rotated_image)
+	
+	return rotated_images
 
 func generate_rotated_name(_directions: String) -> String:
 	_directions = _directions.get_slice(".", 0)
