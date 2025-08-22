@@ -24,5 +24,5 @@ static var _tables: Dictionary[DungeonType, Callable] = {
 	}
 }
 
-static func get_dungeon_table(type: DungeonType, level: int) -> Dictionary[String, Variant]:
+static func get_dungeon_table(type: DungeonType, level: int) -> Dictionary:
 	return _tables[type].call(level)

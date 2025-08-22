@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bapvkhpqabwiu"]
+
+[ext_resource type="Script" uid="uid://dtpu7lifo3mqp" path="res://dungeon/teste.gd" id="1_mucwt"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_mucwt")

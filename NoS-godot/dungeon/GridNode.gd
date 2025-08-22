@@ -3,10 +3,10 @@ class_name GridNode extends Object
 var image: Image
 var identifier: String
 var direction: String
-var args: Array[String]
+var args: Array
 var spawn := -1
 
-static var EMPTY = GridNode.new(null, {
+static var EMPTY := GridNode.new(null, {
 	"identifier": "",
 	"direction": "",
 	"args": []
