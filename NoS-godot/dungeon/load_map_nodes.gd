@@ -60,7 +60,6 @@ static func _rotate_image(_image: Image, _image_name: String) -> Array[GridNode]
 	return rotated_nodes
 
 static func _generate_rotated_direction(_directions: String) -> String:
-	_directions = _directions.get_slice(".", 0)
 	if (_directions.length() >= 4):
 		return ""
 	
@@ -74,6 +73,4 @@ static func _generate_rotated_direction(_directions: String) -> String:
 	return rotated_name
 
 static func _is_room_ud(_directions: String) -> bool:
-	_directions = _directions.get_slice(".", 0)
-	
 	return (_directions.length() == 2 && _directions[0] == "U" && _directions[1] == "D")
