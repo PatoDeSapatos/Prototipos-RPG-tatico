@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dgs436eoxm0l5"]
+[gd_scene load_steps=12 format=3 uid="uid://dgs436eoxm0l5"]
 
 [ext_resource type="Texture2D" uid="uid://b5ht5mbxdpu20" path="res://entities/enemies/assets/slime.png" id="1_7qrjt"]
+[ext_resource type="Script" uid="uid://cimg8p0bb4rk" path="res://entities/scripts/animator.gd" id="1_y72y2"]
 [ext_resource type="Script" uid="uid://darjqt33livn5" path="res://entities/enemies/animations/blink.gd" id="2_28iu7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28iu7"]
@@ -115,6 +116,9 @@ tracks/6/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_y72y2"]
+resource_name = "hurt"
+
 [sub_resource type="Animation" id="Animation_7qrjt"]
 resource_name = "idle"
 loop_mode = 1
@@ -207,10 +211,13 @@ tracks/6/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_28iu7"]
 _data = {
 &"RESET": SubResource("Animation_28iu7"),
+&"hurt": SubResource("Animation_y72y2"),
 &"idle": SubResource("Animation_7qrjt")
 }
 
 [node name="Animator" type="Node2D"]
+script = ExtResource("1_y72y2")
+metadata/_custom_type_script = "uid://cimg8p0bb4rk"
 
 [node name="Area" type="Area2D" parent="."]
 position = Vector2(0, -13.0194)
@@ -297,8 +304,8 @@ remote_path = NodePath("../../../../Face")
 update_scale = false
 
 [node name="Face" type="Node2D" parent="."]
-position = Vector2(5.00124, -13.0165)
-rotation = -0.000467901
+position = Vector2(4.99996, -14.0194)
+rotation = -0.00259629
 scale = Vector2(0.980869, 0.980869)
 
 [node name="Eyes" type="AnimatedSprite2D" parent="Face"]
@@ -319,11 +326,14 @@ blink_interval = 5.0
 interval_range = 1.5
 metadata/_custom_type_script = "uid://darjqt33livn5"
 
-[node name="Animator" type="AnimationPlayer" parent="."]
+[node name="Animations" type="AnimationPlayer" parent="."]
 root_node = NodePath(".")
 libraries = {
 &"": SubResource("AnimationLibrary_28iu7")
 }
 autoplay = "idle"
+
+[node name="EffectOrigin" type="Node2D" parent="."]
+position = Vector2(0, -13)
 
 [connection signal="timeout" from="Face/Blink" to="Face/Blink" method="_on_timeout"]

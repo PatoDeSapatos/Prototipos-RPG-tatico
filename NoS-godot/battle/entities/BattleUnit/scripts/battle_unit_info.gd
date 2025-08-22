@@ -7,25 +7,26 @@ var is_broken = false;
 var is_dead = false;
 var animating = false;
 
-var grid_pos : Vector2
+var grid_pos: Vector2
 var stat_changes: Stats
 var condition
-var passives : Array
+var passives: Array
 
-var stats : Stats
-var hp : int
-var mana : int
-var energy : int
-var inventory : Array
-var movement : int
-var weakness : Array
-var resistences : Array
-var immunities : Array
-var focus : bool
-var is_player : bool
-var is_enemy : bool
-var basic_attack
-var animator 
+var level: int = 1
+var stats: Stats
+var hp: int
+var mana: int
+var energy: int
+var inventory: Array
+var movement: int
+var weakness: Array
+var resistences: Array
+var immunities: Array
+var focus: bool
+var is_player: bool
+var is_enemy: bool
+var basic_attack: Action
+var animator
 
 func _init(_position, _stat_changes, _stats, _hp, _mana, _energy, _inventory, _animator_path, _movement, _weakness, _resistences, _immunities, _basic_attack, _condition = null, _passives = []) -> void:
 	grid_pos = _position

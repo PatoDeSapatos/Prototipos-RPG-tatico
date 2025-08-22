@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EquipmentItem" load_steps=4 format=3 uid="uid://cxva2n75vquck"]
+
+[ext_resource type="Script" uid="uid://cxh7uipogbi5k" path="res://entities/items/classes/equipment_item.gd" id="1_p8kof"]
+[ext_resource type="Script" uid="uid://hfadsvauvx4" path="res://globals/stats.gd" id="2_mcj27"]
+
+[sub_resource type="Resource" id="Resource_8gwsx"]
+script = ExtResource("2_mcj27")
+hp = 0
+mana = 0
+energy = 0
+defense = 0
+magic_defense = 0
+attack = 6
+magic_attack = 0
+spd = 0
+luck = 0
+metadata/_custom_type_script = "uid://hfadsvauvx4"
+
+[resource]
+script = ExtResource("1_p8kof")
+slot = 0
+stats = SubResource("Resource_8gwsx")
+name = "SHORT_SWORD"
+display_name = "Short Sword"
+description = "A simple sword, maybe crafted in the north.."
+max_stack = 1
+category = 2
+metadata/_custom_type_script = "uid://cxh7uipogbi5k"

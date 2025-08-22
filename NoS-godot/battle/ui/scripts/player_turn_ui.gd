@@ -94,7 +94,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else: hide_ui()
 
 func start_state_skill():
-	var skills = [preload("res://actions/sword_slash.tres"), preload("res://actions/sharpen blades.tres"), preload("res://actions/poison_mist.tres")]
+	var skills = [preload("res://actions/basic_attacks/sword_slash.tres"), preload("res://actions/skills/sharpen blades.tres"), preload("res://actions/skills/poison_mist.tres"), preload("res://actions/skills/fire_ball.tres")]
 	skill_menu.set_skills(skills)
 	skill_menu.show_menu()
 	skill_menu.option_callback = _on_skill_selected

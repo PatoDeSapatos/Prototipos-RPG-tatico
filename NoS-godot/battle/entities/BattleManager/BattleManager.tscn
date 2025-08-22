@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4fgvulfnysos"]
+[gd_scene load_steps=6 format=3 uid="uid://c4fgvulfnysos"]
 
 [ext_resource type="Script" uid="uid://b27y0fscbokd3" path="res://battle/entities/BattleManager/battle_manager.gd" id="1_xw8pw"]
 [ext_resource type="PackedScene" uid="uid://cyofdeai76sd3" path="res://battle/ui/player_turn_ui.tscn" id="2_8byl5"]
 [ext_resource type="Script" uid="uid://bbi3ecwht4i2a" path="res://battle/entities/BattleManager/scripts/camera.gd" id="2_dk84a"]
 [ext_resource type="Texture2D" uid="uid://dyi5xde1y2yj1" path="res://entities/assets/tiles/dungeon_tile_highlight.png" id="2_xtnmc"]
+[ext_resource type="PackedScene" uid="uid://b6yba086btupv" path="res://battle/ui/particles.tscn" id="5_e0ydq"]
 
 [node name="BattleManager" type="Node2D"]
 z_index = -1
@@ -14,6 +15,8 @@ tile_highlight = ExtResource("2_xtnmc")
 anchor_mode = 0
 position_smoothing_enabled = true
 script = ExtResource("2_dk84a")
+
+[node name="AmbientParticles" parent="Camera" instance=ExtResource("5_e0ydq")]
 
 [node name="PlayerTurnUi" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_8byl5")]
 camera = NodePath("../Camera")

@@ -28,11 +28,11 @@ var tile_instance
 var coll: bool
 
 func _draw() -> void:
+	if (selected):
+		draw_texture(DUNGEON_TILE_SELECTED, Vector2.ZERO - Vector2(Game.TILE_SIZE, Game.TILE_SIZE)/2, Color(1, 1, 1, 0.9))
+		
 	if (highlighted):
 		draw_texture(DUNGEON_TILE_HIGHLIGHT, Vector2.ZERO - Vector2(Game.TILE_SIZE, Game.TILE_SIZE)/2)
-	
-	if (selected):
-		draw_texture(DUNGEON_TILE_SELECTED, Vector2.ZERO - Vector2(Game.TILE_SIZE, Game.TILE_SIZE)/2)
 
 func render_stack():
 	if (tile_info == null):

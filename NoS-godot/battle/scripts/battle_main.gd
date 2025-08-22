@@ -20,7 +20,7 @@ func init_demo_battle(grid_size : Vector2):
 	
 	var unit1 = PartyUnitInfo.new(
 		Vector2(0, 0),
-		Stats.new(100, 100, 100),
+		Stats.new(100, 100, 100, 20, 20, 20, 20, 10),
 		100,
 		100,
 		100,
@@ -31,15 +31,15 @@ func init_demo_battle(grid_size : Vector2):
 		[],
 		[],
 		null,
-		Server.username,
+		NetworkHandler.username,
 		Stats.new()
 		)
 	
 	var enemy1 = EnemyUnitInfo.new(
 		"slime",
-		Vector2(5, 5), 
-		Stats.new(25, 0, 10), 
-		25,
+		Vector2(0, 2), 
+		Stats.new(), 
+		1000,
 		0,
 		10
 		)
@@ -47,8 +47,8 @@ func init_demo_battle(grid_size : Vector2):
 	var enemy2 = EnemyUnitInfo.new(
 		"slime",
 		Vector2(0, 1), 
-		Stats.new(25, 0, 10), 
-		25,
+		Stats.new(), 
+		1000,
 		0,
 		10
 		)
@@ -58,4 +58,4 @@ func init_demo_battle(grid_size : Vector2):
 		for x in grid_size.x:
 			grid[y].append(TileInfo.new(1))
 	
-	init_battle(grid, [unit1], [enemy1, enemy2], Server.username)
+	init_battle(grid, [unit1], [enemy1, enemy2], NetworkHandler.username)

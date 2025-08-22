@@ -1,13 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://d374x7qt41biq"]
+[gd_scene load_steps=15 format=3 uid="uid://d374x7qt41biq"]
 
 [ext_resource type="Script" uid="uid://df5jm6ccgbvub" path="res://battle/ui/scripts/skill_menu.gd" id="1_6q5a7"]
 [ext_resource type="Theme" uid="uid://c6w8ab57rdgl7" path="res://resources/default_menu_theme.tres" id="1_b8bxh"]
 [ext_resource type="Texture2D" uid="uid://c320f2prd33qv" path="res://battle/ui/assets/spr_inventory_bg.png" id="3_dq1rm"]
 [ext_resource type="Texture2D" uid="uid://p4cfnglgd1ug" path="res://actions/assets/move_types.png" id="4_db1vm"]
-[ext_resource type="Texture2D" uid="uid://bmvuxv4fjf5dv" path="res://battle/ui/assets/inventory_skill_selector.png" id="4_tq4kh"]
 [ext_resource type="Texture2D" uid="uid://m4kmynfujws" path="res://actions/assets/move_categories.png" id="5_3p8ch"]
-[ext_resource type="Script" uid="uid://lq3fpegeqiv8" path="res://battle/ui/scripts/selector.gd" id="5_d5gfw"]
-[ext_resource type="PackedScene" uid="uid://cyvtjm6q5mqwo" path="res://battle/ui/skill_option.tscn" id="6_1o5i3"]
+[ext_resource type="PackedScene" uid="uid://brjul88varjdd" path="res://entities/items/inventory/inventory_list.tscn" id="6_1o5i3"]
 
 [sub_resource type="Animation" id="Animation_b8bxh"]
 length = 0.001
@@ -79,10 +77,6 @@ region = Rect2(100, 0, 20, 20)
 [sub_resource type="AtlasTexture" id="AtlasTexture_1o5i3"]
 atlas = ExtResource("5_3p8ch")
 region = Rect2(0, 0, 32, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tq4kh"]
-atlas = ExtResource("4_tq4kh")
-region = Rect2(0, 0, 17, 18)
 
 [node name="SkillMenu" type="Control"]
 layout_mode = 3
@@ -201,61 +195,5 @@ size_flags_vertical = 4
 texture = SubResource("AtlasTexture_1o5i3")
 stretch_mode = 3
 
-[node name="SkillList" type="NinePatchRect" parent="MarginContainer/Content"]
-clip_contents = true
-custom_minimum_size = Vector2(190, 0)
+[node name="SkillList" parent="MarginContainer/Content" instance=ExtResource("6_1o5i3")]
 layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("3_dq1rm")
-region_rect = Rect2(0, 0, 60, 60)
-patch_margin_left = 9
-patch_margin_top = 9
-patch_margin_right = 9
-patch_margin_bottom = 9
-
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/Content/SkillList"]
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="SkillOptions" type="MarginContainer" parent="MarginContainer/Content/SkillList"]
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 15
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 15
-
-[node name="OptionsContainer" type="VBoxContainer" parent="MarginContainer/Content/SkillList/SkillOptions"]
-show_behind_parent = true
-layout_mode = 2
-theme_override_constants/separation = 1
-
-[node name="SkillOption" parent="MarginContainer/Content/SkillList/SkillOptions/OptionsContainer" instance=ExtResource("6_1o5i3")]
-layout_mode = 2
-
-[node name="Selector" type="TextureRect" parent="MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = SubResource("AtlasTexture_tq4kh")
-stretch_mode = 3
-script = ExtResource("5_d5gfw")
-
-[node name="Timer" type="Timer" parent="MarginContainer/Selector"]
-wait_time = 0.5
-autostart = true
-
-[connection signal="timeout" from="MarginContainer/Selector/Timer" to="MarginContainer/Selector" method="_on_timer_timeout"]

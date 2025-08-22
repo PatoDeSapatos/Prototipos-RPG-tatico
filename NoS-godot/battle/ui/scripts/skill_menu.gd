@@ -1,10 +1,9 @@
 class_name SkillMenu extends Control
 
-# Skill List
-@onready var options_container: VBoxContainer = $MarginContainer/Content/SkillList/SkillOptions/OptionsContainer
-@onready var selector: TextureRect = $MarginContainer/Selector
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var background: ColorRect = $Background
+
+@onready var skill_list: InventoryList = $MarginContainer/Content/SkillList
 
 # Skill Desc
 @onready var skill_name: Label = $MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer/SkillName
@@ -21,10 +20,9 @@ var skills: Array
 var active = false
 var option_callback: Callable
 
-signal option_changed
-
 func _ready() -> void:
-	option_changed.connect(Callable(self, "_on_option_changed"))
+	skill_list.option_interacted.connect(_on_option_selected)
+	skill_list.option_changed.connect(_on_option_changed)
 	hide()
 
 func show_menu():
@@ -50,21 +48,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		await hide_menu()
 		BattleHandler.return_to_prev_state()
 
-func _on_option_focus(option: SkillOption):
-	var new_option = options_container.get_children().find(option)
-	if (new_option != current_option):
-		option_changed.emit(new_option)
-
 func _on_option_changed(new_option: int):
-	if (new_option >= len(skills)):
-		new_option = 0
-	elif (new_option < 0):
-		new_option = len(skills)-1
-	
-	# skill option
-	var option: SkillOption = options_container.get_children()[new_option]
-	options_container.get_children()[current_option].change_selection(false)
-	option.change_selection(true)
+	var option = skill_list.elements[new_option]
 	
 	# skill desc
 	var skill = option.action
@@ -73,10 +58,8 @@ func _on_option_changed(new_option: int):
 	skill_desc.text = DescHandler.format_text_colors(skill.description)
 	type_icon.texture = skill.types[0].icon
 	skill_category.texture = skill.category.icon
-	
-	current_option = new_option
 
-func _on_option_interacted(option: SkillOption):
+func _on_option_selected(option: SkillOption):
 	if (!active):
 		return
 	
@@ -85,33 +68,20 @@ func _on_option_interacted(option: SkillOption):
 	option_callback.call(option.action)
 
 func _process(delta: float) -> void:
-	if (options_container.get_children().size() > 0):
-		var option = options_container.get_children()[current_option]
-		selector.set_pos(Vector2(option.global_position.x - 10, option.global_position.y + selector.get_rect().size.y/2))
+	#if (options_container.get_children().size() > 0):
+		#var option = options_container.get_children()[current_option]
+		#selector.set_pos(Vector2(option.global_position.x - 10, option.global_position.y + selector.get_rect().size.y/2))
 	
 	if (!active):
 		return
-	
-	var dir = int(Input.is_action_just_pressed("down")) - int(Input.is_action_just_pressed("up"))
-	if (dir != 0):
-		option_changed.emit(current_option + dir)
 
 func set_skills(skills):
 	self.skills = skills
-
-	for c in options_container.get_children():
-		c.queue_free()
+	skill_list.clear()
 
 	for i in len(skills):
 		var option = SKILL_OPTION.instantiate()
-		option.connect("focused", Callable(self, "_on_option_focus"))
-		option.connect("interacted", Callable(self, "_on_option_interacted"))
-		options_container.add_child(option)
+		skill_list.add_element(option)
 		option.set_action(skills[i])
-		
-		if (i == 0):
-			option.change_selection(true)
 	
-	if (len(skills) > 0):
-		_on_option_changed(0)
-		
+	skill_list.change_option_selected(0)

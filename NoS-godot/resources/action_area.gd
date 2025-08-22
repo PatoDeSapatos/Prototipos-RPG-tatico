@@ -5,11 +5,11 @@ enum Shapes {
 	SQUARE
 	}
 
-@export var origin_point: Vector2
-@export var range: int
 @export var shape: Shapes
+@export var range: int
+var origin_point: Vector2 = Vector2.ZERO
 
-func _init(origin_point: Vector2, range: int, shape: Shapes) -> void:
+func _init(range: int, shape: Shapes, origin_point: Vector2 = Vector2.ZERO) -> void:
 	self.origin_point = origin_point
 	self.range = range
 	self.shape = shape

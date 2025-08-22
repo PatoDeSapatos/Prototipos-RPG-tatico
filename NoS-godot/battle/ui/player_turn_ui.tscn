@@ -6,7 +6,7 @@
 
 [node name="PlayerTurnUi" type="Control"]
 top_level = true
-z_index = 1000
+z_index = 4096
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 1
@@ -14,11 +14,11 @@ script = ExtResource("1_up1na")
 
 [node name="ButtonContainer" type="Control" parent="."]
 unique_name_in_owner = true
-z_index = -1000
 layout_mode = 3
 anchors_preset = 0
 
 [node name="SkillButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+z_index = 20
 layout_mode = 0
 text = "  Skill
 "
@@ -32,6 +32,7 @@ text = "attack"
 angle = 10
 
 [node name="ItemButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
+z_index = 200
 layout_mode = 0
 text = "Item"
 trigger_input = &"item_action"

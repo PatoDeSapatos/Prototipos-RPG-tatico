@@ -25,5 +25,5 @@ func _init(_position, _stats, _hp, _mana, _energy, _inventory, _animator_path, _
 	)
 	
 	username = _player_username;
-	is_player = _player_username == Server.username
+	is_player = _player_username == NetworkHandler.username
 	is_enemy = false
