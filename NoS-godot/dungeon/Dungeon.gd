@@ -3,13 +3,12 @@ class_name Dungeon extends Object
 var dungeon_table: Dictionary
 var rooms_amount: int
 var to_collapse: Array[Vector2i] = []
-var nodes := LoadMapNodes.load_map_nodes()
+var nodes := Game.MAP_NODES
 var salas := 1
 var node_grid: Array[Array] = []
 var rooms_width := Game.WIDTH / Game.ROOM_SIZE
 var rooms_height := Game.HEIGHT / Game.ROOM_SIZE
-var init_x := -1
-var init_y := -1
+var init_pos = Vector2(-1, -1)
 
 func _init(dungeon_table: Dictionary):
 	self.dungeon_table = dungeon_table

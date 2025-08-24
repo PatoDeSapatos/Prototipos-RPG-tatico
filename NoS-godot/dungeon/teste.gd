@@ -1,10 +1,18 @@
 extends Node
 
 func _ready() -> void:
-	var d = DungeonGenerator.generate_dungeon()
+	var raw := DungeonGenerator.generate_dungeon()
 	
-	for i in d.rooms_height:
+	for i in raw.rooms_height:
 		var str = ""
-		for j in d.rooms_width:
-			str += (d.node_grid[i][j].direction as String).lpad(4, " ")
+		for j in raw.rooms_width:
+			str += ("_" if raw.node_grid[i][j].spawn == -1 else Tables.Spawns.keys()[raw.node_grid[i][j].spawn]).substr(0, 1).lpad(2, " ")
+		print(str)
+	print("vvv")
+	
+	var rev = DungeonReviewer.review_dungeon(raw)
+	for i in rev.rooms_height:
+		var str = ""
+		for j in rev.rooms_width:
+			str += ("_" if rev.node_grid[i][j].spawn == -1 else Tables.Spawns.keys()[rev.node_grid[i][j].spawn]).substr(0, 1).lpad(2, " ")
 		print(str)

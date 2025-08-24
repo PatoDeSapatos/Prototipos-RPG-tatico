@@ -62,7 +62,7 @@ static func _collapse(dun: Dungeon):
 		
 		if (potential_nodes.size() <= 0):
 			if (initial):
-				var init_node: GridNode = dun.nodes.pick_random()
+				var init_node: GridNode = dun.nodes.pick_random().duplicate()
 				dun.node_grid[atual.y][atual.x] = init_node
 				dun.salas += init_node.direction.length()
 				initial = false
@@ -77,7 +77,7 @@ static func _collapse(dun: Dungeon):
 				potential_nodes.sort_custom(func (a, b): return a.direction.length() < b.direction.length())
 				random_node = 0
 			
-			var new_node: GridNode = potential_nodes[random_node]
+			var new_node: GridNode = potential_nodes[random_node].duplicate()
 			dun.salas += new_node.direction.length() - 1
 			dun.node_grid[atual.y][atual.x] = new_node
 
