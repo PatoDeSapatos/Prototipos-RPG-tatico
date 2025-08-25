@@ -3,10 +3,10 @@ class_name GridNode extends Object
 var image: Image
 var identifier: String
 var direction: String
-var args: Array[String]
+var args: Array
 var spawn := -1
 
-static var EMPTY = GridNode.new(null, {
+static var EMPTY := GridNode.new(null, {
 	"identifier": "",
 	"direction": "",
 	"args": []
@@ -26,6 +26,14 @@ func set_from_data(data: Dictionary[String, Variant]):
 
 func get_filename() -> String:
 	return identifier + direction + ("_" if args.size() > 0 else "") + "_".join(args) + ".png"
+
+func duplicate() -> GridNode:
+	var clone = GridNode.new(self.image, {
+		"identifier": self.identifier,
+		"direction": self.direction,
+		"args": self.args.duplicate()
+	})
+	return clone
 
 static func data_from_filename(filename: String) -> Dictionary[String, Variant]:
 	var name_splited := filename.get_slice(".", 0).split("_")

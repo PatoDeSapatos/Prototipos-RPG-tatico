@@ -2,9 +2,9 @@ class_name LoadMapNodes
 
 static func _init_dir() -> DirAccess:
 	if !DirAccess.dir_exists_absolute(Game.GENERATED_RESOURCES):
-		DirAccess.make_dir_recursive_absolute(Game.GENERATED_RESOURCES)
+		DirAccess.make_dir_recursive_absolute(Game.GENERATED_RESOURCES + "rooms/")
 	
-	var gen_dir := DirAccess.open(Game.GENERATED_RESOURCES)
+	var gen_dir := DirAccess.open(Game.GENERATED_RESOURCES + "rooms/")
 	if (!gen_dir.get_files().is_empty()):
 		gen_dir.list_dir_begin()
 		while true:
@@ -31,6 +31,7 @@ static func load_map_nodes() -> Array[GridNode]:
 		
 		var texture: CompressedTexture2D = load("res://resources/rooms/" + file_name)
 		var image := texture.get_image()
+		image.convert(Image.FORMAT_RGBA8)
 		image.resource_name = file_name
 		grid_nodes.append(GridNode.new(image))
 		grid_nodes.append_array(_rotate_image(image, file_name))
