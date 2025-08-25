@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxj0h4y4g67sl"]
+
+[ext_resource type="Texture2D" uid="uid://bppphfes4vd1t" path="res://entities/assets/tiles/chest.png" id="1_icrkg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hbcot"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_icrkg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.0
+}]
+
+[node name="Chest" type="Node2D"]
+
+[node name="Image" type="AnimatedSprite2D" parent="."]
+show_behind_parent = true
+sprite_frames = SubResource("SpriteFrames_hbcot")

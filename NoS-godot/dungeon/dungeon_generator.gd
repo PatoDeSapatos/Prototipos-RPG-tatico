@@ -11,7 +11,7 @@ static func generate_dungeon(dungeon_type: Tables.DungeonType = -1, level := 1) 
 	if (dungeon_type == -1):
 		dungeon_type = randi_range(0, Tables.DungeonType.size() - 1)
 	
-	var dungeon := Dungeon.new(Tables.get_dungeon_table(dungeon_type, level))
+	var dungeon := Dungeon.new(dungeon_type, level)
 	
 	var time = Time.get_unix_time_from_system()
 	_collapse(dungeon)

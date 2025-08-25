@@ -8,7 +8,7 @@ const TILE = preload("res://entities/Tile.tscn")
 
 @export var tile_info: TileInfo:
 	set(info):
-		image.animation = info.type
+		image.animation = Tables.DungeonType.keys()[info.type].to_lower()
 		image.frame = info.image_number
 		render_stack()
 
