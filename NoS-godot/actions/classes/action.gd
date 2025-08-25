@@ -1,4 +1,4 @@
-class_name Action extends Resource
+class_name Action extends Serializable
 
 enum TurnStep {
 	MAIN,

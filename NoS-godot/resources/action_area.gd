@@ -1,4 +1,4 @@
-class_name ActionArea extends Resource
+class_name ActionArea extends Serializable
 
 enum Shapes {
 	CIRCLE,
@@ -9,7 +9,7 @@ enum Shapes {
 @export var range: int
 var origin_point: Vector2 = Vector2.ZERO
 
-func _init(range: int, shape: Shapes, origin_point: Vector2 = Vector2.ZERO) -> void:
+func _init(range: int = 0, shape: Shapes = Shapes.CIRCLE, origin_point: Vector2 = Vector2.ZERO) -> void:
 	self.origin_point = origin_point
 	self.range = range
 	self.shape = shape

@@ -1,4 +1,4 @@
-extends Resource
+class_name Passives
 
 static var passives_library = {
 	"rage": Passive.new(

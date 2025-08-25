@@ -120,12 +120,36 @@ func unit_inflict_condition(target:BattleUnit, condition_name: String, chance: i
 	target.info.condition = condition_name
 	return sucess
 
+@rpc("any_peer", "call_local", "reliable")
 func battle_create_cutscene(cutscene: Array):
 	for action in cutscene:
 		manager.cutscene.push_back(action)
 
-func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit], area: ActionArea):
+func get_use_action_params(action: Action, user: BattleUnit, targets: Array[BattleUnit], area: ActionArea) -> Array:
+	var res = [action.to_dict(), str(user.get_path()), targets.map(func (e: BattleUnit): return str(e.get_path())), area.to_dict() if area != null else ActionArea.new().to_dict()]
+	
+	return res.map(func(e): 
+		if(e is Dictionary):
+			return JSON.stringify(e)
+		else:
+			return e
+		)
+
+## Use a action in battle. [br][br]
+## The parameter of the function must be an array of stringfied serializable objects in the following order: [br]
+## [b]* Action<Action>:[/b] The action the unit is trying to use. [br]
+## [b]User<BattleUnit>:[/b] The Caster of the action. [br]
+## [b]Targets<Array[BattleUnit]>:[/b] An array with the targets of the action. [br]
+## [b]Area<ActionArea>:[/b] The targeted area by the action.[br][br]
+## [method BattleHandler.get_use_action_params] returns an array with the serialized parameters,
+@rpc("any_peer", "call_local", "reliable")
+func unit_use_action(data: Array):
 	var cutscene: Array = []
+	
+	var action: Action = Serializable.from_json(data[0])
+	var user: BattleUnit = get_node(data[1])
+	var targets: Array = data[2].map(func(e): return get_node(e))
+	var area: ActionArea = Serializable.from_json(data[3])
 	
 	if (action.user_effect):
 		cutscene.push_back([cutscenes.create_battle_effect, action.user_effect, user.get_effect_origin_position(), 0, false])

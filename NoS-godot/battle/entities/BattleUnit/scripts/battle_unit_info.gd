@@ -1,4 +1,4 @@
-class_name BattleUnitInfo extends Resource
+class_name BattleUnitInfo extends Serializable
 
 var in_target = false;
 var is_guarding = false;
@@ -23,31 +23,35 @@ var weakness: Array
 var resistences: Array
 var immunities: Array
 var focus: bool
-var is_player: bool
 var is_enemy: bool
 var basic_attack: Action
 var animator
+var is_player: bool
 
-func _init(_position, _stat_changes, _stats, _hp, _mana, _energy, _inventory, _animator_path, _movement, _weakness, _resistences, _immunities, _basic_attack, _condition = null, _passives = []) -> void:
-	grid_pos = _position
-	stat_changes = _stat_changes
-	condition = _condition
-	passives = _passives
-	stats = _stats;
-	hp = _hp;
-	mana = _mana;
-	energy = _energy;
-	inventory = _inventory;
-	animator = load(_animator_path);
-	movement = _movement;
-	weakness = _weakness;
-	resistences = _resistences;
-	immunities = _immunities;
-	basic_attack = _basic_attack;
-	focus = false;
+static func create(_position, _stat_changes, _stats, _hp, _mana, _energy, _inventory, _animator_path, _movement, _weakness, _resistences, _immunities, _basic_attack, _condition = null, _passives = []) -> BattleUnitInfo:
+	var obj = BattleUnitInfo.new()
+	
+	obj.grid_pos = _position
+	obj.stat_changes = _stat_changes
+	obj.condition = _condition
+	obj.passives = _passives
+	obj.stats = _stats;
+	obj.hp = _hp;
+	obj.mana = _mana;
+	obj.energy = _energy;
+	obj.inventory = _inventory;
+	obj.animator = _animator_path;
+	obj.movement = _movement;
+	obj.weakness = _weakness;
+	obj.resistences = _resistences;
+	obj.immunities = _immunities;
+	obj.basic_attack = _basic_attack;
+	obj.focus = false;
+	
+	return obj
 
 func _to_string() -> String:
-	var result := "=== Object State ===\n"
+	var result := ""
 	result += "in_target: %s\n" % in_target
 	result += "is_guarding: %s\n" % is_guarding
 	result += "is_broken: %s\n" % is_broken

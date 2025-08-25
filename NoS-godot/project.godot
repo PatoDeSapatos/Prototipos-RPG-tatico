@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Nights of Sorrow"
-run/main_scene="uid://dekb10seqdb8i"
+run/main_scene="uid://c0sxpsplhdtef"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -21,8 +21,6 @@ NetworkHandler="*res://server/network_handler.gd"
 Game="*res://globals/game.gd"
 BattleHandler="*res://battle/scripts/battle_handler.gd"
 Grid="*res://globals/grid.gd"
-Passives="*res://battle/scripts/passives.gd"
-Palette="*res://globals/palette.gd"
 
 [display]
 

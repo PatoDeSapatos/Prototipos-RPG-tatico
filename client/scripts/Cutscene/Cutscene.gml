@@ -1,4 +1,4 @@
-function battle_execute_cutscene() {
+ function battle_execute_cutscene() {
 	if (array_length(cutscene) <= 0) return;
 	
 	var _current_action = cutscene[action];

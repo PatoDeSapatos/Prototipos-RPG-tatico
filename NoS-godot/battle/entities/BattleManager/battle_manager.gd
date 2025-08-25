@@ -89,11 +89,14 @@ func _ready() -> void:
 			grid[x][y] = instance
 	
 	# Instantiate enemies
+	var cont := 0
 	for info in enemies_info:
 		var unit = ENEMY_UNIT.instantiate()
 		unit.assign_info(info)
 		unit.global_position = Grid.tile_to_scene_pos(info["grid_pos"].x, info["grid_pos"].y, init_pos)
 		unit.grid_init_pos = self.init_pos
+		unit.name = str("Enemy ", cont)
+		cont += 1
 		units.push_front(unit)
 		add_child(unit)
 	
@@ -103,6 +106,7 @@ func _ready() -> void:
 		unit.assign_info(info)
 		unit.global_position = Grid.tile_to_scene_pos(info["grid_pos"].x, info["grid_pos"].y, init_pos)
 		unit.grid_init_pos = self.init_pos
+		unit.name = info["username"]
 		units.push_front(unit)
 		add_child(unit)
 	
@@ -195,7 +199,7 @@ func set_targeting_state(action: Action):
 			
 			return selected
 		
-		var sort_callback = func (unit: BattleUnit):
+		var sort_callback = func (unit: BattleUnit, unit2):
 			return unit.info.is_enemy if selected_action.prioritize_enemies else !unit.info.is_enemy
 		
 		action_possible_targets = units.filter(filter_callback)
@@ -234,7 +238,7 @@ func targeting_state():
 	var user = BattleHandler.get_user()
 	
 	if (!selected_action.target_required):
-		BattleHandler.unit_use_action(selected_action, user, [user], action_area)
+		BattleHandler.unit_use_action.rpc(BattleHandler.get_use_action_params(selected_action, user, [user], action_area))
 		state = end_targeting_state
 		return
 	
@@ -265,7 +269,7 @@ func targeting_state():
 			action_targets.push_back(action_possible_targets[current_target])
 		
 		if (action_targets.size() >= selected_action.target_count || action_targets.size() >= action_possible_targets.size()):
-			BattleHandler.unit_use_action(selected_action, user, action_targets, action_area)
+			BattleHandler.unit_use_action.rpc(BattleHandler.get_use_action_params(selected_action, user, action_targets, action_area))
 			state = end_targeting_state
 			return
 		
@@ -305,7 +309,7 @@ func targeting_state():
 						unit.focus = false
 						
 		if (Input.is_action_just_pressed("menu_confirm") || Input.is_action_just_pressed("mouse_left")):
-			BattleHandler.unit_use_action(selected_action, user, action_targets, action_area)
+			BattleHandler.unit_use_action.rpc(BattleHandler.get_use_action_params(selected_action, user, action_targets, action_area))
 			state = end_targeting_state
 			return
 

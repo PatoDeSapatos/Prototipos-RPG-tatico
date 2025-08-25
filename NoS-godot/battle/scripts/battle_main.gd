@@ -18,36 +18,30 @@ func init_battle(grid, party, enemies, host_name):
 func init_demo_battle(grid_size : Vector2):
 	var grid : Array
 	
-	var unit1 = PartyUnitInfo.new(
-		Vector2(0, 0),
-		Stats.new(100, 100, 100, 20, 20, 20, 20, 10),
-		100,
-		100,
-		100,
-		[],
-		"res://entities/PlayerCharAnimator.tscn",
-		7,
-		[],
-		[],
-		[],
-		null,
-		NetworkHandler.username,
-		Stats.new()
-		)
+	var party = []
+	var pos_offset = 0
+	for key in NetworkHandler.players.keys():
+		var unit = NetworkHandler.players[key].unit
+		if (unit is EncodedObjectAsID):
+			unit = instance_from_id(unit.get_object_id())
+			
+		unit.grid_pos = Vector2(0, pos_offset)
+		party.push_back(unit)
+		pos_offset += 1
 	
-	var enemy1 = EnemyUnitInfo.new(
+	var enemy1 = EnemyUnitInfo.createe(
 		"slime",
-		Vector2(0, 2), 
-		Stats.new(), 
+		Vector2(1, 2), 
+		Stats.create(), 
 		1000,
 		0,
 		10
 		)
 	
-	var enemy2 = EnemyUnitInfo.new(
+	var enemy2 = EnemyUnitInfo.createe(
 		"slime",
-		Vector2(0, 1), 
-		Stats.new(), 
+		Vector2(1, 1), 
+		Stats.create(), 
 		1000,
 		0,
 		10
@@ -58,4 +52,4 @@ func init_demo_battle(grid_size : Vector2):
 		for x in grid_size.x:
 			grid[y].append(TileInfo.new(1))
 	
-	init_battle(grid, [unit1], [enemy1, enemy2], NetworkHandler.username)
+	init_battle(grid, party, [enemy1, enemy2], NetworkHandler.username)

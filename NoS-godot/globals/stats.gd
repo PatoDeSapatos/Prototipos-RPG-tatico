@@ -1,4 +1,4 @@
-class_name Stats extends Resource
+class_name Stats extends Serializable
 
 @export var hp : int
 @export var mana : int
@@ -10,13 +10,15 @@ class_name Stats extends Resource
 @export var spd : int
 @export var luck : int
 
-func _init(hp=0, mana=0, energy=0, defense=0, magic_defense=0, attack=0, magic_attack=0, spd=0, luck=0) -> void:
-	self.hp = hp
-	self.mana = mana
-	self.energy = energy
-	self.defense = defense
-	self.magic_defense = magic_defense
-	self.attack = attack
-	self.magic_attack = magic_attack
-	self.spd = spd
-	self.luck = luck
+static func create(hp=0, mana=0, energy=0, defense=0, magic_defense=0, attack=0, magic_attack=0, spd=0, luck=0) -> Stats:
+	var obj = Stats.new()
+	obj.hp = hp
+	obj.mana = mana
+	obj.energy = energy
+	obj.defense = defense
+	obj.magic_defense = magic_defense
+	obj.attack = attack
+	obj.magic_attack = magic_attack
+	obj.spd = spd
+	obj.luck = luck
+	return obj

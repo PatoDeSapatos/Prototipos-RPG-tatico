@@ -1,9 +1,8 @@
 class_name EnemyUnitInfo extends BattleUnitInfo
 
-func _init(enemy_id, position, stat_changes, hp, mana, energy, condition=null, passives=[]) -> void:
+static func createe(enemy_id, position, stat_changes, hp, mana, energy, condition=null, passives=[]) -> BattleUnitInfo:
 	var info : Enemy = load("res://entities/enemies/" + enemy_id + ".tres")
-	
-	super(
+	var obj = super.create(
 		position, 
 		stat_changes, 
 		info.stats,
@@ -20,3 +19,4 @@ func _init(enemy_id, position, stat_changes, hp, mana, energy, condition=null, p
 		condition, 
 		passives,
 	)
+	return obj

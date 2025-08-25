@@ -69,7 +69,7 @@ func play_animation(target: BattleUnit, animation_name: String):
 		animations.animation_finished.disconnect(_on_animation_finished)
 		action_end()
 
-func play_multiple_animations(targets: Array[BattleUnit], animation_name: String):
+func play_multiple_animations(targets: Array, animation_name: String):
 	if (targets.size() <= 0):
 		action_end()
 		return
