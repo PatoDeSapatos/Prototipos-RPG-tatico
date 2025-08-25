@@ -13,6 +13,41 @@ var buffer = []
 func _init(manager: BattleManager) -> void:
 	self.manager = manager
 
+func serialize(cutscene):
+	if (cutscene is Array):
+		var buffer = []
+		for i in cutscene.size():
+			buffer.push_back(serialize(cutscene[i]))
+		return buffer
+	elif (cutscene is Serializable):
+		return JSON.stringify(cutscene.to_dict())
+	elif (cutscene is Node):
+		return str(cutscene.get_path())
+	elif (cutscene is Dictionary):
+		return JSON.stringify(cutscene)
+	else:
+		return cutscene
+
+static func desserialize(cutscene):
+	if (cutscene is Array):
+		var buffer = []
+		for i in cutscene.size():
+			buffer.push_back(desserialize(cutscene[i]))
+		return buffer
+	elif (cutscene is String):
+		var json = JSON.new()
+		if (json.parse(cutscene, true) == OK):
+			var serial = Serializable.from_json(json.get_parsed_text())
+			if (serial != null):
+				return serial
+			return json.get_parsed_text()
+		else:
+			var node = BattleHandler.get_node(cutscene)
+			if (node != null):
+				return node
+	
+	return cutscene
+
 func action_end():
 	manager.action += 1
 	timer = 0

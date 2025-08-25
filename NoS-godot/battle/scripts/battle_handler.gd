@@ -122,8 +122,8 @@ func unit_inflict_condition(target:BattleUnit, condition_name: String, chance: i
 
 @rpc("any_peer", "call_local", "reliable")
 func battle_create_cutscene(cutscene: Array):
-	for action in cutscene:
-		manager.cutscene.push_back(action)
+	var desserial = CutsceneHandler.desserialize(cutscene)
+	manager.cutscene.append_array(desserial)
 
 func get_use_action_params(action: Action, user: BattleUnit, targets: Array[BattleUnit], area: ActionArea) -> Array:
 	var res = [action.to_dict(), str(user.get_path()), targets.map(func (e: BattleUnit): return str(e.get_path())), area.to_dict() if area != null else ActionArea.new().to_dict()]
@@ -142,20 +142,14 @@ func get_use_action_params(action: Action, user: BattleUnit, targets: Array[Batt
 ## [b]Targets<Array[BattleUnit]>:[/b] An array with the targets of the action. [br]
 ## [b]Area<ActionArea>:[/b] The targeted area by the action.[br][br]
 ## [method BattleHandler.get_use_action_params] returns an array with the serialized parameters,
-@rpc("any_peer", "call_local", "reliable")
-func unit_use_action(data: Array):
+func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit], area: ActionArea):
 	var cutscene: Array = []
 	
-	var action: Action = Serializable.from_json(data[0])
-	var user: BattleUnit = get_node(data[1])
-	var targets: Array = data[2].map(func(e): return get_node(e))
-	var area: ActionArea = Serializable.from_json(data[3])
-	
 	if (action.user_effect):
-		cutscene.push_back([cutscenes.create_battle_effect, action.user_effect, user.get_effect_origin_position(), 0, false])
+		cutscene.push_back(["create_battle_effect", action.user_effect, user.get_effect_origin_position(), 0, false])
 
-	cutscene.push_back([cutscenes.play_animation, user, action.user_animation])
-	cutscene.push_back([cutscenes.clear_effect_by_name, action.user_effect])
+	cutscene.push_back(["play_animation", user, action.user_animation])
+	cutscene.push_back(["clear_effect_by_name", action.user_effect])
 	
 	var inflict_condition = func(target: BattleUnit, action: Action) -> Array:
 		if (action.condition_name == ""):
@@ -164,31 +158,31 @@ func unit_use_action(data: Array):
 		var inflicted = unit_inflict_condition(target, action.condition_name, action.inflict_chance)
 		var condition: StatusCondition = Conditions.condition_library.get(action.condition_name)
 		if (inflicted && condition != null):
-			return [cutscenes.play_animation, target, condition.target_animation]
+			return ["play_animation", target, condition.target_animation]
 		
 		return []
 		
 	# Projectile
 	if (action.has_projectile):
 		var pos = Grid.tile_to_scene_pos(area.origin_point.x, area.origin_point.y, manager.init_pos)
-		cutscene.push_back([cutscenes.cast_projectile, action.projectile_texture, pos, action.projectile_particle_path])
+		cutscene.push_back(["cast_projectile", action.projectile_texture, pos, action.projectile_particle_path])
 		
 		if (action.projectile_texture != null && action.projectile_effect_name != null):
 			var effect_scale = ((action.area.range * Game.TILE_SIZE)/(action.projectile_texture.get_size().x))*2
-			cutscene.push_back([cutscenes.create_battle_effect, action.projectile_effect_name, pos, 1000, false])
+			cutscene.push_back(["create_battle_effect", action.projectile_effect_name, pos, 1000, false])
 		
 		for path in action.particle_effect_paths:
-			cutscene.push_back([cutscenes.instantiate_scene, path, pos, {"z_index": 999}])
-			cutscene.push_back([cutscenes.wait, 0.1])
+			cutscene.push_back(["instantiate_scene", path, pos, {"z_index": 999}])
+			cutscene.push_back(["wait", 0.1])
 	
 	# Apply effects on target
 	if (!action.apply_effects_at_once):
 		for target in targets:
-			cutscene.push_back([cutscenes.cast_action_func, action, user, [target], area])
-			cutscene.push_back([cutscenes.play_animation, target, action.target_animation])
+			cutscene.push_back(["cast_action_func", action, user, [target], area])
+			cutscene.push_back(["play_animation", target, action.target_animation])
 	else:
-		cutscene.push_back([cutscenes.cast_action_func, action, user, targets, area])
-		cutscene.push_back([cutscenes.play_multiple_animations, targets, action.target_animation])
+		cutscene.push_back(["cast_action_func", action, user, targets, area])
+		cutscene.push_back(["play_multiple_animations", targets, action.target_animation])
 
 	# Stat Changes
 	var create_stat_change_cutscene = func(targets: Array, is_on_user: bool):
@@ -200,8 +194,8 @@ func unit_use_action(data: Array):
 			for i in stat_changes.size():
 				if (randi_range(0, 100) <= change_chances[i]):
 					var effect = "stat_raise" if change_levels[i] > 0 else "stat_decrease"
-					cutscene.push_back([cutscenes.change_stats, target, stat_changes[i], change_levels[i]])
-					cutscene.push_back([cutscenes.create_battle_effect, effect, target.get_effect_origin_position(), target.z_index, true])
+					cutscene.push_back(["change_stats", target, stat_changes[i], change_levels[i]])
+					cutscene.push_back(["create_battle_effect", effect, target.get_effect_origin_position(), target.z_index, true])
 
 	create_stat_change_cutscene.call([user], true)
 	create_stat_change_cutscene.call(targets, false)
@@ -212,8 +206,10 @@ func unit_use_action(data: Array):
 		if (condition_cutscene.size() > 0):
 			cutscene.push_back(condition_cutscene)
 	
-	cutscene.push_back([cutscenes.wait, 0.7])
-	battle_create_cutscene(cutscene)
+	cutscene.push_back(["wait", 0.7])
+	
+	var serialized = cutscenes.serialize(cutscene)
+	battle_create_cutscene.rpc(serialized)
 
 func create_battle_effect(effect_name: String, pos: Vector2, z_index=0) -> ActionEffects:
 	var effect = ACTION_EFFECTS.instantiate()

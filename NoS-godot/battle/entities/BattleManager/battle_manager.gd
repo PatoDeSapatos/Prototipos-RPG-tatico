@@ -17,6 +17,7 @@ var unit_hover: BattleUnit
 var animating: bool
 
 # Cutscenes
+var cutscene_handler = CutsceneHandler.new(self)
 var cutscene: Array[Array] = []
 var action := 0
 var timer := 0
@@ -131,19 +132,19 @@ func _process(delta: float) -> void:
 	
 	match arg_length:
 		1:
-			current_action[0].call(current_action[1])
+			cutscene_handler.call(current_action[0], current_action[1])
 		2:
-			current_action[0].call(current_action[1], current_action[2])
+			cutscene_handler.call(current_action[0], current_action[1], current_action[2])
 		3:
-			current_action[0].call(current_action[1], current_action[2], current_action[3])
+			cutscene_handler.call(current_action[0], current_action[1], current_action[2], current_action[3])
 		4:
-			current_action[0].call(current_action[1], current_action[2], current_action[3], current_action[4])
+			cutscene_handler.call(current_action[0], current_action[1], current_action[2], current_action[3], current_action[4])
 		5:
-			current_action[0].call(current_action[1], current_action[2], current_action[3], current_action[4], current_action[5])
+			cutscene_handler.call(current_action[0], current_action[1], current_action[2], current_action[3], current_action[4], current_action[5])
 		6:
-			current_action[0].call(current_action[1], current_action[2], current_action[3], current_action[4], current_action[5], current_action[6])
-		_:
-			current_action[0].call()
+			cutscene_handler.call(current_action[0], current_action[1], current_action[2], current_action[3], current_action[4], current_action[5], current_action[6])
+		0:
+			cutscene_handler.call(current_action[0])
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (event is InputEventMouseMotion):
@@ -237,7 +238,7 @@ func targeting_state():
 	var user = BattleHandler.get_user()
 	
 	if (!selected_action.target_required):
-		BattleHandler.unit_use_action.rpc(BattleHandler.get_use_action_params(selected_action, user, [user], action_area))
+		BattleHandler.unit_use_action(selected_action, user, [user], action_area)
 		state = end_targeting_state
 		return
 	
@@ -268,7 +269,7 @@ func targeting_state():
 			action_targets.push_back(action_possible_targets[current_target])
 		
 		if (action_targets.size() >= selected_action.target_count || action_targets.size() >= action_possible_targets.size()):
-			BattleHandler.unit_use_action.rpc(BattleHandler.get_use_action_params(selected_action, user, action_targets, action_area))
+			BattleHandler.unit_use_action(selected_action, user, action_targets, action_area)
 			state = end_targeting_state
 			return
 		
@@ -308,7 +309,7 @@ func targeting_state():
 						unit.focus = false
 						
 		if (Input.is_action_just_pressed("menu_confirm") || Input.is_action_just_pressed("mouse_left")):
-			BattleHandler.unit_use_action.rpc(BattleHandler.get_use_action_params(selected_action, user, action_targets, action_area))
+			BattleHandler.unit_use_action(selected_action, user, action_targets, action_area)
 			state = end_targeting_state
 			return
 
