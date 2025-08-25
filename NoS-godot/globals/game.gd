@@ -1,6 +1,6 @@
 extends Node
 
-const GENERATED_RESOURCES := "user://generated_resources/rooms/"
+const GENERATED_RESOURCES := "user://generated_resources/"
 
 const TILE_SIZE := 32
 

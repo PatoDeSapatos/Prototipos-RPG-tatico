@@ -2,7 +2,6 @@ class_name BattleManager
 extends Node2D
 
 const TILE = preload("res://entities/Tile.tscn")
-const Grid = preload("res://globals/grid.gd")
 const PARTY_UNIT = preload("res://battle/entities/BattleUnit/PartyUnit.tscn")
 const ENEMY_UNIT = preload("res://battle/entities/BattleUnit/EnemyUnit.tscn")
 
