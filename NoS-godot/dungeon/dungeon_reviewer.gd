@@ -1,11 +1,10 @@
 class_name DungeonReviewer
 
-static func review_dungeon(dungeon: Dungeon) -> Dungeon:
+static func review_dungeon(dungeon: Dungeon):
 	_assure(dungeon)
 	_generate_end_pos(dungeon)
 	_generate_init_pos(dungeon)
 	_generate_spawnables(dungeon)
-	return dungeon
 
 static func _assure(dun: Dungeon):
 	#assure end room

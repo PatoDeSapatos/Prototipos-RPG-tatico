@@ -8,7 +8,9 @@ const TILE = preload("res://entities/Tile.tscn")
 
 @export var tile_info: TileInfo:
 	set(info):
-		image.animation = info.type
+		if (!image) :
+			image = $TileImage
+		image.animation = Tables.DungeonType.keys()[info.type].to_lower()
 		image.frame = info.image_number
 		render_stack()
 
@@ -22,7 +24,7 @@ const TILE = preload("res://entities/Tile.tscn")
 		selected = value
 		queue_redraw()
 
-@onready var image: AnimatedSprite2D = $Image
+@onready var image: AnimatedSprite2D = $TileImage
 
 var tile_instance
 var coll: bool
