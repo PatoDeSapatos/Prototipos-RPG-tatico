@@ -11,10 +11,13 @@ const ENEMY_UNIT = preload("res://battle/entities/BattleUnit/EnemyUnit.tscn")
 
 @export var tile_highlight: Texture2D
 
-var host_name := ""
+var state_changed := false
+var host_id: int = 0
 var using_mouse: bool
 var unit_hover: BattleUnit
-var animating: bool
+var animating: bool:
+	get():
+		return cutscene.size() > 0
 
 # Cutscenes
 var cutscene_handler = CutsceneHandler.new(self)
@@ -73,6 +76,7 @@ var extra_turn_user: BattleUnit
 var extra_turn_given
 
 var waiting_frames = 60/2
+var current_waiting_frames := 0
 
 # Triggers
 signal turn_started
@@ -107,14 +111,20 @@ func _ready() -> void:
 		unit.global_position = Grid.tile_to_scene_pos(info["grid_pos"].x, info["grid_pos"].y, init_pos)
 		unit.grid_init_pos = self.init_pos
 		unit.name = info["username"]
+		unit.set_multiplayer_authority(info.peer_id, true)
 		units.push_front(unit)
 		add_child(unit)
+		
+		if (host_id == 0):
+			host_id = info.peer_id
 	
+	state_changed = false
 	BattleHandler.assign_manager(self)
 	state = start_turn_state
 
 func _process(delta: float) -> void:
-	state.call()
+	if (state.is_valid()):
+		state.call_deferred()
 	
 	var animating = cutscene.size() > 0
 	if (!animating):
@@ -154,24 +164,76 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func start_turn_state():
 	movement_actions = 1
+	special_actions = 1
 	main_actions = 1 
+	state_changed = false
 	
 	camera.follow = units[turn]
 	
-	if (units[turn].info.is_player):
+	if (units[turn].is_multiplayer_authority() && units[turn].info.is_player):
 		state = turn_state
-	elif (host_name == NetworkHandler.username && units[turn].info.is_enemy):
+	elif (units[turn].info.is_enemy):
 		state = enemy_turn_state
 	else:
 		state = waiting_state
 		
 func turn_state():
 	if (!animating):
-		player_turn_ui.show_ui()
-		camera.follow = units[turn]
+		if (main_actions <= 0 || BattleHandler.get_user().done):
+			set_unit_done.rpc(BattleHandler.get_user().owner_id)
+			BattleHandler.exit_state_turn(waiting_state)
+		else:
+			player_turn_ui.show_ui()
+			camera.follow = units[turn]
 
 func enemy_turn_state():
-	pass
+	BattleHandler.get_user().done = true
+	state = waiting_state
+
+func end_turn_state():
+	if (animating || state_changed):
+		return
+	
+	for unit in units:
+		unit.done = false
+	
+	extra_action = false
+	extra_turn_user = null
+	extra_turn_given = false
+	
+	turn += 1
+	if (turn >= units.size()):
+		turn = 0
+		round += 1
+	
+	state_changed
+	BattleHandler.set_state(start_turn_state)
+
+func waiting_state():
+	if (animating):
+		return
+	
+	var is_everyone_done := true
+	for unit in units:
+		if (!unit.done):
+			is_everyone_done = false
+			break
+	
+	if (extra_action && extra_turn_user is BattleUnit):
+		if (extra_turn_user.info.is_player && extra_turn_user.owner_id == NetworkHandler.peer_id):
+			extra_turn_user.done = false
+			state = extra_turn_state
+		elif (extra_turn_user.info.is_enemy && host_id == NetworkHandler.peer_id):
+			state = extra_turn_state
+	
+	if BattleHandler.get_user().done:
+		state = end_turn_state
+
+@rpc("any_peer", "call_local", "reliable")
+func set_unit_done(peer_id: int, value: bool = true):
+	for unit in units:
+		if (unit.owner_id == peer_id):
+			unit.done = value
 
 func set_targeting_state(action: Action):
 	var user = BattleHandler.get_user().info
@@ -327,6 +389,6 @@ func end_targeting_state():
 	action_area = null
 	
 	state = turn_state
-	
-func waiting_state():
+
+func extra_turn_state():
 	pass

@@ -122,7 +122,9 @@ func unit_inflict_condition(target:BattleUnit, condition_name: String, chance: i
 
 @rpc("any_peer", "call_local", "reliable")
 func battle_create_cutscene(cutscene: Array):
-	var desserial = CutsceneHandler.desserialize(cutscene)
+	var desserial: Array = CutsceneHandler.desserialize(cutscene)
+	manager.set_unit_done.rpc(NetworkHandler.peer_id, false)
+	desserial.push_back(["set_unit_done", NetworkHandler.peer_id, true])
 	manager.cutscene.append_array(desserial)
 
 func get_use_action_params(action: Action, user: BattleUnit, targets: Array[BattleUnit], area: ActionArea) -> Array:
@@ -135,13 +137,6 @@ func get_use_action_params(action: Action, user: BattleUnit, targets: Array[Batt
 			return e
 		)
 
-## Use a action in battle. [br][br]
-## The parameter of the function must be an array of stringfied serializable objects in the following order: [br]
-## [b]* Action<Action>:[/b] The action the unit is trying to use. [br]
-## [b]User<BattleUnit>:[/b] The Caster of the action. [br]
-## [b]Targets<Array[BattleUnit]>:[/b] An array with the targets of the action. [br]
-## [b]Area<ActionArea>:[/b] The targeted area by the action.[br][br]
-## [method BattleHandler.get_use_action_params] returns an array with the serialized parameters,
 func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit], area: ActionArea):
 	var cutscene: Array = []
 	
@@ -207,6 +202,7 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 			cutscene.push_back(condition_cutscene)
 	
 	cutscene.push_back(["wait", 0.7])
+	cutscene.push_back(["subtract_turn_step", action.turn_step])
 	
 	var serialized = cutscenes.serialize(cutscene)
 	battle_create_cutscene.rpc(serialized)

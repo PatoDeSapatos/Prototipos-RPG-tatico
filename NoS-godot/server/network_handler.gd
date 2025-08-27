@@ -9,6 +9,7 @@ var username = "demo":
 var is_connection_on: bool = false
 var is_dedicated_server: bool
 
+var peer_id: int
 var players := {}
 
 var userinfo = {
@@ -43,6 +44,7 @@ func start_server(port: int = 8910):
 	
 	if (!is_dedicated_server):
 		multiplayer.multiplayer_peer = peer
+		peer_id = peer.get_unique_id()
 	
 	print("Server started!")
 	is_connection_on = true
@@ -54,6 +56,7 @@ func start_client(ip:="127.0.0.1", port:=8910):
 		return
 	
 	multiplayer.multiplayer_peer = peer
+	peer_id = peer.get_unique_id()
 	is_connection_on = true
 
 ## Register a new Player given his player info. [br]

@@ -11,7 +11,6 @@ func init_battle(grid, party, enemies, host_name):
 	manager.grid = grid
 	manager.party_info = party
 	manager.enemies_info = enemies
-	manager.host_name = host_name
 	
 	add_child(manager)
 

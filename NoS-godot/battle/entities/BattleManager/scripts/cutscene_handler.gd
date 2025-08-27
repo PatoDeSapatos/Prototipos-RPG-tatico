@@ -218,3 +218,18 @@ func clear_effect_by_name(name: String):
 			item.queue_free()
 	
 	action_end()
+
+func subtract_turn_step(step: Action.TurnStep):
+	match step:
+		Action.TurnStep.MAIN:
+			manager.main_actions -= 1
+		Action.TurnStep.MOVEMENT:
+			manager.movement_actions -= 1
+		Action.TurnStep.SPECIAL:
+			manager.special_actions -= 1
+	
+	action_end()
+
+func set_unit_done(owner_id: int, value: bool = true):
+	manager.set_unit_done.rpc(owner_id, value)
+	action_end()

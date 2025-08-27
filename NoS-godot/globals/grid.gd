@@ -1,5 +1,7 @@
 extends Node
 
+var tile_grid: Array[Tile]
+
 func tile_to_scene_pos(x : int, y : int, init_pos : Vector2) -> Vector2:
 	return Vector2(((x - y) * (Game.TILE_SIZE / 2)) + init_pos.x, ((x + y) * (Game.TILE_SIZE / 4)) + init_pos.y)
 

@@ -19,4 +19,5 @@ static func createe(enemy_id, position, stat_changes, hp, mana, energy, conditio
 		condition, 
 		passives,
 	)
+	obj.is_enemy = true
 	return obj

@@ -43,6 +43,9 @@ func _process(delta: float) -> void:
 		center_position = Vector2(follow.x - 6, follow.y - 24)
 	
 	if (active):
+		if (BattleHandler.get_state() != BattleHandler.manager.turn_state):
+			hide_ui()
+		
 		for button in button_container.get_children():
 			button.global_position = _get_button_target_position(button)
 

@@ -10,6 +10,8 @@ var focus_position := Vector2()
 var focus_down := false
 var animating := false
 var grid_init_pos: Vector2
+var owner_id: int
+var done: bool
 
 var focus := false:
 	set(value):

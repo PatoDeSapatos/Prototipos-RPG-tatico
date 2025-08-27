@@ -3,7 +3,7 @@ class_name Action extends Serializable
 enum TurnStep {
 	MAIN,
 	MOVEMENT,
-	BONUS
+	SPECIAL
 }
 
 @export_category("Classification")
