@@ -43,7 +43,7 @@ animations = [{
 script = ExtResource("1_1imow")
 metadata/_custom_type_script = "uid://td0q26pe526y"
 
-[node name="Image" type="AnimatedSprite2D" parent="."]
+[node name="TileImage" type="AnimatedSprite2D" parent="."]
 show_behind_parent = true
 sprite_frames = SubResource("SpriteFrames_bhirc")
 frame = 1

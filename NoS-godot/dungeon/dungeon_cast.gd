@@ -49,12 +49,13 @@ static func cast_dungeon(dun: Dungeon):
 							Tables.Spawns.INITIAL:
 								tile.coll = false
 							Tables.Spawns.END:
-								tile.spr = 7
+								pass
+								#tile_info.image_number = 7
 								#tile.stack.append(obj_exit)
 							Tables.Spawns.MERCADOR:
 								tile.coll = false
 								#tile.stack.append(obj_npc_test)
 			
-			if (tile == null): continue
+			if (tile_info == null): continue
 			tile.tile_info = tile_info
 			dun.tile_grid[y][x] = tile
