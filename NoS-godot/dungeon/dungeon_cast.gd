@@ -18,7 +18,7 @@ static func cast_dungeon(dun: Dungeon):
 		for x in map.get_width():
 			var pixel = map.get_pixel(x, y)
 			var tile_info: TileInfo
-			var tile = TILE.instantiate()
+			var tile: Tile
 			
 			var wall_color = Color.from_rgba8(255, 0, 64) # BGR 4194559
 			var floor_color = Color.from_rgba8(51, 31, 33) # BGR 2170681
@@ -28,19 +28,22 @@ static func cast_dungeon(dun: Dungeon):
 			match pixel:
 				wall_color:
 					tile_info = TileInfo.new(0, dun.type, ["res://entities/Wall.tscn"])
+					tile = TILE.instantiate()
 					tile.coll = true
 				floor_color:
 					tile_info = TileInfo.new(1, dun.type)
+					tile = TILE.instantiate()
 				chest_color:
 					tile_info = TileInfo.new(1, dun.type)
-					tile.coll = true
+					tile = TILE.instantiate()
 					
 					var _chest_spawn = randi_range(0, 99) < dun.dungeon_table["chest_spawn"]
-					
 					if (_chest_spawn):
+						tile.coll = true
 						tile_info.stack.append("res://entities/Chest.tscn")
 				spawn_color:
 					tile_info = TileInfo.new(1, dun.type)
+					tile = TILE.instantiate()
 					tile.coll = true
 					
 					var _room = dun.node_grid[y / Game.ROOM_SIZE][x / Game.ROOM_SIZE]
