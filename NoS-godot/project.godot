@@ -11,8 +11,10 @@ config_version=5
 [application]
 
 config/name="Nights of Sorrow"
-run/main_scene="uid://c0sxpsplhdtef"
+run/main_scene="uid://biqwdh53jld31"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [autoload]
@@ -21,6 +23,7 @@ NetworkHandler="*res://server/network_handler.gd"
 Game="*res://globals/game.gd"
 BattleHandler="*res://battle/scripts/battle_handler.gd"
 Grid="*res://globals/grid.gd"
+SceneTransition="*res://globals/scene_transition.gd"
 
 [display]
 

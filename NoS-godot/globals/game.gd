@@ -30,5 +30,5 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (event.is_action_pressed("restart")):
-		get_tree().reload_current_scene()
+		get_tree().change_scene_to_file("res://scenes/splash_screen.tscn")
 	

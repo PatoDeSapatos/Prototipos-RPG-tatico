@@ -28,7 +28,8 @@ var focus := false:
 func assign_info(info : BattleUnitInfo):
 	self.info = info
 	var animator = load(info.animator)
-	add_child(animator.instantiate())
+	if (animator != null):
+		add_child(animator.instantiate())
 
 func _ready() -> void:
 	var shape_size = animator.coll.shape.get_rect().size if animator != null else Vector2(0, BATTLE_TARGETING.get_height()/2)
@@ -79,4 +80,5 @@ func _on_timer_timeout():
 	queue_redraw()
 	
 func get_effect_origin_position() -> Vector2:
+	if (animator == null): return position
 	return animator.effect_origin.global_position if animator.effect_origin != null else global_position

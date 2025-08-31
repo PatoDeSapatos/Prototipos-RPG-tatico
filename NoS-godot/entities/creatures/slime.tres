@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="1_2yakw"]
 [ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://actions/classes/action.gd" id="1_quwe7"]
 [ext_resource type="Script" uid="uid://hfadsvauvx4" path="res://globals/stats.gd" id="2_m8638"]
-[ext_resource type="Script" uid="uid://kjcuupkq7hqc" path="res://entities/enemies/scripts/creature.gd" id="2_quwe7"]
+[ext_resource type="Script" uid="uid://kjcuupkq7hqc" path="res://entities/creatures/scripts/creature.gd" id="2_quwe7"]
 [ext_resource type="Resource" uid="uid://dsl3smv22scff" path="res://actions/types/slashing.tres" id="5_0eahv"]
 
 [sub_resource type="Resource" id="Resource_xvgqp"]
@@ -28,7 +28,7 @@ weakness = Array[ExtResource("1_2yakw")]([ExtResource("5_0eahv")])
 resistences = Array[ExtResource("1_2yakw")]([])
 immunities = Array[ExtResource("1_2yakw")]([])
 skills = Dictionary[String, ExtResource("1_quwe7")]({})
-animator_path = "res://entities/enemies/animations/SlimeAnimator.tscn"
+animator_path = "res://entities/creatures/animations/SlimeAnimator.tscn"
 init_battle_state_path = "res://entities/enemies/creature_states/battle/simple_agressive.gd"
 init_dungeon_state_path = "res://entities/enemies/creature_states/dungeon/wanderer.gd"
 tameable = true

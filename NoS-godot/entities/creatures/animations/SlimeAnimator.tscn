@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://dgs436eoxm0l5"]
 
-[ext_resource type="Texture2D" uid="uid://b5ht5mbxdpu20" path="res://entities/enemies/assets/slime.png" id="1_7qrjt"]
+[ext_resource type="Texture2D" uid="uid://b5ht5mbxdpu20" path="res://entities/creatures/assets/slime.png" id="1_7qrjt"]
 [ext_resource type="Script" uid="uid://cimg8p0bb4rk" path="res://entities/scripts/animator.gd" id="1_y72y2"]
-[ext_resource type="Script" uid="uid://darjqt33livn5" path="res://entities/enemies/animations/blink.gd" id="2_28iu7"]
+[ext_resource type="Script" uid="uid://darjqt33livn5" path="res://entities/creatures/animations/blink.gd" id="2_28iu7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28iu7"]
 size = Vector2(26, 26)
