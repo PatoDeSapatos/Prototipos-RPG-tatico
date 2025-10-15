@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjn8w2h7cco26"]
+
+[ext_resource type="Script" uid="uid://bn4skui7ots0e" path="res://battle/entities/BattleUnit/scripts/battle_unit_info.gd" id="1_8b786"]
+
+[node name="BattleUnit" type="Node2D"]
+script = ExtResource("1_8b786")
+metadata/_custom_type_script = "uid://bn4skui7ots0e"

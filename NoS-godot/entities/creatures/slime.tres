@@ -1,22 +1,26 @@
-[gd_resource type="Resource" script_class="Enemy" load_steps=7 format=3 uid="uid://jf6y2eycwa2i"]
+[gd_resource type="Resource" script_class="Creature" load_steps=11 format=3 uid="uid://jf6y2eycwa2i"]
 
 [ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="1_2yakw"]
-[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://actions/classes/action.gd" id="1_quwe7"]
+[ext_resource type="Resource" uid="uid://3klqbl171fku" path="res://entities/creatures/state_scripts/battle/simple.tres" id="1_rwom8"]
 [ext_resource type="Script" uid="uid://hfadsvauvx4" path="res://globals/stats.gd" id="2_m8638"]
 [ext_resource type="Script" uid="uid://kjcuupkq7hqc" path="res://entities/creatures/scripts/creature.gd" id="2_quwe7"]
+[ext_resource type="Script" uid="uid://daam2rw4svqch" path="res://entities/creatures/scripts/creature_state_machine.gd" id="3_w5m7t"]
+[ext_resource type="Script" uid="uid://cb0xgv8xsc4l0" path="res://entities/creatures/scripts/creature_state.gd" id="4_qawsh"]
 [ext_resource type="Resource" uid="uid://dsl3smv22scff" path="res://actions/types/slashing.tres" id="5_0eahv"]
+
+[sub_resource type="Resource" id="Resource_w5m7t"]
+script = ExtResource("4_qawsh")
+script_path = "res://entities/creatures/state_scripts/battle/simple.tres"
+change_trigger = "turn_started"
+initial = true
+
+[sub_resource type="Resource" id="Resource_qawsh"]
+script = ExtResource("3_w5m7t")
+states = Array[ExtResource("4_qawsh")]([SubResource("Resource_w5m7t")])
 
 [sub_resource type="Resource" id="Resource_xvgqp"]
 script = ExtResource("2_m8638")
 hp = 1000
-mana = 0
-energy = 0
-defense = 0
-magic_defense = 0
-attack = 0
-magic_attack = 0
-spd = 0
-luck = 0
 metadata/_custom_type_script = "uid://isrna6u5sg8n"
 
 [resource]
@@ -25,11 +29,10 @@ display_name = "Slime"
 stats = SubResource("Resource_xvgqp")
 movement = 6
 weakness = Array[ExtResource("1_2yakw")]([ExtResource("5_0eahv")])
-resistences = Array[ExtResource("1_2yakw")]([])
-immunities = Array[ExtResource("1_2yakw")]([])
-skills = Dictionary[String, ExtResource("1_quwe7")]({})
+resistences = null
+immunities = null
+skills = null
 animator_path = "res://entities/creatures/animations/SlimeAnimator.tscn"
-init_battle_state_path = "res://entities/enemies/creature_states/battle/simple_agressive.gd"
-init_dungeon_state_path = "res://entities/enemies/creature_states/dungeon/wanderer.gd"
+state_machine = SubResource("Resource_qawsh")
 tameable = true
 metadata/_custom_type_script = "uid://kjcuupkq7hqc"

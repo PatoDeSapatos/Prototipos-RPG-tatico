@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CreatureState" load_steps=2 format=3 uid="uid://3klqbl171fku"]
+
+[ext_resource type="Script" uid="uid://cb0xgv8xsc4l0" path="res://entities/creatures/scripts/creature_state.gd" id="1_3uu3k"]
+
+[resource]
+script = ExtResource("1_3uu3k")
+change_trigger = "\"\""
+prev_states = Array[ExtResource("1_3uu3k")]([])
+init_ai = "simple"
+animation = "default"
+metadata/_custom_type_script = "uid://cb0xgv8xsc4l0"

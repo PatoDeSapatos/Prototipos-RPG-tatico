@@ -27,9 +27,9 @@ var focus := false:
 
 func assign_info(info : BattleUnitInfo):
 	self.info = info
-	var animator = load(info.animator)
-	if (animator != null):
-		add_child(animator.instantiate())
+	var a = load(info.animator)
+	if (a != null):
+		add_child(a.instantiate())
 
 func _ready() -> void:
 	var shape_size = animator.coll.shape.get_rect().size if animator != null else Vector2(0, BATTLE_TARGETING.get_height()/2)

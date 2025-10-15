@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4fgvulfnysos"]
+
+[ext_resource type="Script" uid="uid://b27y0fscbokd3" path="res://battle/entities/BattleManager/battle_manager.gd" id="1_xw8pw"]
+[ext_resource type="PackedScene" uid="uid://cyofdeai76sd3" path="res://battle/entities/BattleManager/ui/player_turn_ui.tscn" id="2_8byl5"]
+[ext_resource type="Script" uid="uid://bbi3ecwht4i2a" path="res://battle/entities/BattleManager/scripts/camera.gd" id="2_dk84a"]
+
+[node name="BattleManager" type="Node2D"]
+script = ExtResource("1_xw8pw")
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+script = ExtResource("2_dk84a")
+
+[node name="PlayerTurnUi" parent="Camera" instance=ExtResource("2_8byl5")]
+radius = 20
+animation_speed = 0.2

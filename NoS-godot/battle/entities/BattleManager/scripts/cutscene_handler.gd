@@ -49,7 +49,7 @@ static func desserialize(cutscene):
 	return cutscene
 
 func action_end():
-	manager.action += 1
+	manager.cutscene_step += 1
 	timer = 0
 	animation = ""
 	setup = false
@@ -57,9 +57,9 @@ func action_end():
 	animation_finished = false
 	buffer = []
 	
-	if (manager.action >= manager.cutscene.size()):
+	if (manager.cutscene_step >= manager.cutscene.size()):
 		manager.cutscene = []
-		manager.action = 0
+		manager.cutscene_step = 0
 
 func _on_animation_finished():
 	animation_finished = true

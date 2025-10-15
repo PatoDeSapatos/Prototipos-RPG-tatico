@@ -1,0 +1,95 @@
+[gd_scene load_steps=10 format=3 uid="uid://cyvtjm6q5mqwo"]
+
+[ext_resource type="Texture2D" uid="uid://p4cfnglgd1ug" path="res://actions/assets/move_types.png" id="1_jxu0k"]
+[ext_resource type="Script" uid="uid://kg5hfhkmec2s" path="res://battle/ui/scripts/skill_option.gd" id="1_omgis"]
+[ext_resource type="FontFile" uid="uid://cqnhghmruowb8" path="res://fonts/rainyhearts.ttf" id="2_2pd3b"]
+[ext_resource type="Resource" uid="uid://clc4eit80noqe" path="res://actions/basic_attacks/sword_slash.tres" id="2_cw00a"]
+[ext_resource type="Texture2D" uid="uid://df77ngcyi8pdd" path="res://battle/ui/assets/skill_cost_outline.png" id="3_s0cjd"]
+[ext_resource type="Texture2D" uid="uid://db74ajih6v63i" path="res://entities/items/assets/panel-transparent-border-027.png" id="3_ueby8"]
+[ext_resource type="Texture2D" uid="uid://cecvh6kipur6l" path="res://entities/items/assets/panel-border-027.png" id="7_divux"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_db1vm"]
+atlas = ExtResource("1_jxu0k")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="LabelSettings" id="LabelSettings_d5gfw"]
+font = ExtResource("2_2pd3b")
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[node name="SkillOption" type="PanelContainer"]
+size_flags_vertical = 0
+script = ExtResource("1_omgis")
+action = ExtResource("2_cw00a")
+
+[node name="Background" type="NinePatchRect" parent="."]
+modulate = Color(0.0352941, 0.0392157, 0.0784314, 1)
+layout_mode = 2
+texture = ExtResource("3_ueby8")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Option" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Option"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="TypeIcon" type="TextureRect" parent="Option/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_db1vm")
+stretch_mode = 3
+
+[node name="SkillName" type="Label" parent="Option/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Attack"
+label_settings = SubResource("LabelSettings_d5gfw")
+vertical_alignment = 1
+
+[node name="Cost" type="PanelContainer" parent="Option/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Option/HBoxContainer/Cost"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 10
+
+[node name="CostBox" type="NinePatchRect" parent="Option/HBoxContainer/Cost"]
+layout_mode = 2
+texture = ExtResource("3_s0cjd")
+region_rect = Rect2(0, 0, 32, 32)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="CostValue" type="Label" parent="Option/HBoxContainer/Cost"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("2_2pd3b")
+text = "2hp"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Border" type="NinePatchRect" parent="."]
+modulate = Color(0.12549, 0.180392, 0.215686, 1)
+layout_mode = 2
+texture = ExtResource("7_divux")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16

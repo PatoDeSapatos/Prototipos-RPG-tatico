@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwa8clkqyhuqe"]
+
+[ext_resource type="Script" uid="uid://cy6eesojuqpqt" path="res://addons/creaturestatemachine/creature_state_machine_panel.gd" id="1_coq1i"]
+
+[node name="CreatureStateMachinePanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_coq1i")
+
+[node name="GraphEdit" type="GraphEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+minimap_enabled = false
+
+[node name="AddStateButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 321.0
+offset_top = 10.0
+offset_right = 438.0
+offset_bottom = 45.0
+text = "+ Add State"
+
+[connection signal="connection_request" from="GraphEdit" to="." method="_on_graph_edit_connection_request"]
+[connection signal="disconnection_request" from="GraphEdit" to="." method="_on_graph_edit_disconnection_request"]

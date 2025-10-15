@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bosv8v3vs4564"]
+
+[ext_resource type="Script" uid="uid://dgl8fkw5wt27f" path="res://battle/entities/BattleUnit/scripts/battle_unit.gd" id="1_dtvuw"]
+
+[node name="PartyUnit" type="Node2D"]
+script = ExtResource("1_dtvuw")
+metadata/_custom_type_script = "uid://dgl8fkw5wt27f"

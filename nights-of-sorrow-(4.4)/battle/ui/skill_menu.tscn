@@ -1,0 +1,199 @@
+[gd_scene load_steps=15 format=3 uid="uid://d374x7qt41biq"]
+
+[ext_resource type="Script" uid="uid://df5jm6ccgbvub" path="res://battle/ui/scripts/skill_menu.gd" id="1_6q5a7"]
+[ext_resource type="Theme" uid="uid://c6w8ab57rdgl7" path="res://resources/default_menu_theme.tres" id="1_b8bxh"]
+[ext_resource type="Texture2D" uid="uid://c320f2prd33qv" path="res://battle/ui/assets/spr_inventory_bg.png" id="3_dq1rm"]
+[ext_resource type="Texture2D" uid="uid://p4cfnglgd1ug" path="res://actions/assets/move_types.png" id="4_db1vm"]
+[ext_resource type="Texture2D" uid="uid://m4kmynfujws" path="res://actions/assets/move_categories.png" id="5_3p8ch"]
+[ext_resource type="PackedScene" uid="uid://brjul88varjdd" path="res://entities/items/inventory/inventory_list.tscn" id="6_1o5i3"]
+
+[sub_resource type="Animation" id="Animation_b8bxh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dq1rm"]
+resource_name = "hide_menu"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.470588), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6q5a7"]
+resource_name = "show_menu"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.470588)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dq1rm"]
+_data = {
+&"RESET": SubResource("Animation_b8bxh"),
+&"hide_menu": SubResource("Animation_dq1rm"),
+&"show_menu": SubResource("Animation_6q5a7")
+}
+
+[sub_resource type="Theme" id="Theme_6q5a7"]
+MarginContainer/constants/margin_bottom = 10
+MarginContainer/constants/margin_left = 30
+MarginContainer/constants/margin_right = 30
+MarginContainer/constants/margin_top = 10
+
+[sub_resource type="Theme" id="Theme_dq1rm"]
+HBoxContainer/constants/separation = 30
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3p8ch"]
+atlas = ExtResource("4_db1vm")
+region = Rect2(100, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1o5i3"]
+atlas = ExtResource("5_3p8ch")
+region = Rect2(0, 0, 32, 24)
+
+[node name="SkillMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("1_b8bxh")
+script = ExtResource("1_6q5a7")
+metadata/_custom_type_script = "uid://df5jm6ccgbvub"
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_dq1rm")
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_6q5a7")
+
+[node name="Content" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_dq1rm")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Content"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="SkillDesc" type="NinePatchRect" parent="MarginContainer/Content/PanelContainer"]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_dq1rm")
+patch_margin_left = 9
+patch_margin_top = 9
+patch_margin_right = 9
+patch_margin_bottom = 9
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Content/PanelContainer"]
+show_behind_parent = true
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Content/PanelContainer"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="SkillName" type="Label" parent="MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+text = "Poison Mist"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="SkillDesc" type="RichTextLabel" parent="MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Spreads a [color=green] venomous [/color] mist around the caster"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="HSliptContainer" type="HSplitContainer" parent="MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+dragger_visibility = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer/HSliptContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer/HSliptContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Types: "
+vertical_alignment = 1
+
+[node name="TypeIcon" type="TextureRect" parent="MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer/HSliptContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_3p8ch")
+stretch_mode = 3
+
+[node name="SkillCategory" type="TextureRect" parent="MarginContainer/Content/PanelContainer/MarginContainer/VBoxContainer/HSliptContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_1o5i3")
+stretch_mode = 3
+
+[node name="SkillList" parent="MarginContainer/Content" instance=ExtResource("6_1o5i3")]
+layout_mode = 2

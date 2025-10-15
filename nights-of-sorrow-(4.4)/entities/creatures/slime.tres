@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=10 format=3 uid="uid://jf6y2eycwa2i"]
+
+[ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="1_2yakw"]
+[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://actions/classes/action.gd" id="1_quwe7"]
+[ext_resource type="Resource" uid="uid://3klqbl171fku" path="res://entities/creatures/creature_states/battle/simple.tres" id="2_fhslv"]
+[ext_resource type="Script" uid="uid://hfadsvauvx4" path="res://globals/stats.gd" id="2_m8638"]
+[ext_resource type="Script" uid="uid://kjcuupkq7hqc" path="res://entities/creatures/scripts/creature.gd" id="2_quwe7"]
+[ext_resource type="Resource" uid="uid://dsl3smv22scff" path="res://actions/types/slashing.tres" id="5_0eahv"]
+[ext_resource type="Script" uid="uid://daam2rw4svqch" path="res://entities/creatures/scripts/creature_state_machine.gd" id="5_rwom8"]
+
+[sub_resource type="Resource" id="Resource_rwom8"]
+script = ExtResource("5_rwom8")
+states = []
+connections = Array[Dictionary]([])
+
+[sub_resource type="Resource" id="Resource_xvgqp"]
+script = ExtResource("2_m8638")
+hp = 1000
+mana = 0
+energy = 0
+defense = 0
+magic_defense = 0
+attack = 0
+magic_attack = 0
+spd = 0
+luck = 0
+metadata/_custom_type_script = "uid://isrna6u5sg8n"
+
+[resource]
+script = ExtResource("2_quwe7")
+display_name = "Slime"
+stats = SubResource("Resource_xvgqp")
+movement = 6
+weakness = Array[ExtResource("1_2yakw")]([ExtResource("5_0eahv")])
+resistences = Array[ExtResource("1_2yakw")]([])
+immunities = Array[ExtResource("1_2yakw")]([])
+skills = Dictionary[String, ExtResource("1_quwe7")]({})
+animator_path = "res://entities/creatures/animations/SlimeAnimator.tscn"
+init_battle_state = ExtResource("2_fhslv")
+state_machine = SubResource("Resource_rwom8")
+tameable = true
+metadata/_custom_type_script = "uid://kjcuupkq7hqc"

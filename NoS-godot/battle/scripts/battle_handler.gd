@@ -5,6 +5,7 @@ const FLOATING_TEXT = preload("res://battle/ui/floating_text.tscn")
 var manager: BattleManager
 var cutscenes: CutsceneHandler
 
+@warning_ignore("shadowed_variable")
 func assign_manager(manager):
 	self.manager = manager
 	self.cutscenes = CutsceneHandler.new(manager)
@@ -35,11 +36,11 @@ func change_unit_stats(target: BattleUnit, stat_name: String, amount: int) -> vo
 	
 	var cap = 6
 	var current_changes = target.info.stat_changes.get(stat_name)
-	target.info.stat_changes[stat_name] = clamp(target.info.stat_changes[stat_name] + amount, -cap, cap)
+	target.info.stat_changes[stat_name] = clamp(current_changes + amount, -cap, cap)
 
 func unit_take_damage(damage: int, user: BattleUnit, target: BattleUnit, action: Action):
 	var defense = unit_get_stats(target.info, "defense") if action.is_physical else unit_get_stats(target.info, "magic_defense")
-	var guard = 1.5 if target.info.is_guarding else 1
+	var guard = 1.5 if target.info.is_guarding else 1.0
 	var resistence_multiplier = 0
 	
 	for type in action.types:
@@ -67,15 +68,16 @@ func calc_action_default_damage(action: Action, user: BattleUnit) -> int:
 		return 0
 	
 	var attack = unit_get_stats(user.info, "attack") if action.is_physical else unit_get_stats(user.info, "magic_attack")
+	@warning_ignore("integer_division")
 	return round((2*user.info.level/2 + 2 + attack) * action.power/50 + 2)
 
 func aim_action(action: Action):
 	manager.set_targeting_state(action)
 
-func create_floating_text(value, position: Vector2, color: Color = Color.WHITE):
+func create_floating_text(value, pos: Vector2, color: Color = Color.WHITE):
 	var text = FLOATING_TEXT.instantiate()
 	text.value = value
-	text.position = position
+	text.position = pos
 	text.color = color
 	add_child(text)
 
@@ -146,6 +148,7 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 	cutscene.push_back(["play_animation", user, action.user_animation])
 	cutscene.push_back(["clear_effect_by_name", action.user_effect])
 	
+	@warning_ignore("confusable_local_declaration")
 	var inflict_condition = func(target: BattleUnit, action: Action) -> Array:
 		if (action.condition_name == ""):
 			return []
@@ -159,11 +162,12 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 		
 	# Projectile
 	if (action.has_projectile):
+		@warning_ignore("narrowing_conversion")
 		var pos = Grid.tile_to_scene_pos(area.origin_point.x, area.origin_point.y, manager.init_pos)
 		cutscene.push_back(["cast_projectile", action.projectile_texture, pos, action.projectile_particle_path])
 		
 		if (action.projectile_texture != null && action.projectile_effect_name != null):
-			var effect_scale = ((action.area.range * Game.TILE_SIZE)/(action.projectile_texture.get_size().x))*2
+			var _effect_scale = ((action.area.range * Game.TILE_SIZE)/(action.projectile_texture.get_size().x))*2
 			cutscene.push_back(["create_battle_effect", action.projectile_effect_name, pos, 1000, false])
 		
 		for path in action.particle_effect_paths:
@@ -180,6 +184,7 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 		cutscene.push_back(["play_multiple_animations", targets, action.target_animation])
 
 	# Stat Changes
+	@warning_ignore("confusable_local_declaration")
 	var create_stat_change_cutscene = func(targets: Array, is_on_user: bool):
 		var stat_changes = action.on_user_stat_changes if is_on_user else action.on_target_stat_changes
 		var change_chances = action.on_user_change_chances if is_on_user else action.on_target_change_chances
@@ -207,9 +212,9 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 	var serialized = cutscenes.serialize(cutscene)
 	battle_create_cutscene.rpc(serialized)
 
-func create_battle_effect(effect_name: String, pos: Vector2, z_index=0) -> ActionEffects:
+func create_battle_effect(effect_name: String, pos: Vector2, z=0) -> ActionEffects:
 	var effect = ACTION_EFFECTS.instantiate()
-	effect.z_index = z_index
+	effect.z_index = z
 	add_child(effect)
 	effect.play(effect_name, pos)
 	return effect

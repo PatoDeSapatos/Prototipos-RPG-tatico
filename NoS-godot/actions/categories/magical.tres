@@ -11,5 +11,4 @@ region = Rect2(0, 0, 32, 24)
 script = ExtResource("1_do2pw")
 name = "Magical"
 icon = SubResource("AtlasTexture_terea")
-color = Color(0, 0, 0, 1)
 metadata/_custom_type_script = "uid://ngpfk4y2eb84"

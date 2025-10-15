@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6yba086btupv"]
+
+[ext_resource type="Texture2D" uid="uid://bu8t120ghwtkr" path="res://battle/ui/assets/particles.png" id="1_muuw5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muuw5"]
+atlas = ExtResource("1_muuw5")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="Curve" id="Curve_647lr"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.255411, 1), 0.0, 0.0, 0, 0, Vector2(0.402597, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[node name="AmbientParticles" type="Node2D"]
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+top_level = true
+amount = 200
+texture = SubResource("AtlasTexture_muuw5")
+lifetime = 10.0
+use_fixed_seed = true
+seed = 1325340797
+lifetime_randomness = 0.35
+emission_shape = 3
+emission_rect_extents = Vector2(700, 350)
+gravity = Vector2(0, 0)
+initial_velocity_min = 19.0
+initial_velocity_max = 21.0
+tangential_accel_min = -2.5
+tangential_accel_max = 2.5
+scale_amount_min = 0.3
+scale_amount_max = 0.5
+scale_amount_curve = SubResource("Curve_647lr")
+color = Color(1, 1, 1, 0.666667)

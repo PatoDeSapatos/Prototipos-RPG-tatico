@@ -27,6 +27,8 @@ var is_enemy: bool
 var basic_attack: Action
 var animator
 var is_player: bool
+var state_machine: CreatureStateMachine
+var state: CreatureState
 
 static func create(_position, _stat_changes, _stats, _hp, _mana, _energy, _inventory, _animator_path, _movement, _weakness, _resistences, _immunities, _basic_attack, _condition = null, _passives = []) -> BattleUnitInfo:
 	var obj = BattleUnitInfo.new()

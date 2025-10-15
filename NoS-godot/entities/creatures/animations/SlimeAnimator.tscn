@@ -304,8 +304,8 @@ remote_path = NodePath("../../../../Face")
 update_scale = false
 
 [node name="Face" type="Node2D" parent="."]
-position = Vector2(4.99996, -14.0194)
-rotation = -0.00259629
+position = Vector2(4.999957, -14.019417)
+rotation = -0.0025962945
 scale = Vector2(0.980869, 0.980869)
 
 [node name="Eyes" type="AnimatedSprite2D" parent="Face"]

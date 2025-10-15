@@ -8,11 +8,16 @@
 
 config_version=5
 
+[animation]
+
+warnings/check_invalid_track_paths=false
+warnings/check_angle_interpolation_type_conflicting=false
+
 [application]
 
 config/name="Nights of Sorrow"
 run/main_scene="uid://biqwdh53jld31"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.svg"
@@ -25,6 +30,14 @@ BattleHandler="*res://battle/scripts/battle_handler.gd"
 Grid="*res://globals/grid.gd"
 SceneTransition="*res://globals/scene_transition.gd"
 
+[debug]
+
+gdscript/warnings/unassigned_variable=0
+gdscript/warnings/unused_parameter=0
+gdscript/warnings/unused_signal=0
+gdscript/warnings/shadowed_variable=0
+gdscript/warnings/shadowed_variable_base_class=0
+
 [display]
 
 window/size/viewport_width=640
@@ -32,6 +45,10 @@ window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/creaturestatemachine/plugin.cfg")
 
 [input]
 

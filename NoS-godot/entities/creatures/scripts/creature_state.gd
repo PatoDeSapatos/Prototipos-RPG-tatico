@@ -1,11 +1,13 @@
 class_name CreatureState extends Resource
 
-var name: String
-var initial_dungeon_ai
-var initial_battle_ai
+@export var script_path: String
+@export var change_trigger: String
+@export var change_expression: String
+@export var initial: bool
 
+@export var node_pos: Vector2
 
-signal state_changed
+var key: int
 
-func execute():
-	pass
+func _init() -> void:
+	self.key = ResourceUID.create_id()

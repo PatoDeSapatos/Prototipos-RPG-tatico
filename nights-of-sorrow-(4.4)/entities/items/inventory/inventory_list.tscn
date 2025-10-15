@@ -1,0 +1,89 @@
+[gd_scene load_steps=8 format=3 uid="uid://brjul88varjdd"]
+
+[ext_resource type="Script" uid="uid://qvlgn8oanhio" path="res://entities/items/inventory/inventory_list.gd" id="1_2pp6n"]
+[ext_resource type="Texture2D" uid="uid://0w6066ewwf75" path="res://entities/items/assets/panel-transparent-border-011.png" id="2_3bxvc"]
+[ext_resource type="PackedScene" uid="uid://cyvtjm6q5mqwo" path="res://battle/ui/skill_option.tscn" id="2_f1esc"]
+[ext_resource type="Texture2D" uid="uid://bmvuxv4fjf5dv" path="res://battle/ui/assets/inventory_skill_selector.png" id="4_f457n"]
+[ext_resource type="Script" uid="uid://lq3fpegeqiv8" path="res://battle/ui/scripts/selector.gd" id="5_3bxvc"]
+[ext_resource type="Texture2D" uid="uid://ljgkp1ty04io" path="res://entities/items/assets/panel-border-011.png" id="5_f457n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0sh0"]
+atlas = ExtResource("4_f457n")
+region = Rect2(0, 0, 17, 18)
+
+[node name="InventoryList" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_2pp6n")
+metadata/_custom_type_script = "uid://qvlgn8oanhio"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BackgroundContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Background" type="NinePatchRect" parent="BackgroundContainer"]
+modulate = Color(0.077176, 0.0830901, 0.111717, 1)
+layout_mode = 2
+texture = ExtResource("2_3bxvc")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="Selector" type="TextureRect" parent="."]
+top_level = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_x0sh0")
+stretch_mode = 3
+script = ExtResource("5_3bxvc")
+
+[node name="Timer" type="Timer" parent="Selector"]
+wait_time = 0.5
+autostart = true
+
+[node name="ElementOptions" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 15
+
+[node name="OptionsContainer" type="VBoxContainer" parent="ElementOptions"]
+show_behind_parent = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="SkillOption" parent="ElementOptions/OptionsContainer" instance=ExtResource("2_f1esc")]
+layout_mode = 2
+
+[node name="Border" type="NinePatchRect" parent="."]
+modulate = Color(0.12549, 0.180392, 0.215686, 1)
+clip_contents = true
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("5_f457n")
+region_rect = Rect2(-2, -2, 52, 52)
+patch_margin_left = 14
+patch_margin_top = 14
+patch_margin_right = 14
+patch_margin_bottom = 14
+
+[connection signal="timeout" from="Selector/Timer" to="Selector" method="_on_timer_timeout"]

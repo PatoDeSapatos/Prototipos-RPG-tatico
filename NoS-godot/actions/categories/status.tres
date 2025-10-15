@@ -11,5 +11,4 @@ region = Rect2(64, 0, 32, 24)
 script = ExtResource("1_bflv3")
 name = "Status"
 icon = SubResource("AtlasTexture_sb48i")
-color = Color(0, 0, 0, 1)
 metadata/_custom_type_script = "uid://ngpfk4y2eb84"

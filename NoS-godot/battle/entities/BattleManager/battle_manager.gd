@@ -19,10 +19,12 @@ var animating: bool:
 	get():
 		return cutscene.size() > 0
 
+var trigger_manager: TriggerManager
+
 # Cutscenes
 var cutscene_handler = CutsceneHandler.new(self)
 var cutscene: Array[Array] = []
-var action := 0
+var cutscene_step := 0
 var timer := 0
 var image := 0
 var setup := false
@@ -75,12 +77,12 @@ var extra_action := false
 var extra_turn_user: BattleUnit
 var extra_turn_given
 
+var is_host:
+	get():
+		return host_id == NetworkHandler.peer_id
+		
 var waiting_frames = 60/2
 var current_waiting_frames := 0
-
-# Triggers
-signal turn_started
-signal attack
 
 func _ready() -> void:
 	# Instantiate grid tiles
@@ -119,25 +121,26 @@ func _ready() -> void:
 			host_id = info.peer_id
 	
 	state_changed = false
+	trigger_manager = TriggerManager.new()
 	BattleHandler.assign_manager(self)
 	state = start_turn_state
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if (state.is_valid()):
 		state.call_deferred()
 	
-	var animating = cutscene.size() > 0
-	if (!animating):
+	var _animating = cutscene.size() > 0
+	if (!_animating):
 		for unit in units:
 			if (unit.animating):
-				animating = true;
+				_animating = true;
 				break;
-	self.animating = animating;
+	self.animating = _animating;
 	
 	if (cutscene.size() <= 0):
 		return
 	
-	var current_action = cutscene[action]
+	var current_action: Array = cutscene[cutscene_step]
 	var arg_length = current_action.size() - 1
 	
 	match arg_length:
@@ -162,6 +165,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		await get_tree().create_timer(0.1).timeout
 		using_mouse = false
 
+func trigger_event(event: BattleEvent):
+	trigger_manager.emit_signal(event.trigger_name, event)
+	
+	if (event.response.size() > 0):
+		BattleHandler.battle_create_cutscene(event.response)
+
 func start_turn_state():
 	movement_actions = 1
 	special_actions = 1
@@ -169,6 +178,9 @@ func start_turn_state():
 	state_changed = false
 	
 	camera.follow = units[turn]
+	
+	if (is_host):
+		trigger_event(TurnStartedEvent.new(units[turn], turn))
 	
 	if (units[turn].is_multiplayer_authority() && units[turn].info.is_player):
 		state = turn_state
@@ -206,7 +218,6 @@ func end_turn_state():
 		turn = 0
 		round += 1
 	
-	state_changed
 	BattleHandler.set_state(start_turn_state)
 
 func waiting_state():

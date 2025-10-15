@@ -1,4 +1,4 @@
-class_name Enemy extends Resource
+class_name Creature extends Resource
 
 @export var display_name: String
 @export var stats: Stats
@@ -10,10 +10,10 @@ class_name Enemy extends Resource
 @export var basic_attack: Action
 @export var animator_path: String
 
-@export var init_battle_state_path: String
-@export var init_dungeon_state_path: String = "res://entities/enemies/creature_states/dungeon/wanderer.gd"
+@export var state_machine: CreatureStateMachine
+var state: CreatureState
+
 var drops
-var battle_script
 
 # Tame
 @export var tameable : bool

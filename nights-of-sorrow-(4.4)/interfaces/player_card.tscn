@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://be202axdleand"]
+
+[ext_resource type="Script" uid="uid://c1g0knv0asfwj" path="res://interfaces/player_card.gd" id="1_naien"]
+
+[node name="PlayerCard" type="PanelContainer"]
+script = ExtResource("1_naien")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(0, 0, 0, 0.517647)
+
+[node name="PlayerBox" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HSplitContainer" type="HSplitContainer" parent="PlayerBox"]
+layout_mode = 2
+
+[node name="PlayerName" type="Label" parent="PlayerBox/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Teste da Silva"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerBox/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 30
+
+[node name="ClassLabel" type="Label" parent="PlayerBox/HSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Labubu"
+
+[node name="ReadyLabel" type="Label" parent="PlayerBox/HSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Ready"
