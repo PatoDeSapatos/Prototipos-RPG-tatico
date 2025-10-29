@@ -61,7 +61,10 @@ func _on_delete_request(node: CreatureStateMachineNode):
 func _on_initial_button_selected(node: CreatureStateMachineNode):
 	var i = 0
 	for current_node in graph_edit.get_children():
-		if (current_node is CreatureStateMachineNode && current_node != node):
+		if (!current_node is CreatureStateMachineNode):
+			continue
+		
+		if (current_node != node):
 			current_node.initial_check.button_pressed = false
 		else:
 			state_machine.initial_state_index = i

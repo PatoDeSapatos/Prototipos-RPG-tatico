@@ -42,9 +42,8 @@ static func desserialize(cutscene):
 				return serial
 			return json.get_parsed_text()
 		else:
-			var node = BattleHandler.get_node(cutscene)
-			if (node != null):
-				return node
+			if (BattleHandler.has_node(cutscene)):
+				return BattleHandler.get_node(cutscene)
 	
 	return cutscene
 
@@ -111,9 +110,9 @@ func play_multiple_animations(targets: Array, animation_name: String):
 	
 	if (!setup):
 		var reference_target: BattleUnit = null
-		var valid_targets = []
-		var previous_animations = []
-		var animation_modes = []
+		#var valid_targets = []
+		#var previous_animations = []
+		#var animation_modes = []
 		
 		buffer.push_back([])
 		buffer.push_back([])
@@ -167,13 +166,15 @@ func cast_action_func(action: Action, user: BattleUnit, targets: Array, area: Ac
 		
 	action_end()
 
-func cast_projectile(texture: Texture2D, pos: Vector2, particle_path: String):
+func cast_projectile(texture: Texture2D,from: Vector2, to: Vector2, particle_path: String):
 	if (!setup):
-		buffer.push_back(Projectile.new(pos, texture))
+		buffer.push_back(Projectile.new(to, texture))
+		buffer[0].global_position = from
 		buffer[0].end.connect(_on_animation_finished)
 		buffer[0].particle_path = particle_path
 		buffer[0].z_index = 1000
 		BattleHandler.add_child(buffer[0])
+		manager.camera.follow = buffer[0]
 		setup = true
 	
 	if (animation_finished):
@@ -230,6 +231,21 @@ func subtract_turn_step(step: Action.TurnStep):
 	
 	action_end()
 
-func set_unit_done(owner_id: int, value: bool = true):
-	manager.set_unit_done.rpc(owner_id, value)
+func move_unit(unit: BattleUnit, target: Vector2, speed: float):
+	if ((unit.global_position - target).abs().length() <= speed):
+		unit.global_position = target
+		action_end()
+		return
+	
+	unit.global_position += unit.global_position.direction_to(target) * speed
+
+func end_movement(unit: BattleUnit, from: Vector2, to: Vector2):
+	manager.astar_grid.set_point_solid(from, false)
+	manager.astar_grid.set_point_solid(to, true)
+	manager.movement_actions -= 1
+	unit.info.grid_pos = to
+	action_end()
+
+func set_camera_follow(target: Node2D):
+	manager.camera.follow = target
 	action_end()

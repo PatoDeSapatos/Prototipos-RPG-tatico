@@ -1,7 +1,6 @@
 class_name PartyUnitInfo extends BattleUnitInfo
 
 @export var username: String
-@export var skills: Array
 @export var companions: Array
 @export var max_companions: int
 var peer_id: int

@@ -35,7 +35,7 @@ func _ready() -> void:
 	
 	for button in button_container.get_children():
 		button.global_position = center_position
-		button.connect("toggled", _on_button_pressed)
+		button.connect("interacted", _on_button_pressed)
 
 func _process(delta: float) -> void:
 	if (camera != null):
@@ -111,7 +111,4 @@ func state_skill():
 	pass
 
 func start_state_move():
-	pass
-
-func state_move():
-	pass
+	BattleHandler.set_state(BattleHandler.manager.start_state_move)

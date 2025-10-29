@@ -82,7 +82,7 @@ func create_floating_text(value, pos: Vector2, color: Color = Color.WHITE):
 	add_child(text)
 
 func get_user() -> BattleUnit:
-	return manager.units[manager.turn] if !manager.extra_action else manager.extra_turn_user
+	return manager.user
 
 func calc_unit_distance(unit1: BattleUnitInfo, unit2: BattleUnitInfo):
 	return floor(sqrt((unit1.grid_pos.x - unit2.grid_pos.x)**2 + (unit1.grid_pos.y - unit2.grid_pos.y)**2))
@@ -97,6 +97,11 @@ func return_to_prev_state():
 	manager.state = manager.prev_state
 
 func exit_state_turn(new_state: Callable):
+	manager.camera.zoom_target = Vector2.ONE
+	manager.camera.offset_target = Vector2.ZERO
+	
+	manager.camera.hide_bar()
+	
 	manager.prev_state = manager.state
 	manager.state = new_state
 
@@ -125,8 +130,6 @@ func unit_inflict_condition(target:BattleUnit, condition_name: String, chance: i
 @rpc("any_peer", "call_local", "reliable")
 func battle_create_cutscene(cutscene: Array):
 	var desserial: Array = CutsceneHandler.desserialize(cutscene)
-	manager.set_unit_done.rpc(NetworkHandler.peer_id, false)
-	desserial.push_back(["set_unit_done", NetworkHandler.peer_id, true])
 	manager.cutscene.append_array(desserial)
 
 func get_use_action_params(action: Action, user: BattleUnit, targets: Array[BattleUnit], area: ActionArea) -> Array:
@@ -162,9 +165,8 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 		
 	# Projectile
 	if (action.has_projectile):
-		@warning_ignore("narrowing_conversion")
 		var pos = Grid.tile_to_scene_pos(area.origin_point.x, area.origin_point.y, manager.init_pos)
-		cutscene.push_back(["cast_projectile", action.projectile_texture, pos, action.projectile_particle_path])
+		cutscene.push_back(["cast_projectile", action.projectile_texture, user.global_position, pos, action.projectile_particle_path])
 		
 		if (action.projectile_texture != null && action.projectile_effect_name != null):
 			var _effect_scale = ((action.area.range * Game.TILE_SIZE)/(action.projectile_texture.get_size().x))*2
@@ -183,6 +185,7 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 		cutscene.push_back(["cast_action_func", action, user, targets, area])
 		cutscene.push_back(["play_multiple_animations", targets, action.target_animation])
 
+	cutscene.push_back(["wait", 0.3])
 	# Stat Changes
 	@warning_ignore("confusable_local_declaration")
 	var create_stat_change_cutscene = func(targets: Array, is_on_user: bool):
@@ -218,3 +221,19 @@ func create_battle_effect(effect_name: String, pos: Vector2, z=0) -> ActionEffec
 	add_child(effect)
 	effect.play(effect_name, pos)
 	return effect
+
+func move_unit(user: BattleUnit, from: Vector2, to: Vector2):
+	var cutscene = []
+	var path = manager.astar_grid.get_id_path(from, to, true)
+	var move_range = ActionArea.new(user.info.movement, ActionArea.Shapes.CIRCLE, user.info.grid_pos)
+	
+	path = path.filter(func(step):
+		return move_range.point_in_area(step) && !manager.astar_grid.is_point_solid(step)
+		)
+	
+	for step in path:
+		cutscene.push_back(["move_unit", user, Grid.tile_to_scene_pos(step.x, step.y, manager.init_pos), 0.6])
+		cutscene.push_back(["wait", 0.01])
+	
+	cutscene.push_back(["end_movement", user, from, to])
+	battle_create_cutscene.rpc(cutscenes.serialize(cutscene))

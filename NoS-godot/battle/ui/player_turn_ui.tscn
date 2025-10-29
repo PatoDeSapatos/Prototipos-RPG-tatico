@@ -1,21 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://cyofdeai76sd3"]
+[gd_scene load_steps=6 format=3 uid="uid://cyofdeai76sd3"]
 
 [ext_resource type="PackedScene" uid="uid://yu0kn7rb0lbv" path="res://battle/ui/action_button.tscn" id="1_4jmgf"]
 [ext_resource type="Script" uid="uid://dqgqwp07hntg1" path="res://battle/ui/scripts/player_turn_ui.gd" id="1_up1na"]
 [ext_resource type="PackedScene" uid="uid://d374x7qt41biq" path="res://battle/ui/skill_menu.tscn" id="3_0bo8n"]
 [ext_resource type="PackedScene" uid="uid://dt805laa5vtg6" path="res://battle/ui/battle_text.tscn" id="4_lec0p"]
+[ext_resource type="PackedScene" uid="uid://dprmftd0thw1f" path="res://battle/ui/aux_button.tscn" id="5_keuy2"]
 
 [node name="PlayerTurnUi" type="Control"]
 top_level = true
+visibility_layer = 2
 z_index = 4096
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 1
 script = ExtResource("1_up1na")
+radius = 77
 
 [node name="ButtonContainer" type="Control" parent="."]
 unique_name_in_owner = true
-layout_mode = 3
 anchors_preset = 0
 
 [node name="SkillButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
@@ -49,6 +51,7 @@ angle = 210
 layout_mode = 0
 text = "Move "
 trigger_input = &"move_action"
+state_name = "start_state_move"
 angle = 270
 
 [node name="PassButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
@@ -62,7 +65,65 @@ angle = 90
 
 [node name="SkillMenu" parent="CanvasLayer" instance=ExtResource("3_0bo8n")]
 
-[node name="Audio" type="AudioStreamPlayer" parent="."]
+[node name="BattleText" parent="CanvasLayer" instance=ExtResource("4_lec0p")]
+top_level = true
+size_flags_horizontal = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="BattleText" parent="." instance=ExtResource("4_lec0p")]
+[node name="AuxButtons" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/AuxButtons"]
 layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/AuxButtons/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+alignment = 2
+
+[node name="AuxButton" parent="CanvasLayer/AuxButtons/MarginContainer/HBoxContainer" instance=ExtResource("5_keuy2")]
+layout_mode = 2
+text = "End Turn"
+
+[node name="PlayerStatus" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PlayerStatus"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PlayerStatus/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PlayerStatus/MarginContainer"]
+layout_mode = 2
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]

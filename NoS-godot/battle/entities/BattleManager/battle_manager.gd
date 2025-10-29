@@ -6,11 +6,13 @@ const PARTY_UNIT = preload("res://battle/entities/BattleUnit/PartyUnit.tscn")
 const ENEMY_UNIT = preload("res://battle/entities/BattleUnit/EnemyUnit.tscn")
 
 @onready var player_turn_ui: Control = $PlayerTurnUi
-@onready var camera: Camera2D = $Camera
+@onready var camera: BattleCamera = $Camera
 @onready var tiles: Node2D = $Tiles
 
 @export var tile_highlight: Texture2D
 
+var players := {}
+var done: bool = false
 var state_changed := false
 var host_id: int = 0
 var using_mouse: bool
@@ -22,7 +24,7 @@ var animating: bool:
 var trigger_manager: TriggerManager
 
 # Cutscenes
-var cutscene_handler = CutsceneHandler.new(self)
+var cutscene_handler := CutsceneHandler.new(self)
 var cutscene: Array[Array] = []
 var cutscene_step := 0
 var timer := 0
@@ -31,6 +33,7 @@ var setup := false
 
 # Grid info
 var grid := [[]]
+var astar_grid : AStarGrid2D = AStarGrid2D.new()
 var init_pos = self.global_position
 var highlight_area: ActionArea = null:
 	set(new_area):
@@ -55,6 +58,9 @@ var round := 0
 var movement_actions := 0
 var main_actions := 0
 var special_actions := 0
+var user: BattleUnit:
+	get():
+		return units[turn] if !extra_action else extra_turn_user
 
 # - targeting
 var selected_action: Action = null
@@ -63,15 +69,13 @@ var action_targets: Array[BattleUnit]
 var current_target: int
 var action_origin: Node2D
 var action_area: ActionArea:
-	set(new_area):
-		for i in range(len(grid)):
-			for j in range(len(grid[i])):
-				if (new_area != null && new_area.point_in_area(Vector2(i, j))):
-					grid[i][j].selected = true
-				else:
-					grid[i][j].selected = false
-		
-		action_area = new_area
+	set(value):
+		action_area = value
+		if (action_area == null):
+			for y in range(grid.size()):
+				for x in range(grid[0].size()):
+					grid[x][y].selected = false
+					
 
 var extra_action := false
 var extra_turn_user: BattleUnit
@@ -81,11 +85,16 @@ var is_host:
 	get():
 		return host_id == NetworkHandler.peer_id
 		
-var waiting_frames = 60/2
-var current_waiting_frames := 0
+var waiting_frames := 1
+var current_waiting_frames := 0.0
 
 func _ready() -> void:
 	# Instantiate grid tiles
+	astar_grid.region = Rect2i(0, 0, len(grid[0]), len(grid))
+	astar_grid.cell_size = Vector2(Game.TILE_SIZE, Game.TILE_SIZE)
+	astar_grid.cell_shape = AStarGrid2D.CELL_SHAPE_ISOMETRIC_DOWN
+	astar_grid.update()
+	
 	for y in len(grid):
 		for x in len(grid[y]):
 			var instance = TILE.instantiate()
@@ -98,8 +107,9 @@ func _ready() -> void:
 	var cont := 0
 	for info in enemies_info:
 		var unit = ENEMY_UNIT.instantiate()
-		unit.assign_info(info)
+		unit.assign_info(info, self)
 		unit.global_position = Grid.tile_to_scene_pos(info["grid_pos"].x, info["grid_pos"].y, init_pos)
+		astar_grid.set_point_solid(Vector2i(info["grid_pos"].x, info["grid_pos"].y), true)
 		unit.grid_init_pos = self.init_pos
 		unit.name = str("Enemy ", cont)
 		cont += 1
@@ -109,8 +119,9 @@ func _ready() -> void:
 	# Instantiate party
 	for info in party_info:
 		var unit = PARTY_UNIT.instantiate()
-		unit.assign_info(info)
+		unit.assign_info(info, self)
 		unit.global_position = Grid.tile_to_scene_pos(info["grid_pos"].x, info["grid_pos"].y, init_pos)
+		astar_grid.set_point_solid(Vector2i(info["grid_pos"].x, info["grid_pos"].y), true)
 		unit.grid_init_pos = self.init_pos
 		unit.name = info["username"]
 		unit.set_multiplayer_authority(info.peer_id, true)
@@ -120,6 +131,13 @@ func _ready() -> void:
 		if (host_id == 0):
 			host_id = info.peer_id
 	
+	for p in NetworkHandler.players.keys():
+		players[p] = {
+			"ready": false
+		}
+	
+	player_turn_ui.camera = camera
+	is_host = host_id == NetworkHandler.peer_id
 	state_changed = false
 	trigger_manager = TriggerManager.new()
 	BattleHandler.assign_manager(self)
@@ -136,6 +154,18 @@ func _process(_delta: float) -> void:
 				_animating = true;
 				break;
 	self.animating = _animating;
+	
+	if (!animating && done):
+		set_player_ready.rpc(NetworkHandler.peer_id)
+		done = false
+	
+	if (action_area != null):
+		for i in range(len(grid)):
+			for j in range(len(grid[i])):
+				if (action_area.point_in_area(Vector2(i, j))):
+					grid[i][j].selected = true
+				else:
+					grid[i][j].selected = false
 	
 	if (cutscene.size() <= 0):
 		return
@@ -165,6 +195,56 @@ func _unhandled_input(event: InputEvent) -> void:
 		await get_tree().create_timer(0.1).timeout
 		using_mouse = false
 
+func _turn_camera():
+	if (!camera.follow):
+		return
+	
+	var offset = (get_global_mouse_position() - camera.follow.global_position)/20;
+	offset.x = clamp(offset.x, -20, 10)
+	offset.y = clamp(offset.y - 5, -20, 20)
+	camera.offset_target = offset
+	
+	camera.zoom_target = Vector2(1.08, 1.08)
+	
+	if(!camera.is_bar_on):
+		camera.show_bar()
+
+func _handle_target_area():
+	var offset = Vector2(
+		int(Input.is_action_just_pressed("right")) - int(Input.is_action_just_pressed("left")), 
+		int(Input.is_action_just_pressed("down")) - int(Input.is_action_just_pressed("up"))
+		)
+		
+	var point = action_area.origin_point
+	var new_x = clamp(point.x + offset.x, 0, len(grid[0])-1)
+	var new_y = clamp(point.y + offset.y, 0, len(grid)-1)
+	var mouse_pos = Grid.scene_to_tile_pos(get_global_mouse_position().x, get_global_mouse_position().y, init_pos)
+	
+	if (using_mouse):
+		mouse_pos.x += 1
+		mouse_pos.y += 1
+		if (highlight_area.point_in_area( mouse_pos )):
+			new_x = clamp(mouse_pos.x, 0, len(grid[0])-1)
+			new_y = clamp(mouse_pos.y, 0, len(grid)-1)
+		camera.follow = user
+	
+	if ((new_x != point.x || new_y != point.y) && (highlight_area.point_in_area(Vector2(new_x, new_y)))):
+		action_area.origin_point = Vector2(new_x, new_y)
+		action_origin.global_position = Grid.tile_to_scene_pos(new_x, new_y, init_pos)
+		action_targets = []
+		action_area = action_area
+		
+		if (!using_mouse):
+			camera.follow = action_origin
+	
+		if ((new_x != point.x || new_y != point.y) && (highlight_area.point_in_area(Vector2(new_x, new_y)))): 
+			for unit in action_possible_targets:
+				if (action_area.point_in_area(unit.info.grid_pos)):
+					unit.focus = true
+					action_targets.push_back(unit)
+				else:
+					unit.focus = false
+
 func trigger_event(event: BattleEvent):
 	trigger_manager.emit_signal(event.trigger_name, event)
 	
@@ -178,31 +258,50 @@ func start_turn_state():
 	state_changed = false
 	
 	camera.follow = units[turn]
+	current_waiting_frames = 0.0
+	
+	for p in players:
+		players[p].ready = false
 	
 	if (is_host):
 		trigger_event(TurnStartedEvent.new(units[turn], turn))
 	
 	if (units[turn].is_multiplayer_authority() && units[turn].info.is_player):
 		state = turn_state
-	elif (units[turn].info.is_enemy):
+	elif (units[turn].info.is_enemy && is_host):
 		state = enemy_turn_state
 	else:
 		state = waiting_state
 		
 func turn_state():
+	if (!units[turn].is_multiplayer_authority()):
+		BattleHandler.exit_state_turn(waiting_state)
+	
 	if (!animating):
-		if (main_actions <= 0 || BattleHandler.get_user().done):
-			set_unit_done.rpc(BattleHandler.get_user().owner_id)
+		if (main_actions <= 0):
+			set_unit_done.rpc(NetworkHandler.peer_id)
 			BattleHandler.exit_state_turn(waiting_state)
 		else:
+			_turn_camera()
 			player_turn_ui.show_ui()
 			camera.follow = units[turn]
 
 func enemy_turn_state():
-	BattleHandler.get_user().done = true
-	state = waiting_state
+	if (current_waiting_frames <= waiting_frames):
+		current_waiting_frames += get_process_delta_time()
+		return
+	
+	if (!is_host || animating):
+		return
 
-func end_turn_state():
+	if (main_actions <= 0 || players[host_id].ready):
+		set_unit_done.rpc(host_id, true)
+		BattleHandler.exit_state_turn(waiting_state)
+	else:
+		user.state_script.execute()
+
+@rpc("any_peer", "call_local", "reliable")
+func end_turn_state(new_turn):
 	if (animating || state_changed):
 		return
 	
@@ -213,7 +312,7 @@ func end_turn_state():
 	extra_turn_user = null
 	extra_turn_given = false
 	
-	turn += 1
+	turn = new_turn
 	if (turn >= units.size()):
 		turn = 0
 		round += 1
@@ -221,30 +320,62 @@ func end_turn_state():
 	BattleHandler.set_state(start_turn_state)
 
 func waiting_state():
-	if (animating):
+	if (animating || !is_host):
 		return
-	
 	var is_everyone_done := true
-	for unit in units:
-		if (!unit.done):
+	for p in players:
+		if (!players[p].ready):
 			is_everyone_done = false
 			break
+	#
+	#if (extra_action && extra_turn_user is BattleUnit):
+		#if (extra_turn_user.info.is_player && extra_turn_user.owner_id == NetworkHandler.peer_id):
+			#extra_turn_user.done = false
+			#state = extra_turn_state
+		#elif (extra_turn_user.info.is_enemy && host_id == NetworkHandler.peer_id):
+			#state = extra_turn_state
 	
-	if (extra_action && extra_turn_user is BattleUnit):
-		if (extra_turn_user.info.is_player && extra_turn_user.owner_id == NetworkHandler.peer_id):
-			extra_turn_user.done = false
-			state = extra_turn_state
-		elif (extra_turn_user.info.is_enemy && host_id == NetworkHandler.peer_id):
-			state = extra_turn_state
-	
-	if BattleHandler.get_user().done:
-		state = end_turn_state
+	if (is_everyone_done):
+		end_turn_state.rpc(turn+1)
+
+@rpc("any_peer", "call_local", "reliable")
+func set_player_ready(player_id: int):
+	players[player_id].ready = true
 
 @rpc("any_peer", "call_local", "reliable")
 func set_unit_done(peer_id: int, value: bool = true):
-	for unit in units:
-		if (unit.owner_id == peer_id):
-			unit.done = value
+	done = true
+
+func start_state_move():
+	var user = BattleHandler.get_user()
+	var area = ActionArea.new(user.info.movement, ActionArea.Shapes.CIRCLE, user.info.grid_pos)
+	self.action_area = ActionArea.new(0, ActionArea.Shapes.CUSTOM, user.info.grid_pos)
+	highlight_area = area
+	
+	action_origin = BattleUnit.new()
+	action_origin.focus = true
+	action_origin.global_position = Grid.tile_to_scene_pos(action_area.origin_point.x, action_area.origin_point.y, init_pos)
+	add_child(action_origin)
+	BattleHandler.set_state(state_move)
+ 
+func state_move():
+	if (Input.is_action_just_pressed("menu_cancel")):
+		BattleHandler.set_state(exit_state_move)
+
+	_handle_target_area()
+	action_area.custom_area = astar_grid.get_id_path(user.info.grid_pos, action_area.origin_point, true)
+	if ((Input.is_action_just_pressed("menu_confirm") || Input.is_action_just_pressed("mouse_left")) && action_area.custom_area.size() > 1):
+		BattleHandler.move_unit(user, user.info.grid_pos, action_area.origin_point)
+		BattleHandler.set_state(exit_state_move)
+
+func exit_state_move():
+	camera.hide_bar()
+	camera.follow = user
+	highlight_area = null
+	action_area = null
+	action_origin.queue_free()
+	action_origin = null
+	BattleHandler.set_state(turn_state)
 
 func set_targeting_state(action: Action):
 	var user = BattleHandler.get_user().info
@@ -349,38 +480,8 @@ func targeting_state():
 	# Area Skills
 	if (selected_action.area_target):
 		if (!selected_action.origin_in_player):
-			var offset = Vector2(
-				int(Input.is_action_just_pressed("right")) - int(Input.is_action_just_pressed("left")), 
-				int(Input.is_action_just_pressed("down")) - int(Input.is_action_just_pressed("up"))
-				)
-				
-			var point = action_area.origin_point
-			var new_x = clamp(point.x + offset.x, 0, len(grid[0]))
-			var new_y = clamp(point.y + offset.y, 0, len(grid))
-			var mouse_pos = Grid.scene_to_tile_pos(get_global_mouse_position().x, get_global_mouse_position().y, init_pos)
-			
-			if (using_mouse):
-				if (highlight_area.point_in_area( mouse_pos )):
-					new_x = clamp(mouse_pos.x+1, 0, len(grid[0]))
-					new_y = clamp(mouse_pos.y+1, 0, len(grid))
-				camera.follow = user
-			
-			if ((new_x != point.x || new_y != point.y) && (highlight_area.point_in_area(Vector2(new_x, new_y)))):
-				action_area.origin_point = Vector2(new_x, new_y)
-				action_origin.global_position = Grid.tile_to_scene_pos(new_x, new_y, init_pos)
-				action_targets = []
-				action_area = action_area
-				
-				if (!using_mouse):
-					camera.follow = action_origin
-				
-				for unit in action_possible_targets:
-					if (action_area.point_in_area(unit.info.grid_pos)):
-						unit.focus = true
-						action_targets.push_back(unit)
-					else:
-						unit.focus = false
-						
+			_handle_target_area()
+		
 		if (Input.is_action_just_pressed("menu_confirm") || Input.is_action_just_pressed("mouse_left")):
 			BattleHandler.unit_use_action(selected_action, user, action_targets, action_area)
 			state = end_targeting_state

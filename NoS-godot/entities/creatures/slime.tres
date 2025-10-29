@@ -1,22 +1,25 @@
-[gd_resource type="Resource" script_class="Creature" load_steps=11 format=3 uid="uid://jf6y2eycwa2i"]
+[gd_resource type="Resource" script_class="Creature" load_steps=13 format=3 uid="uid://jf6y2eycwa2i"]
 
 [ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="1_2yakw"]
-[ext_resource type="Resource" uid="uid://3klqbl171fku" path="res://entities/creatures/state_scripts/battle/simple.tres" id="1_rwom8"]
+[ext_resource type="Resource" uid="uid://f8kttivibpj7" path="res://actions/basic_attacks/pound.tres" id="1_qawsh"]
 [ext_resource type="Script" uid="uid://hfadsvauvx4" path="res://globals/stats.gd" id="2_m8638"]
 [ext_resource type="Script" uid="uid://kjcuupkq7hqc" path="res://entities/creatures/scripts/creature.gd" id="2_quwe7"]
+[ext_resource type="Resource" uid="uid://cxmnakdb86efl" path="res://actions/types/poison.tres" id="3_ae63i"]
 [ext_resource type="Script" uid="uid://daam2rw4svqch" path="res://entities/creatures/scripts/creature_state_machine.gd" id="3_w5m7t"]
 [ext_resource type="Script" uid="uid://cb0xgv8xsc4l0" path="res://entities/creatures/scripts/creature_state.gd" id="4_qawsh"]
 [ext_resource type="Resource" uid="uid://dsl3smv22scff" path="res://actions/types/slashing.tres" id="5_0eahv"]
+[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://actions/classes/action.gd" id="6_3efnb"]
 
-[sub_resource type="Resource" id="Resource_w5m7t"]
+[sub_resource type="Resource" id="Resource_fhslv"]
 script = ExtResource("4_qawsh")
-script_path = "res://entities/creatures/state_scripts/battle/simple.tres"
+script_path = "res://entities/creatures/state_scripts/battle/simple.gd"
 change_trigger = "turn_started"
 initial = true
+node_pos = Vector2(200, -120)
 
-[sub_resource type="Resource" id="Resource_qawsh"]
+[sub_resource type="Resource" id="Resource_rwom8"]
 script = ExtResource("3_w5m7t")
-states = Array[ExtResource("4_qawsh")]([SubResource("Resource_w5m7t")])
+states = Array[ExtResource("4_qawsh")]([SubResource("Resource_fhslv")])
 
 [sub_resource type="Resource" id="Resource_xvgqp"]
 script = ExtResource("2_m8638")
@@ -28,11 +31,10 @@ script = ExtResource("2_quwe7")
 display_name = "Slime"
 stats = SubResource("Resource_xvgqp")
 movement = 6
-weakness = Array[ExtResource("1_2yakw")]([ExtResource("5_0eahv")])
-resistences = null
-immunities = null
-skills = null
+resistences = Array[ExtResource("1_2yakw")]([ExtResource("5_0eahv")])
+immunities = Array[ExtResource("1_2yakw")]([ExtResource("3_ae63i")])
+basic_attack = ExtResource("1_qawsh")
 animator_path = "res://entities/creatures/animations/SlimeAnimator.tscn"
-state_machine = SubResource("Resource_qawsh")
+state_machine = SubResource("Resource_rwom8")
 tameable = true
 metadata/_custom_type_script = "uid://kjcuupkq7hqc"

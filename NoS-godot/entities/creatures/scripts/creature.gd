@@ -6,7 +6,7 @@ class_name Creature extends Resource
 @export var weakness: Array[MoveType]
 @export var resistences: Array[MoveType]
 @export var immunities: Array[MoveType]
-@export var skills: Dictionary[String, Action]
+@export var skills: Array[Action]
 @export var basic_attack: Action
 @export var animator_path: String
 

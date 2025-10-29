@@ -7,6 +7,8 @@ class_name ActionButton extends Button
 @export var state_name: String = ""
 @export var angle: int
 
+signal interacted(button: ActionButton)
+
 func _ready() -> void:
 	key_text.text = InputMap.action_get_events(trigger_input)[0].as_text().split()[0]
 
@@ -15,7 +17,7 @@ func set_hdir(dir : String):
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (event.is_action_pressed(trigger_input)):
-		emit_signal("toggled", self)
+		interacted.emit(self)
 		
 func _on_toggled(toggled_on: bool) -> void:
-	emit_signal("toggled", self)
+	interacted.emit(self)

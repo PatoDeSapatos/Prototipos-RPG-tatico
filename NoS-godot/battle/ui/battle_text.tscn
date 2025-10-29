@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://dt805laa5vtg6"]
+[gd_scene load_steps=5 format=3 uid="uid://dt805laa5vtg6"]
+
+[ext_resource type="Script" uid="uid://dslridlhlb71g" path="res://battle/ui/scripts/battle_text.gd" id="1_17vob"]
+[ext_resource type="Theme" uid="uid://c6w8ab57rdgl7" path="res://resources/default_menu_theme.tres" id="2_t5rbo"]
+[ext_resource type="Texture2D" uid="uid://x720d82nj3n4" path="res://entities/items/assets/panel-border-010.png" id="3_oqhe3"]
+[ext_resource type="Texture2D" uid="uid://i740w8jku4a" path="res://entities/items/assets/panel-transparent-border-010.png" id="3_t5rbo"]
 
 [node name="BattleText" type="Control"]
 layout_mode = 3
@@ -7,3 +12,65 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+script = ExtResource("1_17vob")
+
+[node name="PanelContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 70)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.21800001
+anchor_bottom = 0.21800001
+offset_left = -32.0
+offset_top = -29.480003
+offset_right = 168.0
+offset_bottom = 40.519997
+grow_vertical = 2
+pivot_offset = Vector2(32, 35)
+theme = ExtResource("2_t5rbo")
+
+[node name="Background" type="NinePatchRect" parent="PanelContainer"]
+modulate = Color(0.03529412, 0.039215688, 0.078431375, 1)
+layout_mode = 2
+texture = ExtResource("3_t5rbo")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="RichTextLabel" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/paragraph_separation = 3
+bbcode_enabled = true
+text = "Biro Biro usou
+[img]res://actions/assets/normal_texture.tres[/img][color=819796] Sword Slash [/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Border" type="NinePatchRect" parent="PanelContainer"]
+modulate = Color(0.92156863, 0.92941177, 0.9137255, 1)
+layout_mode = 2
+texture = ExtResource("3_oqhe3")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

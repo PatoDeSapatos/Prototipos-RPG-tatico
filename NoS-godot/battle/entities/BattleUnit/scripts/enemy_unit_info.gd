@@ -22,7 +22,5 @@ static func createe(enemy_id, position, stat_changes, hp, mana, energy, conditio
 	)
 	obj.is_player = false
 	obj.is_enemy = true
-	
 	obj.state_machine = info.state_machine
-	obj.state = info.state_machine.states[info.state_machine.initial_state_index]
 	return obj

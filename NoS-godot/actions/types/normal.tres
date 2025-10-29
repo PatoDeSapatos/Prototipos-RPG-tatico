@@ -1,15 +1,11 @@
-[gd_resource type="Resource" script_class="MoveType" load_steps=4 format=3 uid="uid://bxp5ordh2ttds"]
+[gd_resource type="Resource" script_class="MoveType" load_steps=3 format=3 uid="uid://bxp5ordh2ttds"]
 
 [ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="1_8niku"]
-[ext_resource type="Texture2D" uid="uid://p4cfnglgd1ug" path="res://actions/assets/move_types.png" id="1_bvd31"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gtw8o"]
-atlas = ExtResource("1_bvd31")
-region = Rect2(0, 0, 20, 20)
+[ext_resource type="Texture2D" uid="uid://bguxsngpiijw0" path="res://actions/assets/normal_texture.tres" id="1_bvd31"]
 
 [resource]
 script = ExtResource("1_8niku")
 name = "Normal"
 color = Color(0.505882, 0.592157, 0.588235, 1)
-icon = SubResource("AtlasTexture_gtw8o")
+icon = ExtResource("1_bvd31")
 metadata/_custom_type_script = "uid://erxti01fmtf7"

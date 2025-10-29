@@ -9,6 +9,7 @@ enum TurnStep {
 @export_category("Classification")
 @export var name: String
 @export var description: String
+@export var tags: Array[String]
 @export var types: Array[MoveType]
 @export var category: MoveCategory
 @export var is_physical: bool

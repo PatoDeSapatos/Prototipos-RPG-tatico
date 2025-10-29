@@ -13,6 +13,9 @@ var grid_init_pos: Vector2
 var owner_id: int
 var done: bool
 
+var state: CreatureState
+var state_script: BattleStateScript
+
 var focus := false:
 	set(value):
 		focus = value
@@ -25,11 +28,20 @@ var focus := false:
 		
 		queue_redraw()
 
-func assign_info(info : BattleUnitInfo):
+func assign_info(info : BattleUnitInfo, manager: BattleManager):
 	self.info = info
+	
+	if (info.state_machine != null):
+		change_state(info.state_machine.states[info.state_machine.initial_state_index], manager)
+	
 	var a = load(info.animator)
 	if (a != null):
 		add_child(a.instantiate())
+
+func change_state(new_state: CreatureState, manager: BattleManager):
+	state = new_state
+	state_script = load(state.script_path).new()
+	state_script.assing_info(self, manager)
 
 func _ready() -> void:
 	var shape_size = animator.coll.shape.get_rect().size if animator != null else Vector2(0, BATTLE_TARGETING.get_height()/2)
@@ -55,7 +67,7 @@ func _on_mouse_exited():
 func _process(delta: float) -> void:
 	if (!focus):
 		var grid_pos = Grid.scene_to_tile_pos(global_position.x, global_position.y, grid_init_pos)
-		var depth = (Grid.tile_to_scene_pos(grid_pos.x, grid_pos.y, grid_init_pos).y)
+		var depth = grid_pos.y - grid_pos.x
 		z_index = depth
 
 func _draw() -> void:

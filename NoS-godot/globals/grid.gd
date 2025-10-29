@@ -14,3 +14,6 @@ func scene_to_tile_pos(x : int, y : int, init_pos : Vector2) -> Vector2:
 	res.y = floor(((screen_y / (Game.TILE_SIZE / 4)) - (screen_x / (Game.TILE_SIZE / 2))) / 2)
 
 	return res
+
+func get_shortest_path(to: Vector2, from: Vector2, grid):
+	pass
