@@ -17,6 +17,7 @@ const SKILL_OPTION = preload("res://battle/ui/skill_option.tscn")
 
 var current_option = 0
 var skills: Array
+var user: BattleUnit
 var active = false
 var option_callback: Callable
 
@@ -82,6 +83,6 @@ func set_skills(skills):
 	for i in len(skills):
 		var option = SKILL_OPTION.instantiate()
 		skill_list.add_element(option)
-		option.set_action(skills[i])
+		option.set_action(skills[i], user)
 	
 	skill_list.change_option_selected(0)

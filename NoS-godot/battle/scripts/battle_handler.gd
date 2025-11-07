@@ -23,12 +23,34 @@ func change_unit_hp(target: BattleUnit, amount: int, custom_color = null):
 	if (amount == 0):
 		return
 	
-	target.info.hp = target.info.hp + amount
+	target.info.hp = clamp(target.info.hp + amount, 0, target.info.stats.hp)
 	var color = Palette.green if amount > 0 else Color.WHITE
 	if (custom_color != null):
 		color = custom_color
 	
-	create_floating_text(amount, target.global_position, color)
+	create_floating_text(amount, target.global_position, true, color)
+
+func change_unit_source(target: BattleUnit, source: Source, amount: int, custom_color = null):
+	if (amount == 0 || source == null):
+		return
+		
+	var color = source.color
+	var n = source.name.to_lower()
+	
+	if (n == "life"): n = "hp"
+	if (target.info.get(n) + amount > target.info.stats.get(n)):
+		amount = target.info.stats.get(n) - target.info.get(n)
+		
+	color = load("res://actions/sources/" + source.name.to_lower() + ".tres").color
+	target.info.set(n, clamp(target.info.get(n) + amount, 0, target.info.get(n)))
+	
+	if (amount == 0):
+		return
+
+	if (custom_color != null):
+		color = custom_color
+	
+	create_floating_text(amount, target.global_position, false, color)
 
 func change_unit_stats(target: BattleUnit, stat_name: String, amount: int) -> void:
 	if (amount == 0):
@@ -74,8 +96,9 @@ func calc_action_default_damage(action: Action, user: BattleUnit) -> int:
 func aim_action(action: Action):
 	manager.set_targeting_state(action)
 
-func create_floating_text(value, pos: Vector2, color: Color = Color.WHITE):
+func create_floating_text(value, pos: Vector2, has_gravity: bool, color: Color = Color.WHITE):
 	var text = FLOATING_TEXT.instantiate()
+	text.has_gravity = has_gravity
 	text.value = value
 	text.position = pos
 	text.color = color
@@ -148,6 +171,7 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 	if (action.user_effect):
 		cutscene.push_back(["create_battle_effect", action.user_effect, user.get_effect_origin_position(), 0, false])
 
+	cutscene.push_back(["change_source", user, action.source, -action.cost_value])
 	cutscene.push_back(["play_animation", user, action.user_animation])
 	cutscene.push_back(["clear_effect_by_name", action.user_effect])
 	
@@ -230,6 +254,11 @@ func move_unit(user: BattleUnit, from: Vector2, to: Vector2):
 	path = path.filter(func(step):
 		return move_range.point_in_area(step) && !manager.astar_grid.is_point_solid(step)
 		)
+	
+	if (path.size() > 0):
+		to = path[max(path.size()-1, 0)]
+	else:
+		to = from
 	
 	for step in path:
 		cutscene.push_back(["move_unit", user, Grid.tile_to_scene_pos(step.x, step.y, manager.init_pos), 0.6])

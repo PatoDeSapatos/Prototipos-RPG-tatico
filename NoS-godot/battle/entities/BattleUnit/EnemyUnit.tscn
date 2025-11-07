@@ -3,5 +3,6 @@
 [ext_resource type="Script" uid="uid://dgl8fkw5wt27f" path="res://battle/entities/BattleUnit/scripts/battle_unit.gd" id="1_4pvww"]
 
 [node name="EnemyUnit" type="Node2D"]
+z_as_relative = false
 script = ExtResource("1_4pvww")
 metadata/_custom_type_script = "uid://dgl8fkw5wt27f"

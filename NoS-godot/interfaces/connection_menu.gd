@@ -24,7 +24,24 @@ func _on_text_changed():
 	NetworkHandler.username = text_edit.text
 
 func _on_button_pressed():
-	var unit = PartyUnitInfo.create(Vector2.ZERO, Stats.create(), 30, 15, 15, [], "res://entities/PlayerCharAnimator.tscn", 6, [], [], [], null, NetworkHandler.username)
+	print(Items.get_item("HEALTH_POTION"))
+	var unit = PartyUnitInfo.create(
+		Vector2.ZERO, 
+		Stats.create(30, 15, 15), 
+		30, 15, 15,
+		Inventory.new([
+			ItemStack.new(5, Items.get_item("HEALTH_POTION")),
+			ItemStack.new(1, Items.get_item("LEMBAS"))
+			]), 
+		"res://entities/PlayerCharAnimator.tscn", 
+		6, 
+		[], 
+		[], 
+		[], 
+		null, 
+		NetworkHandler.username
+	)
+	
 	NetworkHandler.userinfo["unit"] = JSON.stringify(unit.to_dict())
 	
 	NetworkHandler.register_player.rpc(NetworkHandler.userinfo)

@@ -2,6 +2,8 @@ extends Control
 
 @onready var button_container: Control = %ButtonContainer
 @onready var skill_menu: Control = $CanvasLayer/SkillMenu
+@onready var item_menu: ItemMenu = $CanvasLayer/ItemMenu
+@onready var aux_buttons: Control = $CanvasLayer/AuxButtons
 
 @export var radius := 80
 @export var animation_speed := 0.1
@@ -55,6 +57,15 @@ func show_ui():
 	
 	animating = true
 	button_container.show()
+	aux_buttons.show()
+	
+	$ButtonContainer/AttackButton.active = BattleHandler.manager.main_actions > 0
+	$ButtonContainer/ItemButton.active = BattleHandler.manager.main_actions > 0
+	$ButtonContainer/GuardButton.active = BattleHandler.manager.main_actions > 0
+	
+	$ButtonContainer/MoveButton.active = BattleHandler.manager.movement_actions > 0
+	
+	$ButtonContainer/PassButton.visible = BattleHandler.manager.extra_action
 	
 	for button in button_container.get_children():
 		if (button.angle < 90 || button.angle > 270):
@@ -79,6 +90,7 @@ func hide_ui():
 		return
 	
 	animating = true
+	aux_buttons.hide()
 	
 	for button in button_container.get_children():
 		var tween = get_tree().create_tween()
@@ -98,6 +110,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func start_state_skill():
 	var skills = [preload("res://actions/basic_attacks/sword_slash.tres"), preload("res://actions/skills/sharpen blades.tres"), preload("res://actions/skills/poison_mist.tres"), preload("res://actions/skills/fire_ball.tres")]
+	skill_menu.user = BattleHandler.get_user()
 	skill_menu.set_skills(skills)
 	skill_menu.show_menu()
 	skill_menu.option_callback = _on_skill_selected
@@ -112,3 +125,20 @@ func state_skill():
 
 func start_state_move():
 	BattleHandler.set_state(BattleHandler.manager.start_state_move)
+
+func start_state_item():
+	item_menu.items = BattleHandler.get_user().info.inventory.items
+	item_menu.show_menu()
+	BattleHandler.set_state(state_item)
+
+func state_item():
+	if (Input.is_action_just_pressed("menu_cancel")):
+		item_menu.hide_menu()
+		BattleHandler.return_to_prev_state()
+	
+	if (Input.is_action_just_pressed("menu_confirm")):
+		item_menu.hide_menu()
+		var item = item_menu.current_item
+		BattleHandler.get_user().info.inventory.remove_item(item.item.name, 1)
+		if (item != null && item.item.action != null):
+			BattleHandler.aim_action(item.item.action)

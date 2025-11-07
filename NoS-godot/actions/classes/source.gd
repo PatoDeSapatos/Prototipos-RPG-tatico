@@ -1,4 +1,4 @@
-class_name Source extends Resource
+class_name Source extends Serializable
 
 @export var name: String
 @export var color: Color

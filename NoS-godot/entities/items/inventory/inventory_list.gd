@@ -1,6 +1,5 @@
 class_name InventoryList extends PanelContainer
 
-
 @onready var options_container: VBoxContainer = $ElementOptions/OptionsContainer
 @onready var selector: TextureRect = $Selector
 var current_option := 0
@@ -21,6 +20,12 @@ func _process(delta: float) -> void:
 	
 	if (dir != 0):
 		var new_option = get_option_in_bounds(current_option + dir)
+		var starting_option = new_option
+		while(!elements[new_option].active):
+			new_option = get_option_in_bounds(new_option + dir)
+			if (new_option == starting_option):
+				break
+			
 		option_changed.emit(new_option)
 	
 	if (Input.is_action_just_pressed("menu_confirm") || Input.is_action_just_pressed("mouse_left")):
@@ -44,7 +49,15 @@ func add_element(element: InventoryOption):
 	element.focused.connect(_on_option_focus)
 	elements.push_back(element)
 	options_container.add_child(element)
-	
+	#
+	#if (elements.size() <= 1):
+		#var selector_pos = element.global_position
+		#selector_pos.x -= selector.size.x
+		#selector_pos.y += (element.size.y - selector.size.y)/2
+		#
+		#selector.set_pos(selector_pos)
+		#current_option = 0
+		
 func clear() -> void:
 	for e in options_container.get_children():
 		e.queue_free()
@@ -54,11 +67,14 @@ func clear() -> void:
 func _on_option_focus(option: InventoryOption):
 	var new_option = options_container.get_children().find(option)
 	
-	if (new_option != -1 && new_option != current_option):
+	if (option.active && new_option != -1 && new_option != current_option):
 		option_changed.emit(new_option)
 
 func _on_option_changed(new_option: int):
 	# inventory option
+	new_option = get_option_in_bounds(new_option)
+	current_option = get_option_in_bounds(current_option)
+	
 	var option : InventoryOption = elements[new_option]
 	elements[current_option].change_selection(false)
 	option.change_selection(true)

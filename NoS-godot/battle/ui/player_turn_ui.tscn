@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cyofdeai76sd3"]
+[gd_scene load_steps=7 format=3 uid="uid://cyofdeai76sd3"]
 
 [ext_resource type="PackedScene" uid="uid://yu0kn7rb0lbv" path="res://battle/ui/action_button.tscn" id="1_4jmgf"]
 [ext_resource type="Script" uid="uid://dqgqwp07hntg1" path="res://battle/ui/scripts/player_turn_ui.gd" id="1_up1na"]
 [ext_resource type="PackedScene" uid="uid://d374x7qt41biq" path="res://battle/ui/skill_menu.tscn" id="3_0bo8n"]
 [ext_resource type="PackedScene" uid="uid://dt805laa5vtg6" path="res://battle/ui/battle_text.tscn" id="4_lec0p"]
 [ext_resource type="PackedScene" uid="uid://dprmftd0thw1f" path="res://battle/ui/aux_button.tscn" id="5_keuy2"]
+[ext_resource type="PackedScene" uid="uid://blotp0mnnl71a" path="res://battle/ui/item_menu.tscn" id="6_1r4s8"]
 
 [node name="PlayerTurnUi" type="Control"]
 top_level = true
@@ -39,6 +40,7 @@ z_index = 200
 layout_mode = 0
 text = "Item"
 trigger_input = &"item_action"
+state_name = "start_state_item"
 angle = 330
 
 [node name="GuardButton" parent="ButtonContainer" instance=ExtResource("1_4jmgf")]
@@ -69,6 +71,8 @@ angle = 90
 top_level = true
 size_flags_horizontal = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="ItemMenu" parent="CanvasLayer" instance=ExtResource("6_1r4s8")]
 
 [node name="AuxButtons" type="Control" parent="CanvasLayer"]
 layout_mode = 3

@@ -148,6 +148,10 @@ func play_multiple_animations(targets: Array, animation_name: String):
 		buffer[3].animation_finished.disconnect(_on_animation_finished)
 		action_end()
 
+func change_source(user: BattleUnit, source: Source, value: int):
+	BattleHandler.change_unit_source(user, source, value)
+	action_end()
+
 func cast_action_func(action: Action, user: BattleUnit, targets: Array, area: ActionArea):
 	var custom_script: ActionCallable = load(action.script_path)
 	if (custom_script != null):

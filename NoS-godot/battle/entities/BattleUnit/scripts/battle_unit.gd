@@ -65,9 +65,9 @@ func _on_mouse_exited():
 	BattleHandler.set_unit_hover(null)
 
 func _process(delta: float) -> void:
-	if (!focus):
-		var grid_pos = Grid.scene_to_tile_pos(global_position.x, global_position.y, grid_init_pos)
-		var depth = grid_pos.y - grid_pos.x
+	if (!focus && info != null):
+		var grid_pos = info.grid_pos
+		var depth = (grid_pos.y + grid_pos.x + 1)
 		z_index = depth
 
 func _draw() -> void:

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Action" load_steps=6 format=3 uid="uid://2huju0kjxebq"]
+
+[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://actions/classes/action.gd" id="1_g55jo"]
+[ext_resource type="Resource" uid="uid://6pvcvekme7jt" path="res://actions/categories/magical.tres" id="1_x1oue"]
+[ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="2_m7t6c"]
+[ext_resource type="Resource" uid="uid://b5b1yidvw1bv6" path="res://actions/sources/life.tres" id="3_q12os"]
+[ext_resource type="Resource" uid="uid://bxp5ordh2ttds" path="res://actions/types/normal.tres" id="5_7hnsn"]
+
+[resource]
+script = ExtResource("1_g55jo")
+name = "Healt Potion"
+description = "Heals 15 hp"
+types = Array[ExtResource("2_m7t6c")]([ExtResource("5_7hnsn")])
+category = ExtResource("1_x1oue")
+cost_value = -15
+source = ExtResource("3_q12os")
+user_animation = "potion"
+target_animation = ""
+particle_effect_paths = Array[String](["res://actions/particles/heal_particle.tscn"])
+target_required = false
+target_self = true
+metadata/_custom_type_script = "uid://b3it801ahjdjt"

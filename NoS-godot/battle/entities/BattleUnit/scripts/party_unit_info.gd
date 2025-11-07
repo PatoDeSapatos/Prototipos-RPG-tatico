@@ -28,7 +28,7 @@ static func create(_position, _stats, _hp, _mana, _energy, _inventory, _animator
 	
 	var dict = data.to_dict()
 	dict["_type"] = "res://battle/entities/BattleUnit/scripts/party_unit_info.gd"
-	obj = obj.from_dict(dict)
+	obj = PartyUnitInfo.from_dict(dict)
 	
 	obj.peer_id = NetworkHandler.multiplayer.get_unique_id()
 	obj.username = _player_username

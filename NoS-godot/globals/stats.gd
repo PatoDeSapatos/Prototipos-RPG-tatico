@@ -1,7 +1,7 @@
 class_name Stats extends Serializable
 
 @export var hp : int
-@export var mana : int
+@export var spirit : int
 @export var energy : int
 @export var defense : int
 @export var magic_defense : int
@@ -10,10 +10,10 @@ class_name Stats extends Serializable
 @export var spd : int
 @export var luck : int
 
-static func create(hp=0, mana=0, energy=0, defense=0, magic_defense=0, attack=0, magic_attack=0, spd=0, luck=0) -> Stats:
+static func create(hp=0, spirit=0, energy=0, defense=0, magic_defense=0, attack=0, magic_attack=0, spd=0, luck=0) -> Stats:
 	var obj = Stats.new()
 	obj.hp = hp
-	obj.mana = mana
+	obj.spirit = spirit
 	obj.energy = energy
 	obj.defense = defense
 	obj.magic_defense = magic_defense

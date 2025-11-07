@@ -7,6 +7,11 @@ class_name ActionButton extends Button
 @export var state_name: String = ""
 @export var angle: int
 
+var active: bool = true:
+	set(value):
+		active = value
+		disabled = !value
+
 signal interacted(button: ActionButton)
 
 func _ready() -> void:

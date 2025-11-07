@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UsableItem" load_steps=3 format=3 uid="uid://6jrnwvsl36ok"]
+
+[ext_resource type="Script" uid="uid://pww4dnce1hem" path="res://entities/items/classes/usable_item.gd" id="1_06yf5"]
+[ext_resource type="Resource" uid="uid://cne3nokm45u5y" path="res://actions/items/lembas.tres" id="1_gawpf"]
+
+[resource]
+script = ExtResource("1_06yf5")
+action = ExtResource("1_gawpf")
+name = "LEMBAS"
+display_name = "Lembas"
+description = "Restores 15 of spirit,"
+max_stack = 99
+category = 4
+metadata/_custom_type_script = "uid://pww4dnce1hem"

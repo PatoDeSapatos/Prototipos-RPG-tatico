@@ -1,4 +1,4 @@
-class_name Item extends Resource
+class_name Item extends Serializable
 
 enum ItemCategories {
 	DEFAULT,

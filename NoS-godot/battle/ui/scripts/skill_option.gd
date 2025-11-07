@@ -7,7 +7,7 @@ class_name SkillOption extends InventoryOption
 @onready var cost_value: Label = $Option/HBoxContainer/Cost/CostValue
 @onready var background: NinePatchRect = $Background
 
-func set_action(action: Action):
+func set_action(action: Action, user: BattleUnit):
 	self.action = action
 	var type = action.types[0]
 	
@@ -19,6 +19,8 @@ func set_action(action: Action):
 	if (action.source != null):
 		cost_value.text = str(action.cost_value) + action.source.short
 		cost_value.add_theme_color_override("font_color", action.source.color)
+		if (user.info.get(action.source.name.to_lower()) != null):
+			active = action.cost_value <= user.info.get(action.source.name.to_lower())
 
 func change_selection(selected: bool):
 	super(selected)

@@ -1,16 +1,16 @@
 class_name EnemyUnitInfo extends BattleUnitInfo
 
 @warning_ignore("shadowed_variable_base_class")
-static func createe(enemy_id, position, stat_changes, hp, mana, energy, condition=null, passives=[]) -> BattleUnitInfo:
+static func createe(enemy_id, position, stat_changes, hp, spirit, energy, condition=null, passives=[]) -> BattleUnitInfo:
 	var info : Creature = load("res://entities/creatures/" + enemy_id + ".tres")
 	var obj = super.create(
 		position, 
 		stat_changes, 
 		info.stats,
 		hp,
-		mana,
+		spirit,
 		energy,
-		[],
+		Inventory.new(),
 		info.animator_path,
 		info.movement,
 		info.weakness,

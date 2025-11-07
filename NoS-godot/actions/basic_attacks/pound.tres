@@ -15,6 +15,7 @@ is_physical = true
 power = 200
 user_animation = "attack"
 target_effect = "hit"
+range = 2
 on_target = true
 target_count = 1
 prioritize_enemies = true

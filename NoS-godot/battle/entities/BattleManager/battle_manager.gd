@@ -285,6 +285,8 @@ func turn_state():
 			_turn_camera()
 			player_turn_ui.show_ui()
 			camera.follow = units[turn]
+			if (Input.is_action_just_pressed("end_turn")):
+				main_actions = 0
 
 func enemy_turn_state():
 	if (current_waiting_frames <= waiting_frames):

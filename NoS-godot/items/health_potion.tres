@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UsableItem" load_steps=3 format=3 uid="uid://ci8m73w0tmq4j"]
+
+[ext_resource type="Script" uid="uid://pww4dnce1hem" path="res://entities/items/classes/usable_item.gd" id="1_jl5pt"]
+[ext_resource type="Resource" uid="uid://2huju0kjxebq" path="res://actions/items/health_potion.tres" id="1_uly1j"]
+
+[resource]
+script = ExtResource("1_jl5pt")
+action = ExtResource("1_uly1j")
+name = "HEALTH_POTION"
+display_name = "Health Potion"
+description = "Heals 15 hp on use."
+max_stack = 99
+category = 4
+metadata/_custom_type_script = "uid://pww4dnce1hem"

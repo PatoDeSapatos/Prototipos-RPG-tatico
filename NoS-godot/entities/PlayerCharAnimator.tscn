@@ -333,7 +333,6 @@ size = Vector2(28, 42)
 
 [node name="Animator" type="Node2D"]
 show_behind_parent = true
-z_as_relative = false
 script = ExtResource("1_5h7px")
 metadata/_custom_type_script = "uid://cimg8p0bb4rk"
 
@@ -443,7 +442,7 @@ polygons = [PackedInt32Array(1, 12, 13), PackedInt32Array(2, 1, 12), PackedInt32
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="Face" type="Node2D" parent="Polygons"]
-position = Vector2(-10.9999, -35.0035)
+position = Vector2(-10.999858, -35.00351)
 
 [node name="Olhos" type="Sprite2D" parent="Polygons/Face"]
 position = Vector2(12.0082, 11.0218)
@@ -553,11 +552,11 @@ bone_angle = 0.0
 [node name="RightShoulder" type="Bone2D" parent="Skeleton/Torso"]
 position = Vector2(-4.04364, -10.9918)
 rotation = 0.00164628
-scale = Vector2(0.999949, 0.999949)
+scale = Vector2(0.9999489, 0.9999489)
 rest = Transform2D(0.999998, 0.00164628, -0.00164628, 0.999998, -4.04364, -10.9918)
 auto_calculate_length_and_angle = false
 length = 6.40974
-bone_angle = 141.016
+bone_angle = 141.01599
 
 [node name="RightArm" type="Bone2D" parent="Skeleton/Torso/RightShoulder"]
 position = Vector2(-4.98241, 4.03242)

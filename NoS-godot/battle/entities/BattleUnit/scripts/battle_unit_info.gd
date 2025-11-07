@@ -15,9 +15,9 @@ var passives: Array
 var level: int = 1
 var stats: Stats
 var hp: int
-var mana: int
+var spirit: int
 var energy: int
-var inventory: Array
+var inventory: Inventory
 var movement: int
 var weakness: Array
 var resistences: Array
@@ -39,7 +39,7 @@ static func create(_position, _stat_changes, _stats, _hp, _mana, _energy, _inven
 	obj.passives = _passives
 	obj.stats = _stats;
 	obj.hp = _hp;
-	obj.mana = _mana;
+	obj.spirit = _mana;
 	obj.energy = _energy;
 	obj.inventory = _inventory;
 	obj.animator = _animator_path;
@@ -65,7 +65,7 @@ func _to_string() -> String:
 	result += "passives: %s\n" % str(passives)
 	result += "stats: %s\n" % (str(stats) if stats != null else "null")
 	result += "hp: %d\n" % hp
-	result += "mana: %d\n" % mana
+	result += "spirit: %d\n" % spirit
 	result += "energy: %d\n" % energy
 	result += "inventory: %s\n" % str(inventory)
 	result += "movement: %d\n" % movement

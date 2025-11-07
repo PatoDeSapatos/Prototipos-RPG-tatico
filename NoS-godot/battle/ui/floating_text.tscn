@@ -25,3 +25,6 @@ text = "6"
 label_settings = SubResource("LabelSettings_hgssl")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Disappear" type="Timer" parent="."]
+one_shot = true
