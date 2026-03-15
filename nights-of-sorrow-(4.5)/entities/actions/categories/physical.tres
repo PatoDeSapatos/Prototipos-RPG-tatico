@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveCategory" load_steps=4 format=3 uid="uid://cncm5w0bmkmu1"]
+
+[ext_resource type="Texture2D" uid="uid://m4kmynfujws" path="res://entities/actions/assets/move_categories.png" id="1_3xl2v"]
+[ext_resource type="Script" uid="uid://ngpfk4y2eb84" path="res://entities/actions/classes/move_category.gd" id="1_yrfw3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yq1e4"]
+atlas = ExtResource("1_3xl2v")
+region = Rect2(32, 0, 32, 24)
+
+[resource]
+script = ExtResource("1_yrfw3")
+name = "Physical"
+icon = SubResource("AtlasTexture_yq1e4")
+metadata/_custom_type_script = "uid://ngpfk4y2eb84"

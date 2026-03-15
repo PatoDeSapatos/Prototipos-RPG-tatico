@@ -12,12 +12,13 @@ config_version=5
 
 warnings/check_invalid_track_paths=false
 warnings/check_angle_interpolation_type_conflicting=false
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="Nights of Sorrow"
 run/main_scene="uid://biqwdh53jld31"
-config/features=PackedStringArray("4.5", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.svg"
@@ -29,7 +30,7 @@ Game="*res://globals/game.gd"
 BattleHandler="*res://battle/scripts/battle_handler.gd"
 Grid="*res://globals/grid.gd"
 SceneTransition="*res://globals/scene_transition.gd"
-Items="*res://items/scripts/items.gd"
+Items="*res://entities/items/scripts/items.gd"
 
 [debug]
 

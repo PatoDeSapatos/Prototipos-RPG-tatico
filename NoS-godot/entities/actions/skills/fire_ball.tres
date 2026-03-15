@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Action" format=3 uid="uid://buh4m1bca1olj"]
+
+[ext_resource type="Script" uid="uid://b4tsvt7jivojm" path="res://resources/action_area.gd" id="1_qr11b"]
+[ext_resource type="Resource" uid="uid://6pvcvekme7jt" path="res://entities/actions/categories/magical.tres" id="2_31wgx"]
+[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://entities/actions/classes/action.gd" id="3_tlkly"]
+[ext_resource type="Resource" uid="uid://bij3pq7jp01ws" path="res://entities/actions/sources/spirit.tres" id="4_eplp0"]
+[ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://entities/actions/classes/move_type.gd" id="5_58ynu"]
+[ext_resource type="Resource" uid="uid://bxp5ordh2ttds" path="res://entities/actions/types/normal.tres" id="6_kktl6"]
+
+[sub_resource type="Resource" id="Resource_df8qw"]
+script = ExtResource("1_qr11b")
+range = 5
+metadata/_custom_type_script = "uid://b4tsvt7jivojm"
+
+[resource]
+script = ExtResource("3_tlkly")
+name = "Fire Ball"
+description = "Cast a fire ball that gives damage in an area."
+types = Array[ExtResource("5_58ynu")]([ExtResource("6_kktl6")])
+category = ExtResource("2_31wgx")
+power = 105
+cost_value = 10
+source = ExtResource("4_eplp0")
+user_animation = "cast"
+user_effect = "fire_casting"
+target_effect = "hit"
+particle_effect_paths = Array[String](["res://actions/particles/fire_explosion.tscn", "res://actions/particles/smoke_particle.tscn"])
+has_projectile = true
+projectile_particle_path = "res://actions/particles/fire_particle.tscn"
+condition_name = "burning"
+inflict_chance = 30
+target_self = true
+range = 6
+area_target = true
+area = SubResource("Resource_df8qw")
+metadata/_custom_type_script = "uid://b3it801ahjdjt"

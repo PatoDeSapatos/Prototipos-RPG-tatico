@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="Action" load_steps=6 format=3 uid="uid://bfn8tjlfqc4jo"]
+
+[ext_resource type="Resource" uid="uid://ccyxu7qlba04f" path="res://entities/actions/categories/status.tres" id="1_wsw25"]
+[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://entities/actions/classes/action.gd" id="2_tiv6h"]
+[ext_resource type="Resource" uid="uid://bij3pq7jp01ws" path="res://entities/actions/sources/spirit.tres" id="3_iu0h6"]
+[ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://entities/actions/classes/move_type.gd" id="4_0u6tg"]
+[ext_resource type="Resource" uid="uid://bxp5ordh2ttds" path="res://entities/actions/types/normal.tres" id="5_7hlv2"]
+
+[resource]
+script = ExtResource("2_tiv6h")
+name = "Sharpen Blades"
+description = "Sharp your blades to greatly increase your attack!"
+types = Array[ExtResource("4_0u6tg")]([ExtResource("5_7hlv2")])
+category = ExtResource("1_wsw25")
+is_physical = false
+turn_step = 0
+power = 0
+on_user_stat_changes = Array[String](["attack"])
+on_user_change_levels = Array[int]([2])
+on_user_change_chances = Array[int]([100])
+on_target_stat_changes = Array[String]([])
+on_target_change_levels = Array[int]([])
+on_target_change_chances = Array[int]([100])
+custom_source_managment = false
+script_path = ""
+cost_value = 2
+source = ExtResource("3_iu0h6")
+user_animation = ""
+target_animation = "hurt"
+user_effect = ""
+target_effect = ""
+particle_effect_paths = Array[String]([])
+has_projectile = false
+projectile_effect_name = ""
+projectile_particle_path = ""
+condition_name = ""
+inflict_chance = 0
+target_required = false
+target_self = true
+target_dead = false
+apply_effects_at_once = false
+range = 0
+on_target = false
+target_count = 1
+prioritize_enemies = false
+area_target = false
+origin_in_player = false
+metadata/_custom_type_script = "uid://b3it801ahjdjt"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Source" load_steps=2 format=3 uid="uid://cb3bxqcvinhnp"]
+
+[ext_resource type="Script" uid="uid://hnwhd4dnodso" path="res://entities/actions/classes/source.gd" id="1_y2jcu"]
+
+[resource]
+script = ExtResource("1_y2jcu")
+name = "Energy"
+color = Color(0.870588, 0.619608, 0.254902, 1)
+short = "ep"
+metadata/_custom_type_script = "uid://hnwhd4dnodso"

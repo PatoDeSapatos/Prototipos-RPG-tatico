@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Action" load_steps=5 format=3 uid="uid://f8kttivibpj7"]
+
+[ext_resource type="Resource" uid="uid://cncm5w0bmkmu1" path="res://entities/actions/categories/physical.tres" id="1_f5mr4"]
+[ext_resource type="Script" uid="uid://b3it801ahjdjt" path="res://entities/actions/classes/action.gd" id="1_tnrli"]
+[ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://entities/actions/classes/move_type.gd" id="2_63rcc"]
+[ext_resource type="Resource" uid="uid://bxp5ordh2ttds" path="res://entities/actions/types/normal.tres" id="4_hkeib"]
+
+[resource]
+script = ExtResource("1_tnrli")
+name = "Pound"
+description = "Bashes into your enemy"
+types = Array[ExtResource("2_63rcc")]([ExtResource("4_hkeib")])
+category = ExtResource("1_f5mr4")
+is_physical = true
+power = 200
+user_animation = "attack"
+target_effect = "hit"
+range = 2
+on_target = true
+target_count = 1
+prioritize_enemies = true
+metadata/_custom_type_script = "uid://b3it801ahjdjt"

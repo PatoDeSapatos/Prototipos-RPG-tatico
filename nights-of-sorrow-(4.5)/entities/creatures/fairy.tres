@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Creature" load_steps=5 format=3 uid="uid://20mg0tpkob05"]
+
+[ext_resource type="Script" uid="uid://daam2rw4svqch" path="res://entities/creatures/scripts/creature_state_machine.gd" id="3_6k65f"]
+[ext_resource type="Script" uid="uid://kjcuupkq7hqc" path="res://entities/creatures/scripts/creature.gd" id="3_t0on7"]
+[ext_resource type="Script" uid="uid://cb0xgv8xsc4l0" path="res://entities/creatures/scripts/creature_state.gd" id="4_t0on7"]
+
+[sub_resource type="Resource" id="Resource_fbcqu"]
+script = ExtResource("3_6k65f")
+
+[resource]
+script = ExtResource("3_t0on7")
+display_name = "Fairy"
+movement = null
+weakness = null
+resistences = null
+immunities = null
+skills = null
+animator_path = null
+state_machine = SubResource("Resource_fbcqu")
+tameable = null
+metadata/_custom_type_script = "uid://kjcuupkq7hqc"

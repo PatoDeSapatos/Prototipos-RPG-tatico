@@ -1,0 +1,116 @@
+[gd_scene load_steps=7 format=3 uid="uid://d32rfqsj0b0pg"]
+
+[ext_resource type="Script" uid="uid://bbi3ecwht4i2a" path="res://battle/entities/BattleManager/scripts/camera.gd" id="1_1ocen"]
+[ext_resource type="PackedScene" uid="uid://b6yba086btupv" path="res://battle/ui/particles.tscn" id="2_duy7i"]
+
+[sub_resource type="Animation" id="Animation_duy7i"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_1ocen"]
+resource_name = "hide_bar"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Bar/ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 0.75),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -41)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Bar/ColorRect2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 0.75),
+"update": 0,
+"values": [Vector2(0, 324), Vector2(0, 361)]
+}
+
+[sub_resource type="Animation" id="Animation_3yam1"]
+resource_name = "show_bar"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Bar/ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 0.75),
+"update": 0,
+"values": [Vector2(0, -41), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Bar/ColorRect2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 0.75),
+"update": 0,
+"values": [Vector2(0, 361), Vector2(0, 324)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3yam1"]
+_data = {
+&"RESET": SubResource("Animation_duy7i"),
+&"hide_bar": SubResource("Animation_1ocen"),
+&"show_bar": SubResource("Animation_3yam1")
+}
+
+[node name="BattleCamera" type="Camera2D"]
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("1_1ocen")
+metadata/_custom_type_script = "uid://bbi3ecwht4i2a"
+
+[node name="AmbientParticles" parent="." instance=ExtResource("2_duy7i")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Bar" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Bar"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 40.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Bar"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_3yam1")
+}

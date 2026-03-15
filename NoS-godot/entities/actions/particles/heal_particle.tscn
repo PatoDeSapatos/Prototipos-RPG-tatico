@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://daa3fqvnxw5gf"]
+
+[ext_resource type="Script" uid="uid://b0872gvwbv7u" path="res://entities/actions/classes/action_particle.gd" id="1_mw144"]
+
+[node name="HealParticle" type="Node2D"]
+script = ExtResource("1_mw144")
+metadata/_custom_type_script = "uid://b0872gvwbv7u"

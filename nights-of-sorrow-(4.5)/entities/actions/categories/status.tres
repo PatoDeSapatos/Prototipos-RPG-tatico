@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveCategory" load_steps=4 format=3 uid="uid://ccyxu7qlba04f"]
+
+[ext_resource type="Script" uid="uid://ngpfk4y2eb84" path="res://entities/actions/classes/move_category.gd" id="1_bflv3"]
+[ext_resource type="Texture2D" uid="uid://m4kmynfujws" path="res://entities/actions/assets/move_categories.png" id="1_vupy8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sb48i"]
+atlas = ExtResource("1_vupy8")
+region = Rect2(64, 0, 32, 24)
+
+[resource]
+script = ExtResource("1_bflv3")
+name = "Status"
+icon = SubResource("AtlasTexture_sb48i")
+metadata/_custom_type_script = "uid://ngpfk4y2eb84"

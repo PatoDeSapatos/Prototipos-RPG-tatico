@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://dprmftd0thw1f"]
+
+[ext_resource type="Theme" uid="uid://bqufbtkyaw607" path="res://battle/ui/themes/turn_option_theme.tres" id="1_hewmi"]
+[ext_resource type="Script" uid="uid://fboy2m5bdxo6" path="res://battle/ui/scripts/aux_button.gd" id="1_o1w0u"]
+[ext_resource type="Texture2D" uid="uid://cxcsqquy46aks" path="res://battle/ui/assets/key_button.png" id="2_iqvcg"]
+[ext_resource type="FontFile" uid="uid://cqnhghmruowb8" path="res://fonts/rainyhearts.ttf" id="3_wuc65"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hewmi"]
+font = ExtResource("3_wuc65")
+
+[sub_resource type="LabelSettings" id="LabelSettings_wuc65"]
+
+[node name="AuxButton" type="HBoxContainer"]
+offset_right = 61.0
+offset_bottom = 23.0
+theme = ExtResource("1_hewmi")
+script = ExtResource("1_o1w0u")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Await"
+label_settings = SubResource("LabelSettings_hewmi")
+vertical_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+texture = ExtResource("2_iqvcg")
+region_rect = Rect2(0, 0, 19, 19)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Key" type="Label" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.5
+offset_top = -12.5
+offset_right = 6.5
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "R"
+label_settings = SubResource("LabelSettings_wuc65")
+horizontal_alignment = 1
+vertical_alignment = 1

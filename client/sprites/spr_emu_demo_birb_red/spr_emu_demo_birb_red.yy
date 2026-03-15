@@ -1,5 +1,5 @@
 {
-  "$GMSprite":"",
+  "$GMSprite":"v2",
   "%Name":"spr_emu_demo_birb_red",
   "bboxMode":0,
   "bbox_bottom":63,
@@ -12,7 +12,7 @@
   "edgeFiltering":false,
   "For3D":true,
   "frames":[
-    {"$GMSpriteFrame":"","%Name":"6d13e92e-d6bb-4bd7-a576-352d11ce3471","name":"6d13e92e-d6bb-4bd7-a576-352d11ce3471","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"6d13e92e-d6bb-4bd7-a576-352d11ce3471","name":"6d13e92e-d6bb-4bd7-a576-352d11ce3471","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,

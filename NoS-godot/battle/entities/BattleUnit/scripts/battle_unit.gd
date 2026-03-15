@@ -1,7 +1,13 @@
 class_name BattleUnit extends Node2D
 
 @onready var targeting_timer: Timer
-@onready var animator: Animator = $Animator
+var health_bar: TextureProgressBar
+var animator: Animator: 
+	set(value):
+		animator = value
+		
+		if (health_bar != null):
+			health_bar.position.y = animator.position.y - 10
 
 @export var info : BattleUnitInfo
 
@@ -33,15 +39,21 @@ func assign_info(info : BattleUnitInfo, manager: BattleManager):
 	
 	if (info.state_machine != null):
 		change_state(info.state_machine.states[info.state_machine.initial_state_index], manager)
-	
-	var a = load(info.animator)
-	if (a != null):
-		add_child(a.instantiate())
+
+	if (health_bar != null):
+		health_bar.max_value = info.stats.hp
+		health_bar.value = info.hp
+
+	var temp := load(info.animator)
+	if (temp != null):
+		var a = temp.instantiate()
+		add_child(a)
+		animator = a
 
 func change_state(new_state: CreatureState, manager: BattleManager):
 	state = new_state
 	state_script = load(state.script_path).new()
-	state_script.assing_info(self, manager)
+	state_script.assign_info(self, manager)
 
 func _ready() -> void:
 	var shape_size = animator.coll.shape.get_rect().size if animator != null else Vector2(0, BATTLE_TARGETING.get_height()/2)
@@ -50,6 +62,15 @@ func _ready() -> void:
 	if (animator != null):
 		animator.area.mouse_entered.connect(_on_mouse_entered)
 		animator.area.mouse_exited.connect(_on_mouse_exited)
+	
+	health_bar = preload("res://battle/entities/BattleUnit/UnitHealthBar.tscn").instantiate()
+	
+	if (info != null):
+		health_bar.max_value = info.stats.hp
+		health_bar.value = info.hp
+		health_bar.tint_progress = Palette.red
+	
+	add_child(health_bar)
 	
 	var targeting_timer = Timer.new()
 	targeting_timer.wait_time = 0.5
@@ -94,3 +115,8 @@ func _on_timer_timeout():
 func get_effect_origin_position() -> Vector2:
 	if (animator == null): return position
 	return animator.effect_origin.global_position if animator.effect_origin != null else global_position
+
+func get_image() -> Texture2D:
+	if (animator != null):
+		return animator.get_image()
+	return null

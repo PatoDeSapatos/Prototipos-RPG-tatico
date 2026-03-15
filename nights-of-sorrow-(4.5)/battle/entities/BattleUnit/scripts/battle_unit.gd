@@ -1,0 +1,117 @@
+class_name BattleUnit extends Node2D
+
+@onready var targeting_timer: Timer
+var health_bar: TextureProgressBar
+var animator: Animator: 
+	set(value):
+		animator = value
+		
+		if (health_bar != null):
+			health_bar.position.y = animator.position.y - 10
+
+@export var info : BattleUnitInfo
+
+const BATTLE_TARGETING = preload("res://battle/entities/BattleUnit/assets/battle_targeting.png")
+var focus_position := Vector2()
+var focus_down := false
+var animating := false
+var grid_init_pos: Vector2
+var owner_id: int
+var done: bool
+
+var state: CreatureState
+var state_script: BattleStateScript
+
+var focus := false:
+	set(value):
+		focus = value
+		
+		if (value):
+			top_level = true
+			z_index = 1000
+		else:
+			top_level = false
+		
+		queue_redraw()
+
+func assign_info(info : BattleUnitInfo, manager: BattleManager):
+	self.info = info
+	
+	if (info.state_machine != null):
+		change_state(info.state_machine.states[info.state_machine.initial_state_index], manager)
+
+	if (health_bar != null):
+		health_bar.max_value = info.stats.hp
+		health_bar.value = info.hp
+
+	var temp := load(info.animator)
+	if (temp != null):
+		var a = temp.instantiate()
+		add_child(a)
+		animator = a
+
+func change_state(new_state: CreatureState, manager: BattleManager):
+	state = new_state
+	state_script = load(state.script_path).new()
+	state_script.assign_info(self, manager)
+
+func _ready() -> void:
+	var shape_size = animator.coll.shape.get_rect().size if animator != null else Vector2(0, BATTLE_TARGETING.get_height()/2)
+	self.focus_position = Vector2(-BATTLE_TARGETING.get_width()/2, -BATTLE_TARGETING.get_height() - shape_size.y)
+	
+	if (animator != null):
+		animator.area.mouse_entered.connect(_on_mouse_entered)
+		animator.area.mouse_exited.connect(_on_mouse_exited)
+	
+	health_bar = preload("res://battle/entities/BattleUnit/UnitHealthBar.tscn").instantiate()
+	
+	if (info != null):
+		health_bar.max_value = info.stats.hp
+		health_bar.value = info.hp
+		health_bar.tint_progress = Palette.red
+	
+	add_child(health_bar)
+	
+	var targeting_timer = Timer.new()
+	targeting_timer.wait_time = 0.5
+	targeting_timer.one_shot = false
+	targeting_timer.timeout.connect(_on_timer_timeout)
+	self.targeting_timer = targeting_timer
+	add_child(targeting_timer)
+
+func _on_mouse_entered():
+	BattleHandler.set_unit_hover(self)
+
+func _on_mouse_exited():
+	BattleHandler.set_unit_hover(null)
+
+func _process(delta: float) -> void:
+	if (!focus && info != null):
+		var grid_pos = info.grid_pos
+		var depth = (grid_pos.y + grid_pos.x + 1)
+		z_index = depth
+
+func _draw() -> void:
+	if (focus):
+		draw_texture(BATTLE_TARGETING, focus_position)
+		
+		if (targeting_timer.is_stopped()):
+			targeting_timer.start()
+
+func _on_timer_timeout():
+	if (!focus):
+		targeting_timer.stop()
+
+	var shape_size = animator.coll.shape.get_rect().size if animator != null else Vector2(0, BATTLE_TARGETING.get_height()/2)
+	if (focus_down):
+		focus_position = Vector2(-BATTLE_TARGETING.get_width()/2, -BATTLE_TARGETING.get_height() - shape_size.y - 5)
+	else:
+		focus_position = Vector2(-BATTLE_TARGETING.get_width()/2, -BATTLE_TARGETING.get_height() - shape_size.y - 3)
+	
+	focus_down = !focus_down
+	
+	queue_redraw()
+	
+func get_effect_origin_position() -> Vector2:
+	if (animator == null): return position
+	return animator.effect_origin.global_position if animator.effect_origin != null else global_position

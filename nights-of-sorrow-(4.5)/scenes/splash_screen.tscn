@@ -1,0 +1,179 @@
+[gd_scene load_steps=9 format=3 uid="uid://biqwdh53jld31"]
+
+[ext_resource type="Script" uid="uid://gaosvel0m1bh" path="res://scenes/splash_screen.gd" id="1_n4g2v"]
+[ext_resource type="PackedScene" uid="uid://c0sxpsplhdtef" path="res://main.tscn" id="2_hsxvm"]
+[ext_resource type="Texture2D" uid="uid://ce3t6pn1fbpjj" path="res://scenes/shy_shoe.svg" id="3_3mj2l"]
+[ext_resource type="FontFile" uid="uid://0lgviki11joe" path="res://scenes/NicoBold-Regular.ttf" id="4_3mj2l"]
+
+[sub_resource type="Curve" id="Curve_3mj2l"]
+_data = [Vector2(0.0357143, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Animation" id="Animation_vbcv6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3mj2l"]
+resource_name = "fade"
+length = 6.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FadeRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 4.5, 5.93333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(6.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_end"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a2ut7"]
+_data = {
+&"RESET": SubResource("Animation_vbcv6"),
+&"fade": SubResource("Animation_3mj2l")
+}
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_n4g2v")
+load_scene = ExtResource("2_hsxvm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(320, 180)
+amount = 90
+lifetime = 20.0
+preprocess = 8.0
+explosiveness = 0.2
+use_fixed_seed = true
+seed = 3312788739
+emission_shape = 3
+emission_rect_extents = Vector2(400, 260)
+gravity = Vector2(0, -3)
+initial_velocity_min = 1.0
+initial_velocity_max = 4.0
+angle_min = -174.5
+angle_max = 720.0
+scale_amount_min = 4.5
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_3mj2l")
+color = Color(1, 1, 1, 0.623529)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("3_3mj2l")
+
+[node name="Label" type="RichTextLabel" parent="CenterContainer/VBoxContainer"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.870588, 0.619608, 0.254902, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_outline_size = 12
+theme_override_fonts/normal_font = ExtResource("4_3mj2l")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[wave amp=30 freq=3.75 connected=0]Silly
+Shoes[/wave]"
+fit_content = true
+scroll_active = false
+tab_size = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_a2ut7")
+}
+
+[node name="FadeRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
