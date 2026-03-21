@@ -259,3 +259,7 @@ func end_movement(unit: BattleUnit, from: Vector2, to: Vector2):
 func set_camera_follow(target: Node2D):
 	manager.camera.follow = target
 	action_end()
+
+func set_unit_done(peer_id: int, value: bool):
+	manager.set_unit_done.rpc(peer_id, value)
+	action_end()

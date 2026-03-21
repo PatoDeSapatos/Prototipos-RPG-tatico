@@ -52,7 +52,7 @@ func _on_mouse_entered():
 func _on_mouse_exited():
 	BattleHandler.set_unit_hover(null)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if (!focus):
 		var grid_pos = Grid.scene_to_tile_pos(global_position.x, global_position.y, grid_init_pos)
 		var depth = (Grid.tile_to_scene_pos(grid_pos.x, grid_pos.y, grid_init_pos).y)
@@ -82,3 +82,7 @@ func _on_timer_timeout():
 func get_effect_origin_position() -> Vector2:
 	if (animator == null): return position
 	return animator.effect_origin.global_position if animator.effect_origin != null else global_position
+
+func get_image():
+	if (animator != null):
+		return animator.get_image()

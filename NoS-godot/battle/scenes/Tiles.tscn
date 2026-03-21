@@ -1,0 +1,175 @@
+[gd_scene format=4 uid="uid://c00hxeds2aawf"]
+
+[ext_resource type="Material" uid="uid://x4pw3m31vnq5" path="res://battle/scenes/assets/Material.tres" id="1_6mf4f"]
+[ext_resource type="Texture2D" uid="uid://d1agvcbly1fm8" path="res://battle/scenes/assets/bricks_brick.png" id="2_r5kmr"]
+[ext_resource type="Texture2D" uid="uid://b4s0x77wqe264" path="res://battle/scenes/assets/occlusion.png" id="3_8ce4r"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_gu86q"]
+_surfaces = [{
+"aabb": AABB(-1, -1, -1, 2, 1, 2),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAwAAAAIAAAAEAAEABQADAAIABQACAAEAAwAGAAAABgADAAUABgAEAAAABwAFAAEABgAFAAcABwABAAQABgAHAAQA"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("AAD//wAAAAD///////8AAAAA/////wAAAAAAAP//AAD/////AAAAAP//AAD//wAAAAAAAAAAAAD//wAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_m2eoj"]
+resource_name = "Tile_Cube"
+_surfaces = [{
+"aabb": AABB(-1, -1, -1, 2, 1, 2),
+"attribute_data": PackedByteArray("FYDaf///xv8VgMb////af4E7/7+AW/+fgFv/v4E7/5+AW//ff2v/v39r/9+AW/+/gFv/v39r/59/a/+/gFv/n4Bb//9/a//ff2v//4Bb/9+AW/+ff2v/f39r/5+AW/9/"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": ExtResource("1_6mf4f"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(2.0001566, 2, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AAD//wAA/7//////////vwAA//////+//////wAA/78AAAAAAAD/v///AAD///+///8AAAAA/78AAAAA////vwAAAAAAAP///////wAA//8AAP//AAD/////AAAAAP////8AAAAAVNX///////9U1f////8AAFTV//8AAP//VNUAAAAA//9U1QAA//8AAFTVAAD/////VNUAAAAAAABU1f//AAD///+/AAD//////7//////////vwAAAAD///+/////f////3////9/////fwAA/38AAP9/AAD/fwAA/3//v/+//7//v/+//7//v/+/qiqqKqoqqiqqKqoqqiqqKlTVVNVU1VTVVNVU1VTVVNX/////////////////////")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_gu86q")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4daja"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="Shader" id="Shader_6mf4f"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.6.1.stable's StandardMaterial3D.
+shader_type spatial;
+#include \"res://battle/scenes/shaders/tansparency.gdshaderinc\"
+
+render_mode blend_mix, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_nearest_mipmap, repeat_enable;
+uniform float grow : hint_range(-16.0, 16.0, 0.001);
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_nearest_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_nearest_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+	// Grow: Enabled
+	VERTEX += NORMAL * grow;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	
+	vec3 out_albedo = albedo.rgb * albedo_tex.rgb;
+    float out_alpha = albedo.a * albedo_tex.a;
+	apply_portal_effect(out_albedo, out_alpha, texture_albedo, SCREEN_UV, UV, VIEWPORT_SIZE, NODE_POSITION_WORLD);
+	ALPHA = out_alpha;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r5kmr"]
+resource_name = "Material"
+render_priority = 0
+shader = SubResource("Shader_6mf4f")
+shader_parameter/screen_space_texture = ExtResource("3_8ce4r")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_r5kmr")
+shader_parameter/grow = 0.001
+shader_parameter/albedo_texture_size = Vector2i(64, 32)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.6076923
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.31538463
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tqmnp"]
+_surfaces = [{
+"aabb": AABB(-0.34767264, -1, -1, 0.66316366, 2, 2),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAwACAAEAAAAEAAEAAwAFAAIABQAAAAIABgAEAAAABQAGAAAABwABAAQABwADAAEABgAHAAQABQADAAcABQAHAAYA"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("/////wAAAAAAAP////8AAAAA//8AAAAAAAAAAP//AAD///////8AAAAAAAAAAAAA//8AAAAAAAD//wAA//8AAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_m236h"]
+resource_name = "bricks_Cube"
+_surfaces = [{
+"aabb": AABB(-0.34767264, -1, -1, 0.66316366, 2, 2),
+"attribute_data": PackedByteArray("McpDW5+2SpaftkNbMcpKljHKSpaftkqWMcpKlp+2SpZ/f/T+bwDTAH9/0wBvAPT+n7ZDWzHKSpYxykNbn7ZKlm8A9P5/f9MAbwDTAH9/9P6ftkNbMcpDW5+2Q1sxykNb"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("ShaderMaterial_r5kmr"),
+"name": "Material",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/////wAA/78AAP//////vwAA//8AAP+//////////7///wAA///+fwAA//////5//////////n8AAAAA///+fwAAAAD///+/AAD//wAA/78AAP//////vwAAAAAAAP+/AAAAAAAA/z///wAA////P///AAAAAP8/AAAAAP///z///wAAAAAAAP///////wAA/////wAAAAD//wAA//8AAAAAAAAAAP///////wAA//8AAP//AAD/////AAAAAP//////f////3////9/////f/9/////f////3////9/////f////3////9/////f///AAD/fwAA/38AAP9/AAD/f/+//3//v/9//7//f/+//3////9/////f////3////9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_tqmnp")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l0q31"]
+size = Vector3(0.66316366, 2, 2)
+
+[node name="Tiles" type="Node3D" unique_id=1445778465]
+
+[node name="Tile" type="Node3D" parent="." unique_id=1234167198]
+
+[node name="Floor" type="MeshInstance3D" parent="Tile" unique_id=1113436914]
+transform = Transform3D(1, 0, 0, 0, 0.39936328, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("ArrayMesh_m2eoj")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Tile/Floor" unique_id=186418068]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tile/Floor/StaticBody3D" unique_id=464201944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_4daja")
+
+[node name="Bricks" type="Node3D" parent="." unique_id=1731801844]
+
+[node name="Bricks" type="MeshInstance3D" parent="Bricks" unique_id=1260152471]
+mesh = SubResource("ArrayMesh_m236h")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Bricks/Bricks" unique_id=1855339308 groups=["occlusion"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01609081, 0, 0)
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bricks/Bricks/StaticBody3D" unique_id=1044865073]
+shape = SubResource("BoxShape3D_l0q31")

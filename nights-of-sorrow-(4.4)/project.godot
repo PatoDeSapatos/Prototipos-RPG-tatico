@@ -29,6 +29,19 @@ BattleHandler="*res://battle/scripts/battle_handler.gd"
 Grid="*res://globals/grid.gd"
 SceneTransition="*res://globals/scene_transition.gd"
 
+[debug]
+
+settings/physics_interpolation/enable_warnings=false
+gdscript/warnings/shadowed_variable=0
+gdscript/warnings/shadowed_variable_base_class=0
+gdscript/warnings/shadowed_global_identifier=0
+gdscript/warnings/integer_division=0
+gdscript/warnings/narrowing_conversion=0
+gdscript/warnings/confusable_identifier=0
+gdscript/warnings/confusable_local_declaration=0
+gdscript/warnings/confusable_local_usage=0
+gdscript/warnings/confusable_capture_reassignment=0
+
 [display]
 
 window/size/viewport_width=640

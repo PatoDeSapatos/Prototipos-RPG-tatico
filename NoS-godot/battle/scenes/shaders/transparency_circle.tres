@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c6muicwht6tpf"]
+
+[resource]
+depth_draw_mode = 2
+no_depth_test = true
+distance_fade_mode = 2
+distance_fade_min_distance = 10.0
+distance_fade_max_distance = 20.0
+stencil_flags = 2

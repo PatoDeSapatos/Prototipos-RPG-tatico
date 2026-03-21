@@ -160,7 +160,7 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 	# Projectile
 	if (action.has_projectile):
 		var pos = Grid.tile_to_scene_pos(area.origin_point.x, area.origin_point.y, manager.init_pos)
-		cutscene.push_back(["cast_projectile", action.projectile_texture, pos, action.projectile_particle_path])
+		cutscene.push_back(["cast_projectile", action.projectile_texture, user.position, pos, action.projectile_particle_path])
 		
 		if (action.projectile_texture != null && action.projectile_effect_name != null):
 			var effect_scale = ((action.area.range * Game.TILE_SIZE)/(action.projectile_texture.get_size().x))*2
@@ -213,3 +213,19 @@ func create_battle_effect(effect_name: String, pos: Vector2, z_index=0) -> Actio
 	add_child(effect)
 	effect.play(effect_name, pos)
 	return effect
+
+func move_unit(user: BattleUnit, from: Vector2, to: Vector2):
+	var cutscene = []
+	var path = manager.astar_grid.get_id_path(from, to, true)
+	var move_range = ActionArea.new(user.info.movement, ActionArea.Shapes.CIRCLE, user.info.grid_pos)
+	
+	path = path.filter(func(step):
+		return move_range.point_in_area(step) && !manager.astar_grid.is_point_solid(step)
+		)
+	
+	for step in path:
+		cutscene.push_back(["move_unit", user, Grid.tile_to_scene_pos(step.x, step.y, manager.init_pos), 0.6])
+		cutscene.push_back(["wait", 0.01])
+	
+	cutscene.push_back(["end_movement", user, from, to])
+	battle_create_cutscene.rpc(cutscenes.serialize(cutscene))

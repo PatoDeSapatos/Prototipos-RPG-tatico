@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://08fxnp4jvm0l"]
+
+[ext_resource type="Texture2D" uid="uid://d1agvcbly1fm8" path="res://battle/scenes/assets/bricks_brick.png" id="1_njc3l"]
+
+[resource]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = ExtResource("1_njc3l")
+metallic = 0.31538463
+roughness = 0.6076923
+texture_filter = 2
+grow = true
+grow_amount = 0.001

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://bqufbtkyaw607"]
+[gd_resource type="Theme" format=3 uid="uid://bqufbtkyaw607"]
 
 [ext_resource type="Texture2D" uid="uid://kqc0n43wvjgg" path="res://battle/ui/assets/choose_option.png" id="1_04mtf"]
 [ext_resource type="FontFile" uid="uid://0v6jqhbut8gp" path="res://fonts/ThaleahFat.ttf" id="1_cigrk"]

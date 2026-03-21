@@ -1,9 +1,10 @@
-[gd_scene format=3 uid="uid://cmggydx8omhwi"]
+[gd_scene format=4 uid="uid://cmggydx8omhwi"]
 
 [ext_resource type="Script" uid="uid://cimg8p0bb4rk" path="res://entities/tiles/scripts/animator.gd" id="1_5h7px"]
 [ext_resource type="Texture2D" uid="uid://cxs3f7b51fyw0" path="res://entities/player/assets/body_parts/braço esquerdo.png" id="1_f6f05"]
 [ext_resource type="Texture2D" uid="uid://c7nf08ja3itce" path="res://entities/player/assets/body_parts/ombro esquerdo.png" id="2_eut51"]
 [ext_resource type="Texture2D" uid="uid://daf8x6hx8rhh1" path="res://entities/player/assets/body_parts/perna esquerda.png" id="3_fbw52"]
+[ext_resource type="Script" uid="uid://paperpolygds" path="res://addons/paperskeleton/scripts/nodes/renderables/paper_polygon_2d.gd" id="3_ruild"]
 [ext_resource type="Texture2D" uid="uid://dscha1s2cgx6r" path="res://entities/player/assets/body_parts/torso.png" id="4_blaa1"]
 [ext_resource type="Texture2D" uid="uid://p02xvmhtvoab" path="res://entities/player/assets/body_parts/cabeça.png" id="5_njvck"]
 [ext_resource type="Texture2D" uid="uid://cxrj38ku60818" path="res://entities/player/assets/body_parts/perna direita.png" id="6_kurfx"]
@@ -19,7 +20,11 @@
 [ext_resource type="Texture2D" uid="uid://bgstk7or1kpk4" path="res://entities/player/assets/cloths/luva esquerda.png" id="16_4sbwj"]
 [ext_resource type="Texture2D" uid="uid://1n8n82bhsmex" path="res://entities/player/assets/cloths/roupa inferior direita.png" id="17_64604"]
 [ext_resource type="Texture2D" uid="uid://b22ombcgad5vv" path="res://entities/player/assets/cloths/roupa inferior esquerda.png" id="18_ttydp"]
+[ext_resource type="Script" uid="uid://papersprtgds" path="res://addons/paperskeleton/scripts/nodes/renderables/paper_sprite_2d.gd" id="19_pkeru"]
 [ext_resource type="Texture2D" uid="uid://b0td67rvprl1x" path="res://entities/player/assets/cloths/spine-corpo-roupa superior.png" id="19_rl44d"]
+[ext_resource type="Script" uid="uid://papersklbgds" path="res://addons/paperskeleton/scripts/nodes/paper_skeleton.gd" id="23_nka7a"]
+[ext_resource type="Script" uid="uid://paperskelmat" path="res://addons/paperskeleton/scripts/resources/paper_material.gd" id="24_nka7a"]
+[ext_resource type="Shader" uid="uid://shdrbrbnblnd" path="res://addons/paperskeleton/shaders/barebones_blend.gdshader" id="25_8dlr7"]
 
 [sub_resource type="Animation" id="Animation_x6ohb"]
 length = 0.001
@@ -331,16 +336,309 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jmcx7"]
 size = Vector2(28, 42)
 
-[node name="Animator" type="Node2D" unique_id=754161452]
+[sub_resource type="Resource" id="Resource_4q4wp"]
+script = ExtResource("24_nka7a")
+shader = ExtResource("25_8dlr7")
+metadata/_custom_type_script = "uid://paperskelmat"
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_526b0"]
+_surfaces = [{
+"aabb": AABB(0.02959064, 0.07024528, 0, 0.110190585, 0.09994507, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAAEAAAIA/AACAPwAAAEAAAAAAAACAQAAAAAAAAKBAAACAPwAAwEAAAABAAADgQAAAQEAAACBBAACAQAAAMEEAAKBAAAAwQQAAEEEAACBBAAAgQQAAwEAAACBBAACgQAAAEEEAAIBAAAAAQQAAQEAAAOBAAAAAQAAAwEAAAIA/AACgQAAAAAAAAIBAAAAAQQAA4EA="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0.02959064, 0.07024528, 0, 0.110190585, 0.09994507, 1e-05)],
+"format": 34359745559,
+"index_count": 54,
+"index_data": PackedByteArray("AwAEABIAEgAEAAUAEgAFAAYAEgAGAAcAEgAHAAgAEgAIAAkAEgAJAAoAEgAKAAsAEgALAAwAEgAMAA0AEgANAA4AEgAOAA8AEgAPABAAEgAQABEAEgARAAAAEgAAAAEAEgABAAIAEgACAAMA"),
+"primitive": 3,
+"skin_data": PackedByteArray("CAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 19,
+"vertex_data": PackedByteArray("EmjyPOmuGT4AAAAAJg0iPX3zIz4AAAAAQuZKPRM4Lj4AAAAA2WiOPWFGLj4AAAAABPKiPRkQJD4AAAAAL3u3PdLZGT4AAAAAWATMPYujDz4AAAAAnsEEPpJ7BT4AAAAAMgYPPpWK9j0AAAAAzyIPPiWfpD0AAAAAh+wEPvsVkD0AAAAAnu23PcLcjz0AAAAAc2SjPVBJpD0AAAAASduOPd61uD0AAAAAPqR0PW4izT0AAAAA6ZFLPfyO4T0AAAAAlX8iPYr79T0AAAAAgdryPA00BT4AAAAAbLjgPfNpzT0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_wnmo3"]
+_surfaces = [{
+"aabb": AABB(0.03956332, 0.10016333, 0, 0.060081623, 0.070027016, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAgD8AAIA/AAAAAAAAQEAAAAAAAACAQAAAgD8AAKBAAAAAQAAAwEAAAEBAAADAQAAAgEAAAKBAAACgQAAAgEAAAMBAAABAQAAA4EAAAABAAADgQAAAgD8AAMBAAAAAAAAAgEAFaSZAOPhcQA=="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0.03956332, 0.10016333, 0, 0.060081623, 0.070027016, 1e-05)],
+"format": 34359745559,
+"index_count": 39,
+"index_data": PackedByteArray("AgADAA0AAgANAAEADQAAAAEADQAMAAAADQALAAwADQAKAAsADQAJAAoADQAIAAkADQAHAAgADQAGAAcADQADAAQADQAFAAYADQAEAAUA"),
+"primitive": 3,
+"skin_data": PackedByteArray("BwAAAAAAAAD//wAAAAAAAAcAAAAAAAAA//8AAAAAAAAHAAAAAAAAAP//AAAAAAAABwAAAAAAAAD//wAAAAAAAAcAAAAAAAAA//8AAAAAAAAHAAAAAAAAAP//AAAAAAAABwAAAAAAAAD//wAAAAAAAAcAAAAAAAAA//8AAAAAAAAHAAAAAAAAAP//AAAAAAAABwAAAAAAAAD//wAAAAAAAAcAAAAAAAAA//8AAAAAAAAHAAAAAAAAAP//AAAAAAAABwAAAAAAAAD//wAAAAAAAAcAAAAAAAAA//8AAAAAAAA="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 14,
+"vertex_data": PackedByteArray("Jg0iPX7zIz4AAAAAQuZKPRM4Lj4AAAAA2WiOPWFGLj4AAAAABPKiPRsQJD4AAAAALnu3PdPZGT4AAAAAWATMPYyjDz4AAAAAphLMPR5mBT4AAAAAGKa3PRJD9j0AAAAAijmjPea54T0AAAAA+8yOPb0wzT0AAAAAPaR0PW8izT0AAAAA6ZFLPf2O4T0AAAAA+WIiPTQ7BT4AAAAA72mGPaToCj4AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgA==")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_pbeqj"]
+_surfaces = [{
+"aabb": AABB(0.009836262, 0.00010913372, 0, 0.0601362, 0.07005431, 1e-05),
+"attribute_data": PackedByteArray("AACgQAAAAAAAAEBAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAABAQAAAgD8AAIBAAAAAQAAAwEAAAEBAAADgQAAAoEAAAOBAAADAQAAAwEAAAMBAAABAQAAAwEAAAIA/AABAQAAAAEBWmpJAyOpYQA=="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0.009836262, 0.00010913372, 0, 0.0601362, 0.070064306, 1e-05)],
+"format": 34359745559,
+"index_count": 42,
+"index_data": PackedByteArray("DAACAAEADAADAAIADAAEAAMADAAFAAQADAABAAAADQAJAAgADQAIAAcADQAKAAkADQAHAAYADQAGAAUADQALAAoADQAAAAsADQAMAAAADQAFAAwA"),
+"primitive": 3,
+"skin_data": PackedByteArray("BAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAAEAAAAAAAAAP//AAAAAAAABAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAAEAAAAAAAAAP//AAAAAAAABAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAAEAAAAAAAAAP//AAAAAAAABAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAAEAAAAAAAAAP//AAAAAAAABAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAA="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 14,
+"vertex_data": PackedByteArray("EPp0Pdqxjz0AAAAAoA4jPT6Vjz0AAAAAXUaiPKJ4jz0AAAAARighPPDedT0AAAAAJQ0iPH7zIz0AAAAAOyujPMU09jwAAAAAHIn1PDMuJTwAAAAA49YjPbje5DgAAAAAU8J1Pa6nKzkAAAAAuU2PPfD3JjwAAAAAzyKPPSafJD0AAAAAMwaPPZeKdj0AAAAA10cjPQs/TT0AAAAAEzVkPSmEFD0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgA==")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ofpc6"]
+_surfaces = [{
+"aabb": AABB(-0.08021797, 0.019808931, 0, 0.15013586, 0.14029959, 1e-05),
+"attribute_data": PackedByteArray("AACAQAAAAAAAAEBBAAAAAAAAUEEAAIA/AABgQQAAQEAAAHBBAADAQAAAcEEAAFBBAABgQQAAYEEAAIA/AABgQQAAAAAAAFBBAAAAAAAAAEEAAIA/AACgQAAAAEAAAEBAAABAQAAAgD8AAABBAADgQA=="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(-0.08021797, 0.019808931, 0, 0.15013584, 0.14029959, 1e-05)],
+"format": 34359745559,
+"index_count": 39,
+"index_data": PackedByteArray("AAANAAwADAANAAsACgALAA0ACQAKAA0ACQANAAgACAANAAcABwANAAYABgANAAUADQAEAAUADQADAAQADQACAAMADQABAAIADQAAAAEA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAA="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 14,
+"vertex_data": PackedByteArray("oKAlvUa6Iz4AAAAAJg0iPX3zIz4AAAAAex9LPTa9GT4AAAAAa050PYFJBT4AAAAA+8yOPbswzT0AAAAAHDGPPdJS9zwAAAAAHIl1PSkupTwAAAAAoniPvVdGojwAAAAAzQGkvY/48zwAAAAAUkmkvXJkoz0AAAAAX/mPvVTj4D0AAAAAPTZ3va3zBD4AAAAAvHlOvbB1GT4AAAAAcL2Aub1RuD0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgA==")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_qj36r"]
+_surfaces = [{
+"aabb": AABB(-0.11079081, 0.15983571, 0, 0.20032665, 0.18032674, 1e-05),
+"attribute_data": PackedByteArray("AACgQAAAAAAAAEBAAAAAAAAAgD8AAABAAAAAAAAAoEAAAAAAAABQQQAAgD8AAHBBAAAAQAAAiEEAAKBAAACQQQAAkEEAAJBBAACgQQAAiEEAAKBBAABwQQAAoEEAAIBAAACYQQAAAEAAAJBBAACAPwAAiEEAAAAAAACIQQAAgEAAAIBBAABgQQAAwEAAAFBBAADAQAAAgEA="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.11079081, 0.15983571, 0, 0.20032665, 0.18032674, 1e-05)],
+"format": 34359745559,
+"index_count": 63,
+"index_data": PackedByteArray("EgABAAAAEgACAAEAEgADAAIAAwARAAQAEgARAAMAEQAFAAQAEQAGAAUAEQAHAAYADgANAA8ADAAPAA0ACwAPAAwAEAAKAAkAEAAJAAgAEgAOAA8AEgAAAA4ADwAKABAADwALAAoACAAHABEACAARABAAEQASAA8AEQAPABAA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 19,
+"vertex_data": PackedByteArray("Bo95vdz+rT4AAAAAO72lvbb3rT4AAAAAWJbOvSCzoz4AAAAAS+bivWdTlD4AAAAA3HPivV27Vj4AAAAAZNzNvalHQj4AAAAA60S5vfPTLT4AAAAAEIx3vfmrIz4AAAAAJ3eOPfQIJD4AAAAAkF63PbBULj4AAAAA90G3PY3PQj4AAAAAnaS2PaS5mT4AAAAAJQ2iPX7zoz4AAAAA+YONPaIOqT4AAAAAofVxPcYprj4AAAAAEmhyPemumT4AAAAAbpBKPV7wTD4AAAAAYiVPvUfmVj4AAAAA3SZQvZOHmT4AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_dr6v6"]
+_surfaces = [{
+"aabb": AABB(-0.07013615, -0.01016366, 0, 0.08005427, 0.08013612, 1e-05),
+"attribute_data": PackedByteArray("AACgQAAAoEAAAKBAAADgQAAAgEAAAABB3v9/PwAAAEEAAAAAAADgQAAAAAAAAABA3v9/PwAAgD8AAABAAAAAAAAAwEAAAAAAAADgQAAAgD8AAABBAAAAQAAAAEEAAIBAAADgQAAAoEDd7wRAgy9qQOPfjkDXhhxA"),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.07013615, -0.01016366, 0, 0.08005427, 0.08013612, 1e-05)],
+"format": 34359745559,
+"index_count": 45,
+"index_data": PackedByteArray("DQAEAAUADQAFAAYADQADAAQADQACAAMADQABAAIADQAAAAEADQAGAAcADgAMAAAADgALAAwADgAKAAsADgAJAAoADgAIAAkADgAHAAgADgAAAA0ADgANAAcA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAAAwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAAAwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAAAwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAAAwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAA"),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 15,
+"vertex_data": PackedByteArray("UkmkvHZkozwAAAAA5NajvCncZLgAAAAAHIn1vC4uJbwAAAAAvaV1vXuFJrwAAAAABlyPvY9CSLkAAAAAi6OPvVkETD0AAAAAAG52va4WdT0AAAAA3pRNvYEUjz0AAAAA6/cmvLlNjz0AAAAAZqYruVTCdT0AAAAAuJohPDjpTD0AAAAAmX8iPIz79TwAAAAAKdxkuOTWozwAAAAATwNKvWRKCD0AAAAAwrLQvEdCOj0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fvphb"]
+_surfaces = [{
+"aabb": AABB(-0.0904304, 0.10978723, 0, 0.07009886, 0.060165085, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAgD8AAABAAAAAAAAAwEAAAAAAAADgQAAAgD8AAOBAAACAQAAAwEAAAKBAAACAQAAAwEAAAIA/AADAQAAAAAAAAKBAbagiQP9bX0A="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.0904304, 0.10978723, 0, 0.07009886, 0.060165085, 1e-05)],
+"format": 34359745559,
+"index_count": 27,
+"index_data": PackedByteArray("CQAAAAEACQAIAAAACQAHAAgACQAGAAcACQAFAAYACQABAAIACQACAAMACQAEAAUACQADAAQA"),
+"primitive": 3,
+"skin_data": PackedByteArray("BQAAAAAAAAD//wAAAAAAAAUAAAAAAAAA//8AAAAAAAAFAAAAAAAAAP//AAAAAAAABQAAAAAAAAD//wAAAAAAAAUAAAAAAAAA//8AAAAAAAAFAAAAAAAAAP//AAAAAAAABQAAAAAAAAD//wAAAAAAAAUAAAAAAAAA//8AAAAAAAAFAAAAAAAAAP//AAAAAAAABQAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 10,
+"vertex_data": PackedByteArray("kzO5vYWWIz4AAAAAN0+QvUrlLT4AAAAAQI/5vPsHLj4AAAAAdl6nvDnTIz4AAAAAVI6mvPMaBT4AAAAAXDT4vLOp9T0AAAAA5eJNvSkM4T0AAAAAAGKkvSHY4D0AAAAAMu64vaJB9T0AAAAAhvuEvT0tCj4AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_8mvip"]
+_surfaces = [{
+"aabb": AABB(-0.15029956, 0.049672402, 0, 0.12997223, 0.12019054, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAwEAAAAAAAAAgQQAAgD8AADBBAABAQAAAQEEAAMBAAABAQQAA4EAAADBBAAAAQQAAAEEAABBBAADgQAAAMEEAAMBAAABQQQAAoEAAAFBBAACAQAAAQEEAAEBAAAAwQQAAgD8AACBBAAAAAAAAEEEAAAAAAADgQAAAgD8AAKBAAAAAQAAAgEAAAEBAAAAAQAAAgEAAAIA/AACgQAAAgEAAAABB"),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.15029956, 0.049672402, 0, 0.12997223, 0.12019054, 1e-05)],
+"format": 34359745559,
+"index_count": 60,
+"index_data": PackedByteArray("FAATABIAFAAAABMAFAABAAAAFAACAAEAFAADAAIAFAAEAAMAFAAFAAQAFAASABEAFAAGAAUAFAAHAAYAFAARABAAFAAIAAcADwAUABAADgAUAA8ADQAUAA4ADAAUAA0ACwAUAAwAFAAJAAgAFAAKAAkAFAALAAoA"),
+"primitive": 3,
+"skin_data": PackedByteArray("BgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAA"),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 21,
+"vertex_data": PackedByteArray("IegZvuVw4D0AAAAAhcsZvnSFjj0AAAAA8IYPvswxdD0AAAAA2Qn2vUp1Sz0AAAAARZm4vRzLSz0AAAAAtiykvXPddD0AAAAAxNyPvZzttz0AAAAAa+B2vcZ2zD0AAAAAlxElvT0O4T0AAAAAgIWmvLel9T0AAAAAs76mvEkQBT4AAAAAXOP4vJBGDz4AAAAAoaAlvUa6Iz4AAAAA9bJOvY3wLT4AAAAArqh3vWbpLT4AAAAAwbukvaqdIz4AAAAAK6PNve5RGT4AAAAAuw/ivVkNDz4AAAAAknsFvp3BBD4AAAAA2bEPvg/69D0AAAAANcjhvWS0tz0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_84jiq"]
+_surfaces = [{
+"aabb": AABB(-0.19084509, 0.099726774, 0, 0.32016253, 0.30040815, 1e-05),
+"attribute_data": PackedByteArray("AABAQQAAAEAAANBBAAAAQAAA4EEAAEBAAADwQQAAgEAAAPhBAACgQAAAAEIAAMBAAAAEQgAAAEEAAAhCAAAgQQAACEIAAIhBAAAEQgAAkEEAAARCAAC4QQAAAEIAANBBAAD4QQAA4EEAAPBBAADgQQAA8EEAAMBBAADoQQAAwEEAAOhBAACoQQAA6EEAAIhBAADgQQAAgEEAANhBAACIQQAAuEEAAIhBAACYQQAAiEEAAIhBAACAQQAAgEEAAIhBAABwQQAAkEEAAGBBAACYQQAAUEEAALhBAABAQQAAuEEAAEBBAAAAQgAAMEEAAABCAAAwQQAA+EEAACBBAAD4QQAAIEEAAMBBAAAQQQAAwEEAAABBAAC4QQAA4EAAAMBBAADgQAAA0EEAAMBAAADQQQAAoEAAAMBBAACAQAAAuEEAAEBAAACwQQAAQEAAAKBBAAAAQAAAmEEAAABAAABAQQAAAEAAADBBAABAQAAAEEEAAIBAAADgQAAAoEAAAMBAAADAQAAAoEAAAOBAAACAQAAAEEEAAEBAAAAwQQAA4EEAADBBAADAQQAAMEEAAKBBAAD4QQAAqEEAAABCAABgQQAAoEAAAHBBAAAgQQAAAEEAANBBAAAAQQAAmEEAAABBAACYQQAAAEAAAGBBAABgQQAAcEEAAKBA"),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.19084509, 0.099726774, 0, 0.32016253, 0.30040815, 1e-05)],
+"format": 34359745559,
+"index_count": 213,
+"index_data": PackedByteArray("NgAOAA8ANgANAA4ANgAMAA0ANgALAAwANgAKAAsANgAPABAANwAIAAkANwAHAAgANwARABIAEQA2ABAANgAJAAoACQA2ABEACQARADcABgAHADcAAQACADoAOgACAAMAOgADAAQAOgAEAAUAOgAFAAYAOgAGADcAOgA3ABIAOgASABMAMwAcAB0AMwAeAB8AMwAfADQAHAAzADQAGwAcADQAIAA0AB8AGwA0ADUAGgAbADUAIAA1ADQAIQA1ACAAIgA1ACEAOgATABQAOgAUABUAOwAVABYAOwA6ABUAOwABADoAOwA8AAEAGQAaADUAPgA8ADsAPgAAADwAPgA7ABYAPQAWABcAPQAYABkAPQAXABgAPQA+ABYAPQA5AD4APQAZADUAAAA+ADkAAAA5ADIAMgA5ADEAOQAwADEAOAAqACsAOAArACwAOAAsAC0AOAAtAC4ALwA4AC4AMAA5AC8ALwA5ADgAOQA9ADUAOQA1ADgAOAA1ACIAOAApACoAKQA4ACgAIgAoADgAJwAoACIAJgAnACIAIgAjACYAIwAlACYAIwAkACUA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAA"),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 63,
+"vertex_data": PackedByteArray("6426vWuszD4AAAAAQlRIPXzezD4AAAAAJi6NPevGxz4AAAAALjK2PVuvwj4AAAAAV7vKPTiUvT4AAAAAgETfPRR5uD4AAAAA+9vzPTk/rj4AAAAAuDkEPl4FpD4AAAAAymsEPl0ugD4AAAAABWv0PSUYdj4AAAAAirL0Pf7kQj4AAAAAmWLgPY0lJD4AAAAAVwTMPYqjDz4AAAAAe4m3PWKcDz4AAAAARVC3PRuSOD4AAAAAadWiPfSKOD4AAAAAfaqiPUBDVz4AAAAARXGiPXwcgD4AAAAAHOiNPaA3hT4AAAAAGfdyPVUVgD4AAAAAZkCePAcHgD4AAAAAXG2pvHLxfz4AAAAAuL4mvUkQhT4AAAAA15dPvf3bfz4AAAAA8HB4vWmXdT4AAAAABqWQvdNSaz4AAAAAq+akvfRVQj4AAAAAh2G5vc1OQj4AAAAAyuC4vdlLzD0AAAAAp1vNvY09zD0AAAAA9WnNvWm44D0AAAAA0uThvRmq4D0AAAAA80jivQ8DOD4AAAAAz8P2ven7Nz4AAAAAfaYFvjIyQj4AAAAAxNwPvpvtNz4AAAAAds4Pvr5yIz4AAAAA5AsavphrIz4AAAAAoFckvk3fNz4AAAAANpwuvpUVQj4AAAAAyuA4vtxLTD4AAAAAGO84vrjGYD4AAAAArjNDvgD9aj4AAAAAvmVDvoFVmT4AAAAA5WxDvjh0nj4AAAAAxT05vju1qD4AAAAApQ4vvjz2sj4AAAAAXdgkvoYYuD4AAAAAFqIavtA6vT4AAAAAz2sQvhtdwj4AAAAAM/D3vfmCxz4AAAAA3pTNvX8UDz4AAAAAF87NvTcKOD4AAAAATgfOvfD/YD4AAAAANaDLPY5RVz4AAAAA8LbfPVuDjz4AAAAA/pckvhYEij4AAAAA0i3jvfnsrT4AAAAA6/9IPTAmrj4AAAAAR3CrvCkNrj4AAAAAmcesvHPFzD4AAAAAjeyQvf1Cjz4AAAAA3OR5vQBbvT4AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_3p7wu"]
+_surfaces = [{
+"aabb": AABB(-0.17081788, 0.12978125, 0, 0.2902172, 0.22040844, 1e-05),
+"attribute_data": PackedByteArray("AADgQAAAAEAAANBBAAAAQAAA6EEAAKBAAADwQQAAAEEAAPhBAABAQQAA+EEAAHBBAADwQQAAmEEAAOhBAACgQQAA4EEAALBBAADYQQAAuEEAAMhBAADAQQAAMEEAAMBBAAAAQQAAsEEAAABAAACIQQAAAEAAAHBBAAAAQAAA4EAAAIBAAACAQAAAoEAAAEBA"),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.17081788, 0.12978125, 0, 0.2902172, 0.22040844, 1e-05)],
+"format": 34359745559,
+"index_count": 48,
+"index_data": PackedByteArray("AQAMAA0AAgAMAAEADAACAAsACwACAAoAAgADAAoAAwAJAAoACQADAAgACAADAAcABgAHAAMABQAGAAQABAAGAAMAAQANAA4AAQAOAA8AEAABAA8AEQABABAAAAABABEA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAA"),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 18,
+"vertex_data": PackedByteArray("/Lb3vR0Isz4AAAAAX2eNPRBMsz4AAAAA3ALLPaX6oz4AAAAApKjfPRSilD4AAAAAtVz0PcoqgD4AAAAAoYf0PUqdYT4AAAAA+0XgPWugOD4AAAAAbtnLPddbLj4AAAAALnu3PdPZGT4AAAAAng6jPT+VDz4AAAAAa050PYFJBT4AAAAA2ZCkvWDlBD4AAAAACh7ivclKGT4AAAAAXKMuvgVTTD4AAAAAqrEuvuHNYD4AAAAA4uouvqlcmT4AAAAAe4Uavva/qD4AAAAANE8QvkDirT4AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_uk05a"]
+_surfaces = [{
+"aabb": AABB(-0.15029955, 0.049672417, 0, 0.070136145, 0.06997246, 1e-05),
+"attribute_data": PackedByteArray("AABAQAAA4EAAAIA/AADAQAAAAAAAAKBAAAAAAAAAgD8AAIA/AAAAAAAAAEAAAAAAAABAQAAAgD8AAKBAAAAAQAAA4EAAAEBAAADgQAAAwEAAAMBAAADgQA=="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.15029955, 0.049672417, 0, 0.070136145, 0.06997246, 1e-05)],
+"format": 34359745559,
+"index_count": 27,
+"index_data": PackedByteArray("CQAAAAEACAAJAAEABwAIAAEABwABAAIABwACAAYABgACAAMABgADAAUABQADAAQACQAKAAAA"),
+"primitive": 3,
+"skin_data": PackedByteArray("BgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAAGAAAAAAAAAP//AAAAAAAABgAAAAAAAAD//wAAAAAAAAYAAAAAAAAA//8AAAAAAAA="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 11,
+"vertex_data": PackedByteArray("2An2vU51Sz0AAAAA8IYPvs8xdD0AAAAAhcsZvnaFjj0AAAAAIOgZvudw4D0AAAAA2bEPvhL69D0AAAAAa3QFvmAI9T0AAAAAq1/2vdKb4D0AAAAAplvNvZA9zD0AAAAAnlekvVDftz0AAAAAtiykvXXddD0AAAAARJm4vSLLSz0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgA==")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_vh3qa"]
+_surfaces = [{
+"aabb": AABB(0.07972687, 0.070245296, 0, 0.060054354, 0.0601089, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAQEAAAAAAAACgQAAAgD8AAMBAAACgQAAAwEAAAMBAAACgQAAAwEAAAIA/AACgQAAAAAAAAEBAAAAAAA=="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0.07972687, 0.070245296, 0, 0.060054354, 0.0601089, 1e-05)],
+"format": 34359745559,
+"index_count": 18,
+"index_data": PackedByteArray("AAACAAEABwACAAAABwAGAAIABgAFAAMABQAEAAMABgADAAIA"),
+"primitive": 3,
+"skin_data": PackedByteArray("CAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAAIAAAAAAAAAP//AAAAAAAACAAAAAAAAAD//wAAAAAAAAgAAAAAAAAA//8AAAAAAAA="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("10ejPQo/zT0AAAAAc2SjPVJJpD0AAAAAne23PcTcjz0AAAAAh+wEPvsVkD0AAAAAzyIPPiafpD0AAAAAMwYPPpeK9j0AAAAAncEEPpJ7BT4AAAAAgo3gPUVtBT4AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgA==")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_0dufg"]
+_surfaces = [{
+"aabb": AABB(-0.07013615, -0.01016366, 0, 0.08005427, 0.08013612, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAAEAAAABAAAAAAAAAwEAAAAAAAAAAQQAAAEAAAABBAACAQAAA4EAAAKBAAACgQAAA4EAAAIBAAAAAQd7/fz8AAABBAAAAAAAA4EA="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(-0.07013615, -0.01016366, 0, 0.08005427, 0.08013612, 1e-05)],
+"format": 34359745559,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAAACAAMAAAADAAQAAAAEAAUAAAAFAAYAAAAGAAcAAAAHAAgAAAAIAAkA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAAAwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAAAwAAAAAAAAD//wAAAAAAAAMAAAAAAAAA//8AAAAAAAADAAAAAAAAAP//AAAAAAAAAwAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 10,
+"vertex_data": PackedByteArray("i6OPvVkETD0AAAAA3pRNvYEUjz0AAAAA6/cmvLlNjz0AAAAAuJohPDjpTD0AAAAAmX8iPIz79TwAAAAAKdxkuOTWozwAAAAA5NajvCncZLgAAAAAHIn1vC4uJbwAAAAAvaV1vXuFJrwAAAAABlyPvY9CSLkAAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_c0jp1"]
+_surfaces = [{
+"aabb": AABB(0.009836262, 0.00010913372, 0, 0.0601362, 0.07005431, 1e-05),
+"attribute_data": PackedByteArray("AACAPwAAAAAAAKBAAAAAAAAAwEAAAIA/AADAQAAAwEAAAKBAAADgQAAAQEAAAOBAAAAAQAAAwEAAAABAAACAQAAAgD8AAIBAAAAAAAAAQEAAAAAAAACAPw=="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0, 0, 0, -1, -1, -1), AABB(0.009836262, 0.00010913372, 0, 0.0601362, 0.07005431, 1e-05)],
+"format": 34359745559,
+"index_count": 27,
+"index_data": PackedByteArray("AAABAAIAAAACAAMAAAADAAQAAAAEAAUAAAAFAAYAAAAHAAYAAAAHAAgAAAAIAAkAAAAJAAoA"),
+"primitive": 3,
+"skin_data": PackedByteArray("BAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAAEAAAAAAAAAP//AAAAAAAABAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAAEAAAAAAAAAP//AAAAAAAABAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAAEAAAAAAAAAP//AAAAAAAABAAAAAAAAAD//wAAAAAAAAQAAAAAAAAA//8AAAAAAAA="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 11,
+"vertex_data": PackedByteArray("XUaiPKJ4jz0AAAAAEPp0Pdqxjz0AAAAAMwaPPZeKdj0AAAAAuU2PPfD3JjwAAAAAU8J1Pa6nKzkAAAAA49YjPbje5DgAAAAAHIn1PDMuJTwAAAAArBb1PPxt9jwAAAAAOyujPMU09jwAAAAAJQ0iPH7zIz0AAAAARighPPDedT0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgA==")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6r16p"]
+_surfaces = [{
+"aabb": AABB(-0.09051804, 0.01980894, 0, 0.18002662, 0.18043587, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAgD8AAABBAACAPwAAEEEAAABAAABgQQAAAEAAAHBBAACAPwAAiEEAAAAAAACQQQAAAAAAAJBBAAAAQAAAiEEAAEBAAACAQQAAgEAAAHBBAADAQAAAcEEAAOBAAACAQQAAIEEAAIBBAACIQQAAcEEAAJBBAAAAQAAAkEEAAIA/AACIQQAAgD8AAEBBAAAAQAAAEEEAAEBAAADgQAAAgEAAAKBAAABAQAAAgEAAAIA/AABAQAAAAAAAAABAAAAQQQAAUEEAAFBBAACAQAAAwEAAAEBAAAAQQQAAoEA="),
+"bone_aabbs": [AABB(0, 0, 0, -1, -1, -1), AABB(-0.08021796, 0.01980894, 0, 0.15013584, 0.11002687, 1e-05), AABB(-0.09051804, 0.12983581, 0, 0.18002662, 0.070408985, 1e-05)],
+"format": 34359745559,
+"index_count": 90,
+"index_data": PackedByteArray("AQACABoAGgAAAAEAGgAXAAAAGgAWABcAGgAVABYAGgAUABUABgAHAAUABQAHAAgABQAIAAQABAAIAAkABAAJAAMAAwAZAAIAAwAJABkAGQAJAAoAAgAZABsAAgAbABoAGgAbABQAGQAKABsACgALABsAGwATABQAGAANAA4AGAAMAA0ACwAMABgAGAAOAA8AGAAPABAAGAAQABEAEgAYABEAEwAYABIAGwAYABMAGwALABgA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAAAAAAAA//8AAAAAAAABAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAEAAgAAAAAAK7jTRwAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAQAAAAAAAAD//wAAAAAAAAIAAAAAAAAA//8AAAAAAAACAAAAAAAAAP//AAAAAAAAAgAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 28,
+"vertex_data": PackedByteArray("hmG5vc5OQj4AAAAAHlUsvAWIQj4AAAAAzbwAur5ROD4AAAAAqclKPYF1OD4AAAAAxaJzPRe6Qj4AAAAAzbiiPdIFTT4AAAAAqTO3PfkMTT4AAAAARVC3PR2SOD4AAAAAtuOiPYdNLj4AAAAAKXeOPfMIJD4AAAAAzzF0Pe+GDz4AAAAAa050PYFJBT4AAAAA+8yOPbwwzT0AAAAAHDGPPddS9zwAAAAAHol1PTMupTwAAAAAoXiPvVxGojwAAAAAywGkvY/48zwAAAAAUEmkvXJkoz0AAAAAX/mPvVXj4D0AAAAAOzZ3va7zBD4AAAAAu3lOvbF1GT4AAAAAD4x3vfirIz4AAAAADsqkvRjbLT4AAAAAOFO5vWAROD4AAAAAj0JIuQVcjz0AAAAAKQ0iPX3zIz4AAAAAAo/5vNv+LT4AAAAApJDWuXSZGT4AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_h5qji"]
+_surfaces = [{
+"aabb": AABB(-0.11, -0.045, 0, 0.22, 0.09, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAAAAAALBBAAAAAAAAAAAAABBBAACwQQAAEEE="),
+"bone_aabbs": [AABB(-0.11, -0.045, 0, 0.22, 0.09001, 1e-05)],
+"format": 34359745559,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAQADAAIA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AAAAAAAAAAD//wAAAAAAAAAAAAAAAAAA//8AAAAAAAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("rkfhvexROD0AAAAArkfhPexROD0AAAAArkfhvexROL0AAAAArkfhPexROL0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6jadm"]
+_surfaces = [{
+"aabb": AABB(-0.015, -0.005, 0, 0.03, 0.01, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAAAAAAEBAAAAAAAAAAAAAAIA/AABAQAAAgD8="),
+"bone_aabbs": [AABB(-0.015, -0.005, 0, 0.03, 0.01001, 1e-05)],
+"format": 34359745559,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAQADAAIA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AAAAAAAAAAD//wAAAAAAAAAAAAAAAAAA//8AAAAAAAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("j8J1vArXozsAAAAAj8J1PArXozsAAAAAj8J1vArXo7sAAAAAj8J1PArXo7sAAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_jd6i8"]
+_surfaces = [{
+"aabb": AABB(-0.015, -0.03, 0, 0.03, 0.06, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAAAAAAEBAAAAAAAAAAAAAAMBAAABAQAAAwEA="),
+"bone_aabbs": [AABB(-0.015, -0.03, 0, 0.03, 0.06001, 1e-05)],
+"format": 34359745559,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAQADAAIA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AAAAAAAAAAD//wAAAAAAAAAAAAAAAAAA//8AAAAAAAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("j8J1vI/C9TwAAAAAj8J1PI/C9TwAAAAAj8J1vI/C9bwAAAAAj8J1PI/C9bwAAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_lplxl"]
+_surfaces = [{
+"aabb": AABB(-0.085, -0.06, 0, 0.17, 0.12, 1e-05),
+"attribute_data": PackedByteArray("AAAAAAAAAAAAAIhBAAAAAAAAAAAAAEBBAACIQQAAQEE="),
+"bone_aabbs": [AABB(-0.085, -0.06, 0, 0.17, 0.120009996, 1e-05)],
+"format": 34359745559,
+"index_count": 6,
+"index_data": PackedByteArray("AAABAAIAAQADAAIA"),
+"primitive": 3,
+"skin_data": PackedByteArray("AAAAAAAAAAD//wAAAAAAAAAAAAAAAAAA//8AAAAAAAAAAAAAAAAAAP//AAAAAAAAAAAAAAAAAAD//wAAAAAAAA=="),
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("exSuvY/CdT0AAAAAexSuPY/CdT0AAAAAexSuvY/Cdb0AAAAAexSuPY/Cdb0AAAAA/3//f/9/AID/f/9//38AgP9//3//fwCA/3//f/9/AIA=")
+}]
+
+[node name="Animator" type="Node3D" unique_id=515612173]
+
+[node name="Animator" type="Node2D" parent="." unique_id=754161452]
 show_behind_parent = true
 script = ExtResource("1_5h7px")
 metadata/_custom_type_script = "uid://cimg8p0bb4rk"
 
-[node name="Polygons" type="Node2D" parent="." unique_id=1761528948]
+[node name="Polygons" type="Node2D" parent="Animator" unique_id=1761528948]
 
-[node name="BodyParts" type="Node2D" parent="Polygons" unique_id=1785593583]
+[node name="BodyParts" type="Node2D" parent="Animator/Polygons" unique_id=1785593583]
 
-[node name="LeftArm" type="Polygon2D" parent="Polygons/BodyParts" unique_id=624053007]
+[node name="LeftArm" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=624053007]
+visibility_layer = 0
 position = Vector2(3, -18)
 texture = ExtResource("1_f6f05")
 skeleton = NodePath("../../../Skeleton")
@@ -349,8 +647,10 @@ uv = PackedVector2Array(0, 2, 1, 1, 2, 0, 4, 0, 5, 1, 6, 2, 7, 3, 10, 4, 11, 5, 
 polygons = [PackedInt32Array(3, 18, 4), PackedInt32Array(18, 5, 4), PackedInt32Array(18, 6, 5), PackedInt32Array(18, 7, 6), PackedInt32Array(18, 8, 7), PackedInt32Array(18, 9, 8), PackedInt32Array(18, 9, 10), PackedInt32Array(18, 10, 11), PackedInt32Array(18, 12, 11), PackedInt32Array(18, 13, 12), PackedInt32Array(18, 14, 13), PackedInt32Array(18, 15, 14), PackedInt32Array(18, 16, 15), PackedInt32Array(18, 17, 16), PackedInt32Array(18, 0, 17), PackedInt32Array(18, 1, 0), PackedInt32Array(18, 2, 1), PackedInt32Array(18, 3, 2)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)]
 internal_vertex_count = 1
+script = ExtResource("3_ruild")
 
-[node name="LeftShoulder" type="Polygon2D" parent="Polygons/BodyParts" unique_id=682192138]
+[node name="LeftShoulder" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=682192138]
+visibility_layer = 0
 position = Vector2(4, -18)
 texture = ExtResource("2_eut51")
 skeleton = NodePath("../../../Skeleton")
@@ -359,8 +659,10 @@ uv = PackedVector2Array(0, 1, 1, 0, 3, 0, 4, 1, 5, 2, 6, 3, 6, 4, 5, 5, 4, 6, 3,
 polygons = [PackedInt32Array(2, 3, 13), PackedInt32Array(2, 13, 1), PackedInt32Array(13, 0, 1), PackedInt32Array(13, 12, 0), PackedInt32Array(13, 11, 12), PackedInt32Array(13, 10, 11), PackedInt32Array(13, 9, 10), PackedInt32Array(13, 8, 9), PackedInt32Array(13, 7, 8), PackedInt32Array(13, 6, 7), PackedInt32Array(13, 4, 3), PackedInt32Array(13, 6, 5), PackedInt32Array(13, 4, 5)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 1
+script = ExtResource("3_ruild")
 
-[node name="LeftLeg" type="Polygon2D" parent="Polygons/BodyParts" unique_id=1043830]
+[node name="LeftLeg" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=1043830]
+visibility_layer = 0
 position = Vector2(1, -8)
 texture = ExtResource("3_fbw52")
 skeleton = NodePath("../../../Skeleton")
@@ -369,8 +671,10 @@ uv = PackedVector2Array(5, 0, 3, 0, 1, 0, 0, 1, 0, 3, 1, 4, 2, 6, 3, 7, 5, 7, 6,
 polygons = [PackedInt32Array(12, 1, 2), PackedInt32Array(12, 2, 3), PackedInt32Array(12, 4, 3), PackedInt32Array(12, 5, 4), PackedInt32Array(12, 0, 1), PackedInt32Array(13, 9, 8), PackedInt32Array(13, 8, 7), PackedInt32Array(13, 10, 9), PackedInt32Array(13, 6, 7), PackedInt32Array(13, 5, 6), PackedInt32Array(13, 11, 10), PackedInt32Array(13, 0, 11), PackedInt32Array(13, 12, 0), PackedInt32Array(13, 5, 12)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)]
 internal_vertex_count = 2
+script = ExtResource("3_ruild")
 
-[node name="Torso" type="Polygon2D" parent="Polygons/BodyParts" unique_id=709041440]
+[node name="Torso" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=709041440]
+visibility_layer = 0
 position = Vector2(-8, -17)
 texture = ExtResource("4_blaa1")
 skeleton = NodePath("../../../Skeleton")
@@ -379,8 +683,10 @@ uv = PackedVector2Array(4, 0, 12, 0, 13, 1, 14, 3, 15, 6, 15, 13, 14, 14, 1, 14,
 polygons = [PackedInt32Array(0, 13, 12), PackedInt32Array(12, 11, 13), PackedInt32Array(10, 11, 13), PackedInt32Array(9, 13, 10), PackedInt32Array(9, 13, 8), PackedInt32Array(8, 7, 13), PackedInt32Array(7, 13, 6), PackedInt32Array(6, 5, 13), PackedInt32Array(13, 5, 4), PackedInt32Array(13, 4, 3), PackedInt32Array(13, 3, 2), PackedInt32Array(13, 2, 1), PackedInt32Array(13, 1, 0)]
 bones = ["Torso", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 1
+script = ExtResource("3_ruild")
 
-[node name="Head" type="Polygon2D" parent="Polygons/BodyParts" unique_id=423067496]
+[node name="Head" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=423067496]
+visibility_layer = 0
 position = Vector2(-11, -35)
 texture = ExtResource("5_njvck")
 skeleton = NodePath("../../../Skeleton")
@@ -389,8 +695,10 @@ uv = PackedVector2Array(5, 0, 3, 0, 1, 2, 0, 5, 0, 13, 1, 15, 2, 17, 5, 18, 18, 
 polygons = [PackedInt32Array(18, 0, 1), PackedInt32Array(18, 2, 1), PackedInt32Array(18, 3, 2), PackedInt32Array(3, 4, 17), PackedInt32Array(18, 17, 3), PackedInt32Array(17, 5, 4), PackedInt32Array(17, 6, 5), PackedInt32Array(17, 7, 6), PackedInt32Array(14, 15, 13), PackedInt32Array(12, 15, 13), PackedInt32Array(11, 15, 12), PackedInt32Array(16, 10, 9), PackedInt32Array(16, 8, 9), PackedInt32Array(18, 15, 14, 0), PackedInt32Array(15, 16, 10, 11), PackedInt32Array(8, 7, 17, 16), PackedInt32Array(17, 18, 15, 16)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 4
+script = ExtResource("3_ruild")
 
-[node name="RightLeg" type="Polygon2D" parent="Polygons/BodyParts" unique_id=1089534655]
+[node name="RightLeg" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=1089534655]
+visibility_layer = 0
 position = Vector2(-7, -8)
 texture = ExtResource("6_kurfx")
 skeleton = NodePath("../../../Skeleton")
@@ -399,8 +707,10 @@ uv = PackedVector2Array(5, 5, 5, 7, 4, 8, 0.999998, 8, 0, 7, 0, 2, 0.999998, 1, 
 polygons = [PackedInt32Array(13, 4, 5), PackedInt32Array(13, 5, 6), PackedInt32Array(13, 3, 4), PackedInt32Array(13, 2, 3), PackedInt32Array(13, 1, 2), PackedInt32Array(13, 0, 1), PackedInt32Array(13, 7, 6), PackedInt32Array(14, 0, 12), PackedInt32Array(14, 11, 12), PackedInt32Array(14, 10, 11), PackedInt32Array(14, 10, 9), PackedInt32Array(14, 9, 8), PackedInt32Array(14, 8, 7), PackedInt32Array(14, 13, 0), PackedInt32Array(14, 7, 13)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 2
+script = ExtResource("3_ruild")
 
-[node name="RightShoulder" type="Polygon2D" parent="Polygons/BodyParts" unique_id=393413716]
+[node name="RightShoulder" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=393413716]
+visibility_layer = 0
 position = Vector2(-9, -18)
 rotation = -0.000579887
 texture = ExtResource("7_4vx56")
@@ -410,8 +720,10 @@ uv = PackedVector2Array(0, 1, 2, 0, 6, 0, 7, 1, 7, 4, 6, 5, 4, 6, 1, 6, 0, 5, 2.
 polygons = [PackedInt32Array(9, 1, 0), PackedInt32Array(9, 8, 0), PackedInt32Array(9, 7, 8), PackedInt32Array(9, 6, 7), PackedInt32Array(9, 5, 6), PackedInt32Array(9, 1, 2), PackedInt32Array(9, 3, 2), PackedInt32Array(9, 5, 4), PackedInt32Array(9, 3, 4)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 1
+script = ExtResource("3_ruild")
 
-[node name="RightArm" type="Polygon2D" parent="Polygons/BodyParts" unique_id=809810837]
+[node name="RightArm" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=809810837]
+visibility_layer = 0
 position = Vector2(-15, -18)
 texture = ExtResource("8_xvfae")
 skeleton = NodePath("../../../Skeleton")
@@ -420,8 +732,10 @@ uv = PackedVector2Array(0, 6, 0, 10, 1, 11, 3, 12, 6, 12, 7, 11, 8, 8, 9, 7, 11,
 polygons = [PackedInt32Array(20, 18, 19), PackedInt32Array(20, 0, 19), PackedInt32Array(20, 1, 0), PackedInt32Array(20, 2, 1), PackedInt32Array(20, 3, 2), PackedInt32Array(20, 4, 3), PackedInt32Array(20, 5, 4), PackedInt32Array(20, 18, 17), PackedInt32Array(20, 6, 5), PackedInt32Array(20, 7, 6), PackedInt32Array(20, 17, 16), PackedInt32Array(20, 7, 8), PackedInt32Array(15, 20, 16), PackedInt32Array(14, 20, 15), PackedInt32Array(13, 20, 14), PackedInt32Array(12, 20, 13), PackedInt32Array(11, 20, 12), PackedInt32Array(20, 8, 9), PackedInt32Array(20, 9, 10), PackedInt32Array(20, 10, 11)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 1
+script = ExtResource("3_ruild")
 
-[node name="Hair" type="Polygon2D" parent="Polygons/BodyParts" unique_id=1724358210]
+[node name="Hair" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=1724358210]
+visibility_layer = 0
 position = Vector2(-21, -43)
 texture = ExtResource("9_y2f3c")
 skeleton = NodePath("../../../Skeleton")
@@ -430,8 +744,10 @@ uv = PackedVector2Array(12, 2, 26, 2, 28, 3, 30, 4, 31, 5, 32, 6, 33, 8, 34, 10,
 polygons = [PackedInt32Array(54, 15, 14), PackedInt32Array(54, 13, 14), PackedInt32Array(54, 12, 13), PackedInt32Array(54, 11, 12), PackedInt32Array(54, 10, 11), PackedInt32Array(54, 15, 16), PackedInt32Array(55, 9, 8), PackedInt32Array(55, 7, 8), PackedInt32Array(55, 17, 18), PackedInt32Array(17, 16, 54), PackedInt32Array(54, 9, 10), PackedInt32Array(9, 17, 54), PackedInt32Array(9, 55, 17), PackedInt32Array(6, 55, 7), PackedInt32Array(1, 58, 2), PackedInt32Array(58, 3, 2), PackedInt32Array(58, 4, 3), PackedInt32Array(58, 5, 4), PackedInt32Array(58, 6, 5), PackedInt32Array(58, 55, 6), PackedInt32Array(58, 18, 55), PackedInt32Array(58, 19, 18), PackedInt32Array(51, 28, 29), PackedInt32Array(51, 30, 31), PackedInt32Array(51, 31, 52), PackedInt32Array(28, 51, 52), PackedInt32Array(27, 52, 28), PackedInt32Array(32, 52, 31), PackedInt32Array(27, 53, 52), PackedInt32Array(26, 53, 27), PackedInt32Array(32, 53, 52), PackedInt32Array(33, 53, 32), PackedInt32Array(34, 53, 33), PackedInt32Array(58, 20, 19), PackedInt32Array(58, 21, 20), PackedInt32Array(59, 21, 22), PackedInt32Array(59, 58, 21), PackedInt32Array(59, 1, 58), PackedInt32Array(59, 60, 1), PackedInt32Array(25, 53, 26), PackedInt32Array(62, 60, 59), PackedInt32Array(62, 0, 60), PackedInt32Array(62, 22, 59), PackedInt32Array(61, 22, 23), PackedInt32Array(61, 25, 24), PackedInt32Array(61, 23, 24), PackedInt32Array(61, 62, 22), PackedInt32Array(61, 57, 62), PackedInt32Array(61, 53, 25), PackedInt32Array(0, 57, 62), PackedInt32Array(0, 50, 57), PackedInt32Array(50, 49, 57), PackedInt32Array(57, 48, 49), PackedInt32Array(56, 42, 43), PackedInt32Array(56, 44, 43), PackedInt32Array(56, 45, 44), PackedInt32Array(56, 46, 45), PackedInt32Array(47, 46, 56), PackedInt32Array(48, 47, 57), PackedInt32Array(47, 56, 57), PackedInt32Array(57, 53, 61), PackedInt32Array(57, 56, 53), PackedInt32Array(56, 34, 53), PackedInt32Array(56, 41, 42), PackedInt32Array(41, 56, 40), PackedInt32Array(34, 40, 56), PackedInt32Array(39, 40, 34), PackedInt32Array(38, 39, 34), PackedInt32Array(34, 35, 38), PackedInt32Array(35, 37, 38), PackedInt32Array(35, 36, 37)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 12
+script = ExtResource("3_ruild")
 
-[node name="Hair02" type="Polygon2D" parent="Polygons/BodyParts" unique_id=841870592]
+[node name="Hair02" type="Polygon2D" parent="Animator/Polygons/BodyParts" unique_id=841870592]
+visibility_layer = 0
 z_index = -1
 position = Vector2(-19, -38)
 texture = ExtResource("10_dlp56")
@@ -440,37 +756,16 @@ polygon = PackedVector2Array(7, 2, 26, 2, 29, 5, 30, 8, 31, 12, 31, 15, 30, 19, 
 uv = PackedVector2Array(7, 2, 26, 2, 29, 5, 30, 8, 31, 12, 31, 15, 30, 19, 29, 20, 28, 22, 27, 23, 25, 24, 11, 24, 8, 22, 2, 17, 2, 15, 2, 7, 4, 4, 5, 3)
 polygons = [PackedInt32Array(1, 12, 13), PackedInt32Array(2, 1, 12), PackedInt32Array(12, 11, 2), PackedInt32Array(11, 10, 2), PackedInt32Array(2, 3, 10), PackedInt32Array(3, 9, 10), PackedInt32Array(9, 8, 3), PackedInt32Array(8, 7, 3), PackedInt32Array(6, 7, 3), PackedInt32Array(5, 6, 4), PackedInt32Array(4, 3, 6), PackedInt32Array(1, 14, 13), PackedInt32Array(1, 15, 14), PackedInt32Array(16, 15, 1), PackedInt32Array(17, 16, 1), PackedInt32Array(0, 17, 1)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
+script = ExtResource("3_ruild")
 
-[node name="Face" type="Node2D" parent="Polygons" unique_id=1021518663]
-position = Vector2(-10.999858, -35.00351)
+[node name="Face" type="Node2D" parent="Animator/Polygons" unique_id=1021518663]
+position = Vector2(-11.0482025, -34.070946)
 
-[node name="Olhos" type="Sprite2D" parent="Polygons/Face" unique_id=2125266757]
-position = Vector2(12.0082, 11.0218)
-rotation = 0.0027285
-texture = ExtResource("11_1g0ok")
-offset = Vector2(0, 0.5)
+[node name="Clothes" type="Node2D" parent="Animator/Polygons" unique_id=964174573]
 
-[node name="Boca" type="Sprite2D" parent="Polygons/Face" unique_id=1220054260]
-position = Vector2(14.0082, 16.0218)
-rotation = 0.0027285
-texture = ExtResource("12_8lgdf")
-offset = Vector2(0.5, 0.5)
-
-[node name="Orelha" type="Sprite2D" parent="Polygons/Face" unique_id=26701035]
-position = Vector2(-1.99182, 9.0218)
-rotation = 0.0027285
-texture = ExtResource("13_xodg2")
-offset = Vector2(0.5, 0)
-
-[node name="Chifres" type="Sprite2D" parent="Polygons/Face" unique_id=1963258052]
-position = Vector2(12.0082, 1.0218)
-rotation = 0.0027285
-texture = ExtResource("14_a587v")
-offset = Vector2(0.5, 0)
-
-[node name="Clothes" type="Node2D" parent="Polygons" unique_id=964174573]
-
-[node name="RightGlove" type="Polygon2D" parent="Polygons/Clothes" unique_id=1679027823]
+[node name="RightGlove" type="Polygon2D" parent="Animator/Polygons/Clothes" unique_id=1679027823]
+visibility_layer = 0
+texture_filter = 1
 position = Vector2(-15, -13)
 texture = ExtResource("15_lne1r")
 skeleton = NodePath("../../../Skeleton")
@@ -478,8 +773,10 @@ polygon = PackedVector2Array(3, 7, 1, 6, 0, 5, 0, 1, 1, 0, 2, 0, 3, 1, 5, 2, 7, 
 uv = PackedVector2Array(3, 7, 1, 6, 0, 5, 0, 1, 1, 0, 2, 0, 3, 1, 5, 2, 7, 3, 7, 6, 6, 7)
 polygons = [PackedInt32Array(9, 1, 0), PackedInt32Array(8, 9, 1), PackedInt32Array(7, 8, 1), PackedInt32Array(7, 2, 1), PackedInt32Array(7, 6, 2), PackedInt32Array(6, 2, 3), PackedInt32Array(6, 5, 3), PackedInt32Array(5, 4, 3), PackedInt32Array(9, 10, 0)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
+script = ExtResource("3_ruild")
 
-[node name="LeftGlove" type="Polygon2D" parent="Polygons/Clothes" unique_id=1832453306]
+[node name="LeftGlove" type="Polygon2D" parent="Animator/Polygons/Clothes" unique_id=1832453306]
+visibility_layer = 0
 position = Vector2(8, -14)
 texture = ExtResource("16_4sbwj")
 skeleton = NodePath("../../../Skeleton")
@@ -487,24 +784,32 @@ polygon = PackedVector2Array(0, 3, 0, 5, 1, 6, 5, 6, 6, 5, 6, 1, 5, 0, 3, 0)
 uv = PackedVector2Array(0, 3, 0, 5, 1, 6, 5, 6, 6, 5, 6, 1, 5, 0, 3, 0)
 polygons = [PackedInt32Array(0, 2, 1), PackedInt32Array(7, 0, 2), PackedInt32Array(7, 6, 2), PackedInt32Array(6, 5, 3), PackedInt32Array(5, 4, 3), PackedInt32Array(6, 2, 3)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1)]
+script = ExtResource("3_ruild")
 
-[node name="RightBoot" type="Polygon2D" parent="Polygons/Clothes" unique_id=48254522]
+[node name="RightBoot" type="Polygon2D" parent="Animator/Polygons/Clothes" unique_id=48254522]
+visibility_layer = 0
 position = Vector2(-7, -8)
 texture = ExtResource("17_64604")
 skeleton = NodePath("../../../Skeleton")
 polygon = PackedVector2Array(0, 2, 2, 0, 6, 0, 8, 2, 8, 4, 7, 5, 5, 7, 4, 8, 0.999998, 8, 0, 7)
 uv = PackedVector2Array(0, 2, 2, 0, 6, 0, 8, 2, 8, 4, 7, 5, 5, 7, 4, 8, 0.999998, 8, 0, 7)
+polygons = [PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
+script = ExtResource("3_ruild")
 
-[node name="LeftBoot" type="Polygon2D" parent="Polygons/Clothes" unique_id=253534283]
+[node name="LeftBoot" type="Polygon2D" parent="Animator/Polygons/Clothes" unique_id=253534283]
+visibility_layer = 0
 position = Vector2(1, -8)
 texture = ExtResource("18_ttydp")
 skeleton = NodePath("../../../Skeleton")
 polygon = PackedVector2Array(1, 0, 5, 0, 6, 1, 6, 6, 5, 7, 3, 7, 2, 6, 2, 4, 1, 4, 0, 3, 0, 1)
 uv = PackedVector2Array(1, 0, 5, 0, 6, 1, 6, 6, 5, 7, 3, 7, 2, 6, 2, 4, 1, 4, 0, 3, 0, 1)
+polygons = [PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/Head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
+script = ExtResource("3_ruild")
 
-[node name="SuperiorCloth" type="Polygon2D" parent="Polygons/Clothes" unique_id=1150034172]
+[node name="SuperiorCloth" type="Polygon2D" parent="Animator/Polygons/Clothes" unique_id=1150034172]
+visibility_layer = 0
 position = Vector2(-9, -21)
 texture = ExtResource("19_rl44d")
 skeleton = NodePath("../../../Skeleton")
@@ -513,26 +818,59 @@ uv = PackedVector2Array(0, 1, 8, 1, 9, 2, 14, 2, 15, 1, 17, 0, 18, 0, 18, 2, 17,
 polygons = [PackedInt32Array(1, 26, 2), PackedInt32Array(26, 0, 1), PackedInt32Array(26, 23, 0), PackedInt32Array(26, 22, 23), PackedInt32Array(26, 21, 22), PackedInt32Array(26, 20, 21), PackedInt32Array(6, 5, 7), PackedInt32Array(5, 8, 7), PackedInt32Array(5, 4, 8), PackedInt32Array(4, 9, 8), PackedInt32Array(4, 3, 9), PackedInt32Array(3, 25, 2), PackedInt32Array(3, 25, 9), PackedInt32Array(25, 10, 9), PackedInt32Array(2, 27, 25), PackedInt32Array(2, 26, 27), PackedInt32Array(26, 20, 27), PackedInt32Array(25, 27, 10), PackedInt32Array(10, 11, 27), PackedInt32Array(27, 19, 20), PackedInt32Array(24, 14, 13), PackedInt32Array(24, 12, 13), PackedInt32Array(11, 24, 12), PackedInt32Array(24, 15, 14), PackedInt32Array(24, 16, 15), PackedInt32Array(24, 17, 16), PackedInt32Array(18, 17, 24), PackedInt32Array(19, 18, 24), PackedInt32Array(27, 24, 19), PackedInt32Array(27, 11, 24)]
 bones = ["Torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0), "Torso/Head", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.39, 0, 0, 0, 0, 0, 0, 0, 0.39, 0.39, 1, 1, 1, 0, 1, 1, 0.39), "Torso/RightLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftLeg", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/RightShoulder/RightArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "Torso/LeftShoulder/LeftArm", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 internal_vertex_count = 4
+script = ExtResource("3_ruild")
 
-[node name="Skeleton" type="Skeleton2D" parent="." unique_id=2129146296]
+[node name="Skeleton" type="Skeleton2D" parent="Animator" unique_id=2129146296]
 position = Vector2(0, -1)
 rotation = 0.00272835
 
-[node name="Torso" type="Bone2D" parent="Skeleton" unique_id=12004940]
+[node name="Torso" type="Bone2D" parent="Animator/Skeleton" unique_id=12004940]
 position = Vector2(1, -5)
 rest = Transform2D(1, 0, 0, 1, 1, -5)
 
-[node name="Head" type="Bone2D" parent="Skeleton/Torso" unique_id=1170893989]
+[node name="Head" type="Bone2D" parent="Animator/Skeleton/Torso" unique_id=1170893989]
 position = Vector2(-1, -14)
 rotation = -0.790351
 rest = Transform2D(0.703596, -0.7106, 0.7106, 0.703596, -1, -14)
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Skeleton/Torso/Head" unique_id=1270700965]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Animator/Skeleton/Torso/Head" unique_id=1270700965]
 position = Vector2(2.83538, -18.4176)
 rotation = 0.787623
 remote_path = NodePath("../../../../Polygons/Face")
 
-[node name="RightLeg" type="Bone2D" parent="Skeleton/Torso" unique_id=975726323]
+[node name="Olhos" type="Sprite2D" parent="Animator/Skeleton/Torso/Head" unique_id=2125266757]
+visibility_layer = 0
+position = Vector2(3.4966364, -2.131421)
+rotation = 0.7903515
+texture = ExtResource("11_1g0ok")
+offset = Vector2(0, 0.5)
+script = ExtResource("19_pkeru")
+
+[node name="Boca" type="Sprite2D" parent="Animator/Skeleton/Torso/Head" unique_id=1220054260]
+visibility_layer = 0
+position = Vector2(1.3643112, 2.8135948)
+rotation = 0.7903515
+texture = ExtResource("12_8lgdf")
+offset = Vector2(0.5, 0.5)
+script = ExtResource("19_pkeru")
+
+[node name="Orelha" type="Sprite2D" parent="Animator/Skeleton/Torso/Head" unique_id=26701035]
+visibility_layer = 0
+position = Vector2(-4.9634657, -13.463994)
+rotation = 0.7903515
+texture = ExtResource("13_xodg2")
+offset = Vector2(0.5, 0)
+script = ExtResource("19_pkeru")
+
+[node name="Chifres" type="Sprite2D" parent="Animator/Skeleton/Torso/Head" unique_id=1963258052]
+visibility_layer = 0
+position = Vector2(10.583421, -9.186738)
+rotation = 0.7903515
+texture = ExtResource("14_a587v")
+offset = Vector2(0.5, 0)
+script = ExtResource("19_pkeru")
+
+[node name="RightLeg" type="Bone2D" parent="Animator/Skeleton/Torso" unique_id=975726323]
 position = Vector2(-4, 1)
 rotation = 2.09512
 rest = Transform2D(-0.500628, 0.865663, -0.865663, -0.500628, -4, 1)
@@ -540,7 +878,7 @@ auto_calculate_length_and_angle = false
 length = 5.0
 bone_angle = 0.0
 
-[node name="LeftLeg" type="Bone2D" parent="Skeleton/Torso" unique_id=1738874483]
+[node name="LeftLeg" type="Bone2D" parent="Animator/Skeleton/Torso" unique_id=1738874483]
 position = Vector2(4, 1)
 rotation = 1.45037
 scale = Vector2(0.999998, 0.999998)
@@ -549,16 +887,16 @@ auto_calculate_length_and_angle = false
 length = 4.0
 bone_angle = 0.0
 
-[node name="RightShoulder" type="Bone2D" parent="Skeleton/Torso" unique_id=2058308909]
+[node name="RightShoulder" type="Bone2D" parent="Animator/Skeleton/Torso" unique_id=2058308909]
 position = Vector2(-4.04364, -10.9918)
 rotation = 0.00164628
-scale = Vector2(0.9999468, 0.9999468)
+scale = Vector2(0.999945, 0.999945)
 rest = Transform2D(0.999998, 0.00164628, -0.00164628, 0.999998, -4.04364, -10.9918)
 auto_calculate_length_and_angle = false
 length = 6.40974
 bone_angle = 141.01598
 
-[node name="RightArm" type="Bone2D" parent="Skeleton/Torso/RightShoulder" unique_id=284500203]
+[node name="RightArm" type="Bone2D" parent="Animator/Skeleton/Torso/RightShoulder" unique_id=284500203]
 position = Vector2(-4.98241, 4.03242)
 rotation = 2.33071
 rest = Transform2D(-0.688859, 0.724896, -0.724896, -0.688859, -4.98241, 4.03242)
@@ -566,29 +904,112 @@ auto_calculate_length_and_angle = false
 length = 8.0
 bone_angle = 0.0
 
-[node name="LeftShoulder" type="Bone2D" parent="Skeleton/Torso" unique_id=1544694413]
+[node name="LeftShoulder" type="Bone2D" parent="Animator/Skeleton/Torso" unique_id=1544694413]
 position = Vector2(3.95633, -11.0136)
 rotation = 0.874097
 rest = Transform2D(0.64169, 0.766964, -0.766964, 0.64169, 3.95633, -11.0136)
 
-[node name="LeftArm" type="Bone2D" parent="Skeleton/Torso/LeftShoulder" unique_id=76810120]
+[node name="LeftArm" type="Bone2D" parent="Animator/Skeleton/Torso/LeftShoulder" unique_id=76810120]
 position = Vector2(5.76234, 0.89184)
 rotation = 0.0160319
-scale = Vector2(0.999999, 0.999999)
+scale = Vector2(0.9999989, 0.9999989)
 rest = Transform2D(0.900315, -0.435237, 0.435237, 0.900315, 5.76234, 0.89184)
 auto_calculate_length_and_angle = false
 length = 6.0
 bone_angle = 0.0
 
-[node name="Animations" type="AnimationPlayer" parent="." unique_id=1354877634]
+[node name="Animations" type="AnimationPlayer" parent="Animator" unique_id=1354877634]
 libraries/ = SubResource("AnimationLibrary_x6ohb")
 autoplay = &"idle"
 
-[node name="Area" type="Area2D" parent="." unique_id=943147449]
+[node name="Area" type="Area2D" parent="Animator" unique_id=943147449]
 
-[node name="Coll" type="CollisionShape2D" parent="Area" unique_id=1354443516]
+[node name="Coll" type="CollisionShape2D" parent="Animator/Area" unique_id=1354443516]
 position = Vector2(-1, -21)
 shape = SubResource("RectangleShape2D_jmcx7")
 
-[node name="EffectOrigin" type="Node2D" parent="." unique_id=912712919]
+[node name="EffectOrigin" type="Node2D" parent="Animator" unique_id=912712919]
 position = Vector2(1, -14)
+
+[node name="PaperSkeleton" type="Skeleton3D" parent="." unique_id=1131317688 node_paths=PackedStringArray("polygon_group", "skeleton_2d")]
+bones/0/name = "PaperFlipBone3D"
+bones/0/parent = -1
+bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+bones/0/enabled = true
+bones/0/position = Vector3(0, 0, 0)
+bones/0/rotation = Quaternion(0, 0, 0, 1)
+bones/0/scale = Vector3(2, 2, 2)
+bones/1/name = "Torso"
+bones/1/parent = 0
+bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.05, 0)
+bones/1/enabled = true
+bones/1/position = Vector3(0.01, 0.05, 0)
+bones/1/rotation = Quaternion(0, 0, 0, 1)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/name = "Head"
+bones/2/parent = 1
+bones/2/rest = Transform3D(0.703596, -0.7106, 0, 0.7106, 0.703596, 0, 0, 0, 1, -0.01, 0.14, 0)
+bones/2/enabled = true
+bones/2/position = Vector3(-0.010457998, 0.13067311, 0)
+bones/2/rotation = Quaternion(0, 0, 0.38497016, 0.922929)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/name = "RightLeg"
+bones/3/parent = 1
+bones/3/rest = Transform3D(-0.500628, 0.865663, 0, -0.865663, -0.500628, 0, 0, 0, 1, -0.04, -0.01, 0)
+bones/3/enabled = true
+bones/3/position = Vector3(-0.04, -0.01, 0)
+bones/3/rotation = Quaternion(0, 0, 0.8662066, -0.4996861)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/name = "LeftLeg"
+bones/4/parent = 1
+bones/4/rest = Transform3D(0.120135, 0.992756, 0, -0.992756, 0.120135, 0, 0, 0, 1, 0.04, -0.01, 0)
+bones/4/enabled = true
+bones/4/position = Vector3(0.04, -0.01, 0)
+bones/4/rotation = Quaternion(0, 0, -0.6632738, 0.7483768)
+bones/4/scale = Vector3(0.999998, 0.999998, 1)
+bones/5/name = "RightShoulder"
+bones/5/parent = 1
+bones/5/rest = Transform3D(0.999998, 0.00164628, 0, -0.00164628, 0.999998, 0, 0, 0, 1, -0.040436402, 0.109918006, 0)
+bones/5/enabled = true
+bones/5/position = Vector3(-0.040383853, 0.09067087, 0)
+bones/5/rotation = Quaternion(0, 0, -0.00082314, 0.99999964)
+bones/5/scale = Vector3(0.999945, 0.999945, 1)
+bones/6/name = "RightArm"
+bones/6/parent = 5
+bones/6/rest = Transform3D(-0.688859, 0.724896, 0, -0.724896, -0.688859, 0, 0, 0, 1, -0.0498241, -0.0403242, 0)
+bones/6/enabled = true
+bones/6/position = Vector3(-0.049780227, -0.050355464, 0)
+bones/6/rotation = Quaternion(0, 0, -0.8378669, 0.54587454)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/name = "LeftShoulder"
+bones/7/parent = 1
+bones/7/rest = Transform3D(0.64169, 0.766964, 0, -0.766964, 0.64169, 0, 0, 0, 1, 0.039563302, 0.110136, 0)
+bones/7/enabled = true
+bones/7/position = Vector3(0.019615844, 0.09083455, 0)
+bones/7/rotation = Quaternion(0, 0, -0.47047588, 0.88241285)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/name = "LeftArm"
+bones/8/parent = 7
+bones/8/rest = Transform3D(0.900315, -0.435237, 0, 0.435237, 0.900315, 0, 0, 0, 1, 0.0576234, -0.0089184, 0)
+bones/8/enabled = true
+bones/8/position = Vector3(0.058284644, -0.008955198, 0)
+bones/8/rotation = Quaternion(0, 0, 0.120822065, 0.9926742)
+bones/8/scale = Vector3(0.9999989, 0.9999989, 1)
+script = ExtResource("23_nka7a")
+polygon_group = NodePath("../Animator/Polygons")
+skeleton_2d = NodePath("../Animator/Skeleton")
+material = SubResource("Resource_4q4wp")
+global_illumination_mode = 2
+billboard_enabled = true
+billboard_direction = 1
+billboard_axis = 2
+_total_indices = 19
+_stored_polygon_paths = Array[NodePath]([NodePath("BodyParts/LeftArm"), NodePath("BodyParts/LeftShoulder"), NodePath("BodyParts/LeftLeg"), NodePath("BodyParts/Torso"), NodePath("BodyParts/Head"), NodePath("BodyParts/RightLeg"), NodePath("BodyParts/RightShoulder"), NodePath("BodyParts/RightArm"), NodePath("BodyParts/Hair"), NodePath("BodyParts/Hair02"), NodePath("Clothes/RightGlove"), NodePath("Clothes/LeftGlove"), NodePath("Clothes/RightBoot"), NodePath("Clothes/LeftBoot"), NodePath("Clothes/SuperiorCloth")])
+_stored_polygon_meshes = Array[ArrayMesh]([SubResource("ArrayMesh_526b0"), SubResource("ArrayMesh_wnmo3"), SubResource("ArrayMesh_pbeqj"), SubResource("ArrayMesh_ofpc6"), SubResource("ArrayMesh_qj36r"), SubResource("ArrayMesh_dr6v6"), SubResource("ArrayMesh_fvphb"), SubResource("ArrayMesh_8mvip"), SubResource("ArrayMesh_84jiq"), SubResource("ArrayMesh_3p7wu"), SubResource("ArrayMesh_uk05a"), SubResource("ArrayMesh_vh3qa"), SubResource("ArrayMesh_0dufg"), SubResource("ArrayMesh_c0jp1"), SubResource("ArrayMesh_6r16p")])
+_stored_sprite_paths = Array[NodePath]([NodePath("Torso/Head/Olhos"), NodePath("Torso/Head/Boca"), NodePath("Torso/Head/Orelha"), NodePath("Torso/Head/Chifres")])
+_stored_sprite_meshes = Array[ArrayMesh]([SubResource("ArrayMesh_h5qji"), SubResource("ArrayMesh_6jadm"), SubResource("ArrayMesh_jd6i8"), SubResource("ArrayMesh_lplxl")])
+_stored_polygon_z_papers = PackedInt32Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 12, 13, 14)
+_stored_polygon_z_micro_groups = PackedFloat32Array(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+_stored_sprite_z_papers = PackedInt32Array(15, 16, 17, 18)
+_stored_sprite_z_micro_groups = PackedFloat32Array(0.5, 0.5, 0.5, 0.5)
+metadata/_custom_type_script = "uid://papersklbgds"

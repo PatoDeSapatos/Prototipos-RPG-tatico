@@ -1,0 +1,533 @@
+[gd_scene format=4 uid="uid://ysieqsqms37"]
+
+[ext_resource type="Script" path="res://battle/scenes/scripts/character_body_3d.gd" id="1_h8ynm"]
+[ext_resource type="Script" path="res://battle/scenes/scripts/camera_pivot.gd" id="2_3wbbn"]
+[ext_resource type="Script" path="res://battle/scenes/scripts/grid_map.gd" id="2_r61yh"]
+[ext_resource type="Texture2D" uid="uid://blfgi88jkwwht" path="res://battle/scenes/assets/felpos_idle.png" id="2_soskg"]
+[ext_resource type="Texture2D" uid="uid://cvptdfsixmdo8" path="res://battle/scenes/assets/shadow.png" id="3_8h3oa"]
+[ext_resource type="MeshLibrary" uid="uid://i5txuqfs1qww" path="res://battle/scenes/Tiles.tres" id="4_xgd0f"]
+[ext_resource type="Script" path="res://battle/scenes/scripts/mesh_test.gd" id="6_q0a6e"]
+[ext_resource type="Texture2D" uid="uid://ca4temis55qrv" path="res://battle/scenes/assets/lamp_candle.png" id="35_p1ebs"]
+[ext_resource type="Texture2D" uid="uid://bo0vypu0cduhb" path="res://battle/scenes/assets/candle_light.png" id="36_cc5oo"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4vjwa"]
+sky_top_color = Color(0.25387308, 0.31164604, 0.39044082, 1)
+sky_horizon_color = Color(0.30692267, 0.3069227, 0.30692264, 1)
+ground_bottom_color = Color(0.10046061, 0.08117714, 0.059475467, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_h8ynm"]
+sky_material = SubResource("ProceduralSkyMaterial_4vjwa")
+
+[sub_resource type="Environment" id="Environment_3wbbn"]
+background_mode = 2
+sky = SubResource("Sky_h8ynm")
+ambient_light_source = 3
+reflected_light_source = 2
+ssil_radius = 8.0
+ssil_intensity = 2.0
+glow_normalized = true
+glow_intensity = 1.4
+glow_strength = 1.3
+glow_bloom = 0.1
+glow_blend_mode = 4
+fog_light_color = Color(0.3995103, 0.42752323, 0.47109896, 1)
+fog_light_energy = 0.1
+fog_sun_scatter = 0.5
+fog_aerial_perspective = 0.105
+fog_height_density = 0.11
+fog_depth_begin = 0.0
+volumetric_fog_albedo = Color(0.15433852, 0.15433852, 0.15433852, 1)
+volumetric_fog_gi_inject = 0.5
+volumetric_fog_length = 10.0
+volumetric_fog_ambient_inject = 1.0
+
+[sub_resource type="Shader" id="Shader_r61yh"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.6.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+#include \"shaders/tansparency.gdshaderinc\"
+render_mode blend_mix, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	
+	vec3 out_albedo = albedo.rgb * albedo_tex.rgb;
+	apply_portal_effect(out_albedo, ALPHA, texture_albedo, SCREEN_UV, UV, VIEWPORT_SIZE, NODE_POSITION_WORLD);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qbaxt"]
+render_priority = -1
+shader = SubResource("Shader_r61yh")
+shader_parameter/albedo = Color(0, 0, 0, 1)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(0, 0, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8h3oa"]
+size = Vector3(20, 5, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_q0a6e"]
+data = PackedVector3Array(-10, 2.5, 0.5, 10, 2.5, 0.5, -10, -2.5, 0.5, 10, 2.5, 0.5, 10, -2.5, 0.5, -10, -2.5, 0.5, 10, 2.5, -0.5, -10, 2.5, -0.5, 10, -2.5, -0.5, -10, 2.5, -0.5, -10, -2.5, -0.5, 10, -2.5, -0.5, 10, 2.5, 0.5, 10, 2.5, -0.5, 10, -2.5, 0.5, 10, 2.5, -0.5, 10, -2.5, -0.5, 10, -2.5, 0.5, -10, 2.5, -0.5, -10, 2.5, 0.5, -10, -2.5, -0.5, -10, 2.5, 0.5, -10, -2.5, 0.5, -10, -2.5, -0.5, 10, 2.5, 0.5, -10, 2.5, 0.5, 10, 2.5, -0.5, -10, 2.5, 0.5, -10, 2.5, -0.5, 10, 2.5, -0.5, -10, -2.5, 0.5, 10, -2.5, 0.5, -10, -2.5, -0.5, 10, -2.5, 0.5, 10, -2.5, -0.5, -10, -2.5, -0.5)
+
+[sub_resource type="Shader" id="Shader_q0a6e"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.6.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+#include \"res://battle/scenes/shaders/tansparency.gdshaderinc\"
+render_mode blend_mix, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+
+	vec3 out_albedo = albedo.rgb * albedo_tex.rgb;
+	float out_alpha = albedo.a * albedo_tex.a;
+	apply_portal_effect(out_albedo, out_alpha, texture_albedo, SCREEN_UV, UV, VIEWPORT_SIZE, NODE_POSITION_WORLD);
+	ALPHA = out_alpha;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r61yh"]
+render_priority = 0
+shader = SubResource("Shader_q0a6e")
+shader_parameter/albedo = Color(0, 0, 0, 1)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(0, 0, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8h3oa"]
+height = 1.1118164
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgd0f"]
+atlas = ExtResource("2_soskg")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8h3oa"]
+atlas = ExtResource("2_soskg")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmc7r"]
+atlas = ExtResource("2_soskg")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2id35"]
+atlas = ExtResource("2_soskg")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q0a6e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgd0f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8h3oa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmc7r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2id35")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r61yh"]
+size = Vector3(5, 1, 5)
+
+[sub_resource type="Shader" id="Shader_catde"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.6.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+#include \"res://battle/scenes/shaders/tansparency.gdshaderinc\"
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_nearest_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_nearest_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_nearest_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	
+	vec3 out_albedo = albedo.rgb * albedo_tex.rgb;
+	apply_portal_effect(out_albedo, ALPHA, texture_albedo, SCREEN_UV, UV, VIEWPORT_SIZE, NODE_POSITION_WORLD);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p1ebs"]
+resource_name = "holder_material.003"
+render_priority = 0
+shader = SubResource("Shader_catde")
+shader_parameter/albedo = Color(0, 0, 0, 1)
+shader_parameter/albedo_texture_size = Vector2i(0, 0)
+shader_parameter/point_size = 0.0
+shader_parameter/roughness = 0.0
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/specular = 0.0
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(0, 0, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(0, 0, 0)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6tn08"]
+_surfaces = [{
+"aabb": AABB(-0.519456, -0.057979405, -0.520788, 1.0456324, 1.5520711, 1.0456324),
+"format": 34896613377,
+"index_count": 630,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEABAACAAEAAwAEAAEAAAACAAUAAAAFAAYABgADAAAABgADAAAAAgAHAAUAAgAHAAUABgAFAAcABAAHAAIAAgAIAAcACAACAAQABwAEAAgABgAHAAkACQAHAAoABwAIAAoABwAIAAoACQAKAAsACwAKAAgACwAGAAkACwAGAAkACAAEAAwACAAEAAwADQAMAAQAAwANAAQADgAIAAwADQAOAAwAAwAOAA0AAwAOAA0ABgAOAAMABgAOAAMADgAGAAsADgAGAAsACwAIAA8ADgAPAAgADgALAA8ADgALAA8AEAARABIAEQATABIAEAASABQAFAASABMAEAAVABEAEAAUABYAFwAVABAAFgAYABAAGQAVABcAGQAXABoAFQAZABsAGwAZABwAHQAYABYAHQAWABoAGAAdAB4AHgAdABwAGAAeAB8AFQAbAB8AFgAgABoAFgAUACAAGgAhAB0AGgAgACEAHQAiABwAGwAcACIAHQAhACIAIAAUACMAFAATACMAIQAgACQAIAAjACQAIQAkACUAIgAhACUAJAAjACYAGwAiACcAHwAbACcAJQAkACgAJAAmACgAIwApACYAIwATACkAKAAmACoAKgAmACkAJQAoACsAHwAnACwAFQAfACwAFQAsABEAEQAtABMALAAtABEALQApABMAJwAuACwALAAuAC0AJwAvAC4AIgAvACcALgAwAC0ALQAwACkALwAxAC4ALgAxADAAIgAyAC8AIgAlADIAMgAlACsAMgAzAC8ALwAzADEAMgArADQAMgA1ADMANAArADYANQA3ADMANAA2ADgANQA4ADcAMwA5ADEAMwA3ADkAOQA4ADcAMQA6ADAAMQA5ADoAOgApADAAOgA7ACkAOwA5ADoAOQA7ADgAKgApADsAOQA8ADoANwA9ADkAOQA9ADwAOAA+ADcANwA+AD0APQA9AD4AOgA/ADsAOgA8AD8AKgA7AD8APQA+AD4AQAA7ACoAKAAqAEAAKwAoAEAAKwBAADYAOwBAADYAOwA2ADgAQAAqAEEAKgA/AEEANgBAAEIAQABBAEIAOAA2AEMANgBCAEMAQgBDAEIAQQA/AD8AQgBDAEMAQQA/AEEAQgBDAEQAQgBEAEUAQgBGAEUAQgBBAEYAQQBHAEYAQQA/AEcAQQA/AEEAQQA/AD8APABHAD8APABIAEcAPAA/AD8APAA/AD8APAA8AD8APAA8AD8APQBIADwAPQBJAEgAPQBJAEoAPQBKAD4ASwBKAD4ASwBMAEoASwBEAEwASwA+AD4ASwBLAD4AOABLAD4ASwBDAEQAOABDAEsASwBDAEMASwBDAEsATQBOAE8AUABPAFEAUgBQAFMAUgBPAFAAVABPAE4ATQBVAE4AVQBUAE4AVgBVAE0AVQBXAFQAVgBYAFUAVQBYAFcAVwBZAFQAVwBYAFkAUgBUAFkAWABSAFkAWABWAFoAWgBWAFsAWABaAFwAWABcAFIAXQBUAFIAVABdAE8ATwBdAF4AXQBSAF8ATQBPAGAATQBgAGEATwBiAGAATwBSAGIAYQBgAGIAYQBjAE0AYQBkAGMAYwBkAGUAYQBiAGYAYgBSAGcAZgBiAGcAaABnAFIAZgBnAGgAaABhAGYAZABhAGgAaABSAFwAZABoAFwA"),
+"name": "holder_material.003",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 105,
+"vertex_data": PackedByteArray("/38AAP//AAB9Je4TgdoAAP9/7hP//wAAfSUAAIHaAAAAAO4T/38AAIHa7hOB2gAAgdoAAIHaAAD//+4T/38AAP9/7hMAAAAA//8AAP9/AACB2u4TfSUAAIHaAAB9JQAAfSXuE30lAAAAAAAA/38AAH0lAAB9JQAA/38AAAAAAAD/f4EZXJoAAFttRK+jkgAA/39Er1yaAAD/f0+6nqcAAKOSRK+jkgAAW22BGaOSAACjkoEZo5IAAKOSgRmjkgAAW22BGaOSAACjkoEZW20AAFyagRn/fwAAW22BGVttAAD/f4EZomUAAKOSgRlbbQAAW22BGVttAACiZYEZ/38AAFyaRK//fwAAo5JEr1ttAAD/f0SvomUAAAOcT7oDnAAAnqdPuv9/AAADnE+6+2MAAL2bZMgDnAAAW21Er1ttAABYp2TI/38AAP9/usiepwAAXY8Z8pqUAAC9m2TI+2MAAKJlRK//fwAA+2NPugOcAABgWE+6/38AAPtjT7r7YwAAQWRkyAOcAACmWGTI/38AAP9/T7pgWAAAQWRkyPtjAAC4f2TIYFgAAEaAZMhgWAAAXY8Z8mRrAAChcBnyZGsAAP9/GfLbYgAAGGgZ8v9/AAChcBnympQAAP9/GfIjnQAASlo9+LSlAACsSj34/38AAEpaPfhKWgAA/389+FK1AADmlxny/38AALSlPfi0pQAAUrU9+P9/AAC0pT34SloAALSl//9KWgAAUrX///9/AAC0pf//tKUAAP9///9StQAASlr//7SlAACsSv///38AAEpa//9KWgAA/389+KxKAAD/f///rEoAAP9/EhOV1gAAxkLhGzm9AAD/f+EbldYAAGkp4Rv/fwAAxULhGzm9AAD/f+EbaSkAAMVC4RvFQgAAaSnhG/9/AADGQhITOb0AADm9EhM5vQAAaSkSE/9/AADGQhITxUIAAMZC4RvFQgAAOb0SE8VCAACV1hIT/38AAP9/EhNpKQAAldbhG/9/AAA5veEbOb0AADm94RvFQgAAOb3hGzm9AAA5vRITOb0AAJXW4Rv/fwAAxUISEzm9AADFQhITxUIAAGkpEhP/fwAAldYSE/9/AAA5veEbxUIAADm9EhPFQgAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_8u80f"]
+resource_name = "lamp_Cylinder"
+_surfaces = [{
+"aabb": AABB(-0.519456, -0.057979405, -0.520788, 1.0456324, 1.5520711, 1.0456324),
+"attribute_data": PackedByteArray("gKRn24ifUNmApFDZiJ9n24ifZ9uKk1DZiJ9Q2YqTZ9sw1ga8b8SgtP3Qy7avsga84rfLtm/Ea8P90EHB4rdBwTDWBrz90EHB/dDLtq+yBrzit8u24rdBwYqTZ9uLh1DZipNQ2YuHZ9uLh2fbk4JQ2YuHUNmTgmfbBssGy+j2Bsv34O/B6Pbo9v//9+AGy+j278H34Pfg///o9gbLBssGywbL6Pbvwffg6Pbo9v//9+DMlK3Xk5KTtcyUk7WTkq3XA59n2aebetgDn3rYp5tn2aebZ9mKk3rYp5t62IqTZ9ly0Aa8b8QFt+3MfLhtuAa88rt8uG/EB8HtzI+/8ruPv3LQBrztzI+/7cx8uG24Brzyu3y48ruPv4qTZ9lti3rYipN62G2LZ9lti2fZEIh62G2LetgQiGfZBssGy+j2Bsv34O/B6Pbo9v//9+AGy+j278H34Pfg///o9gbLBssGywbL6Pbvwffg6Pbo9v//9+CTkq3XN42TtZOSk7U3ja3X6PYGy+j26Pb///fgBsvo9vfg//8GywbL78H34Pfg78EGy+j26Pbo9gbLBsvvwffg6PYGy///9+A3ja3X2oeTtTeNk7Xah63X2oet16GFk7Xah5O1oYWt12WYm9K7m2bPu5ub0mWYZs8BjPrfupNc3LqT+t8fiFzccpv63yKkXNylnvrfVJ9c3M+I+t8fiFzcAYz631GDXNy6k/rfVJ9c3HKb+t+6k1zcyqOb0tmrZs/Zq5vSyqNmz7ubm9LKo2bPyqOb0rubZs9JikuEMIFahj2IWobuhJaCZZjfzt2dYMW7m9/OaZtgxcqj3863qWDF2avfzsqjYMW7m9/OyqNgxcqj387dnWDFSYppiPeNrYv3jUOJ7oQeiveNcYPuhJaCSYpLhPeNB4E9iFqG7oQeikmKaYgwgVqG7oQeiveNrYv3ja2L7oQeiu6EHoruhB6KtKw3snKwN7JysDeytKw3srSsN7K0rDeyMIFahu6EloLuhJaCMIFahveNB4H3jQeBqqM3srSsvrC0rDeyqqO+sOOWN7Khmr6woZo3suOWvrC0rDeycrC+sHKwN7K0rL6wqqM3sqGavrChmjeyqqO+sOfvZHjo7ZB1U+e6dufvZHjn72R45+9keOjtkHVT57p22aub0i+vU88vr5vS2atmz7epYMUvr8vO2avfziysYMWApGfbiJ9Q2YifZ9uApFDZiJ9n24qTUNmKk2fbiJ9Q2YqTZ9uLh1DZi4dn24qTUNmLh2fbk4JQ2ZOCZ9uLh1DZzJSt15OSk7WTkq3XzJSTtQOfZ9mnm3rYp5tn2QOfetinm2fZipN62IqTZ9mnm3rYipNn2W2Lethti2fZipN62G2LZ9kQiHrYEIhn2W2LetiTkq3XN42TtTeNrdeTkpO1N42t19qHk7Xah63XN42TtdqHrdehhZO1oYWt19qHk7VlmJvSu5tmz2WYZs+7m5vSAYz637qTXNwfiFzcupP633Kb+t8ipFzcVJ9c3KWe+t/PiPrfH4hc3FGDXNwBjPrfupP631SfXNy6k1zccpv638qjm9LZq2bPyqNmz9mrm9K7m5vSyqNmz7ubZs/Ko5vSSYpLhDCBWobuhJaCPYhahmWY387dnWDFaZtgxbub387Ko9/Ot6lgxcqjYMXZq9/Ou5vfzsqjYMXdnWDFyqPfzkmKaYj3ja2L7oQeiveNQ4n3jXGD7oSWgveNB4FJikuEPYhahu6EHoowgVqGSYppiKqjN7KhmjeyqqM3sqGaN7Ljljey45Y3sqqjN7K0rL6wqqO+sLSsN7LjljeyoZq+sOOWvrChmjeytKw3snKwvrC0rL6wcrA3sqqjN7Khmr6wqqO+sKGaN7LZq5vSL69Tz9mrZs8vr5vSt6lgxS+vy84srGDF2avfzg=="),
+"format": 34896613399,
+"index_count": 630,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkACQALAAwACwAIAA0ADQAIAA4ACwANAA8ACQANABAAEAANABEACQAQABIADQAJABMAEwAJABQADQATABUAFgAXABgAFgAZABcAGgAbABwAGgAdABsAHgAfACAAHgAhAB8AHwAhACIAIQAeACMAIwAeACQAIQAjACUAJgAnACAAJgAoACcAJwAoACkAKAAqACUAKAAmACoAKgAmACsALAAtAC4ALAAvAC0AMAAxADIAMAAzADEANAA1ADYANAA3ADUAOAA5ADoAOAA7ADkAOQA7ADwAOwA4AD0APQA4AD4AOwA9AD8AOQA9AEAAQAA9AEEAOQBAAEIAPQA5AEMAQwA5AEQAPQBDAEUARgBHAEgARgBJAEcASgBLAEwASgBNAEsATgBPAFAATgBRAE8ATwBRAFIAUQBOAFMAUwBOAFQAUQBTAFUAVgBXAFAAVgBYAFcAVwBYAFkAWABaAFUAWABWAFoAWgBWAFsAXABdAF4AXABfAF0AYABhAGIAYABjAGEAYQBjAGQAYwBgAGUAYwBlAGYAZQBgAGcAaABpAGQAagBpAGgAagBoAGsAbABqAGcAaQBqAGwAaQBsAG0AbgBvAHAAbgBxAG8AcgBzAHQAcgB1AHMAdgB3AHgAdgB5AHcAegB7AHwAegB9AHsAfgB/AIAAfgCBAH8AggCDAIQAggCFAIMAhgCHAIgAhgCJAIcAigCLAIwAigCNAIsAjgCPAJAAjgCRAI8AkgCTAJQAkgCVAJMAlgCXAJgAlgCZAJcAmgCbAJwAmgCdAJsAngCfAKAAngChAJ8AogCjAKQAogClAKMApgCnAKgApgCpAKcAqgCrAKwAqgCtAKsArgCvALAArgCxAK8AsgCwAK8AsgCvALMAtAC1ALYAtAC3ALUAuAC2ALUAuAC1ALkAugC7ALwAugC9ALsAvgC7ALwAvgC/ALsAwADBAMIAwADDAMEAxADFAMYAxADHAMUAyADJAMoAyADLAMkAzADNAM4AzADPAM0A0ADRANIA0QDQANMA0QDTANQA0ADVANMA0ADWANUA1gDQANcA2ADZANoA2ADbANkA3ADdAN4A3ADfAN0A4ADhAOIA4ADjAOEA5ADlAOYA5ADnAOUA6ADpAOoA6ADrAOkA7ADtAO4A7ADvAO0A8ADxAPIA8ADzAPEA9AD1APYA9AD3APUA+AD5APoA+AD7APkA/AD9AP4A/AD/AP0AAAEBAQIBAAEDAQEBBAEFAQYBBAEHAQUBCAEJAQoBCAELAQkBDAENAQ4BDAEPAQ0BEAERARIBEAETAREBFAEVARYBFAEXARUBGAEZARoBGAEbARkBHAEdAR4BHAEfAR0BIAEhASIBIAEjASEBJAElASYBJAEnASUBKAEpASoBKAErASkBLAEtAS4BLAEvAS0BMAExATIBMAEzATEBNAE1ATYBNAE3ATUBOAE5AToBOAE7ATkBPAE9AT4BPAE/AT0BQAFBAUIBQAFDAUEBRAFFAUYBRAFHAUUBSAFJAUoBSAFLAUkBTAFLAUkBTAFJAU0BTgFPAVABTgFRAU8BUgFTAVQBUgFVAVMBVgFXAVgBVgFZAVcBWgFbAVwBWgFdAVsBXgFfAWABXgFhAV8BYgFjAWQBYgFlAWMB"),
+"material": SubResource("ShaderMaterial_p1ebs"),
+"name": "holder_material.003",
+"primitive": 3,
+"uv_scale": Vector4(1.98, 1.98, 0, 0),
+"vertex_count": 358,
+"vertex_data": PackedByteArray("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tKUAAP9/PfisSgAAtKX//0paAAD/f///rEoAALSlPfhKWgAAtKU9+LSlAAD/f///UrUAALSl//+0pQAA/389+FK1AABStT34/3//r7Sl//9KWv+vUrX///9//6+0pT34Slr/rwOcT7oDnAUA/3+6yJ6nBQC9m2TIA5wFAP9/T7qepwMAXY8Z8pqUyQH/f7rInqdiAf9/GfIjnf0BvZtkyAOcQQH/f////3////9/////f////3////9/////f////3////7//3//f/+//v//f/7//3/+//9//3//v/7//3/+//9//3//v/9//7//f/+//3//v/9//7//f/+//3////9/////f////3////9/////f////3////9///8AAP9/AAD/f/9//z8AAP9/AAD/fwAA/38AAP9//3//P/9//z//f/8//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f////3////9/////f////3///////3//f/+//v//f////3/+//9//3//v/7//3/+//9//3//v/9//7//f/+//3//v/9//7//f/+//3////9/////f////3////9/////f////3////9///8AAP9/AAD/f/9//z8AAP9/AAD/fwAA/38AAP9//3//P/9//z//f/8//3//P/9//z//f/8//3//P/9/////f////3////9///8AAP9/AAD/fwAA/38AAP9//3//PwAA/38AAP9//3//P/9//z//f/8//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///D4Cd/w+Anf8PgJ3/D4Cd/1ZSte1WUrXtVlK17VZSte2cKsa4nCrGuJwqxricKsa4hVvx+YVb8fmFW/H5hVvx+fJFMt3yRTLd8kUy3fJFMt0mgRP+JoET/iaBE/4mgRP+g4C0/oOAtP6DgLT+g4C0/mgcEY9oHBGPaBwRj2gcEY/5gQz0lIKc88eBMPTjgmTz+JCv4/iQr+P4kK/j+JCv4yyIlOssiJTrLIiU6yyIlOu5FIOIuhR9iPgUvYeYFOmIag8GiWoPB4l2DzKJYw/siDQfpY40H6WONB+ljjQfpY7///9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3//f////3////9/////f////3////9/////f////3////9/////f////3////9///9Es/9/RLP/f0Sz/39Es/9/7FCJV+xQiVfsUIlXAAD/fwAA/38AAP9/AAD/f4VZPFPKgAr/yoAK/8uAC//KgAr/DqE61vChNdc6oofXnqC+1TyV/388lf9/PJX/fzyV/39Es/9/RLP/f0Sz/39Es/9/usz/f7rM/3+6zP9/usz/f8Lq/3/C6v9/wur/f8Lq/388lf9/PJX/fzyV/388lf9/PJX/fzyV/388lf9/PJX/f0Sz/39Es/9/RLP/f0Sz/3+6zP9/usz/f7rM/3+6zP9/wur/f8Lq/3/C6v9/wur/f0Sz/39Es/9/RLP/f0Sz/3+6zP9/usz/f7rM/3+6zP9/wur/f8Lq/3/C6v9/wur/f7fqDYC36gyAt+oNgLfqDYAKD0i8Cg9IvAoPSLwKD0i8yRte78kbXu/JG17vyRte77AG0JqwBtCasAbQmrAG0JpEFT7VRBU+1UQVPtVEFT7VFLN3gBSzd4AUs3aAFLN2gIrMT4CKzE+AisxPgIrMT4CCiSNBgokjQYKJI0GCiSNBa+fCgfDmTIKy5pGCk+eVgf6vK4j+ryuI/q8riP6vK4hiyZOFYsmThWLJk4ViyZOFFISOTBKEjUxChKZMu4NhTLuFfDi8hXw4q4VxONaFjjh9iORHfYjkR32I5Ed9iORH////f////3////9/////f////3////9/RLP/f0Sz/39Es/9/RLP/f8Lq/3/C6v9/wur/f8Lq/388lf9/PJX/fzyV/388lf9//3////9/////f////3///0qVIoBLlSGAS5UhgEuVIYDWlV6Ix5V5iN2VUYjDlYKI")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_6tn08")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yxjpy"]
+resource_name = "CandleMaterial.003"
+cull_mode = 2
+albedo_texture = ExtResource("35_p1ebs")
+metallic = 0.08461539
+roughness = 0.75384617
+texture_filter = 2
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4daja"]
+_surfaces = [{
+"aabb": AABB(-0.06916105, 1.5025114, -0.06916105, 0.1383221, 0.22329044, 0.1383221),
+"format": 34896613377,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAACAAEAAwAEAAEABQAAAAIABQADAAAABQACAAYAAgAHAAYABAAHAAIACAAFAAYACAAGAAcAAwAJAAQACgAFAAgACgAIAAcABQALAAMACwAFAAoAAwALAAkACQAMAAQACQALAAwADQAEAAwABwAEAA0ACwANAAwACgAHAA4ABwANAA4ACwAKAA8ACwAPAA0ADwAKAA4ADwAOAA0A"),
+"name": "CandleMaterial.003",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("/38AAAAAAACB2tX8fSUAAP9/mf0AAAAAgdoAAH0lAAD//8D3/38AAH0lAAB9JQAAfSWs8n0lAAAAANr8/38AAAAAAAD/fwAA//8AAP9/AAB9JQAAgdoAAIHaAACB2gAAgdr//4HaAAD/f87+//8AAH0lzv6B2gAA/38AAP//AAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_qf7uh"]
+resource_name = "lamp_Cylinder_001"
+_surfaces = [{
+"aabb": AABB(-0.06916105, 1.5025114, -0.06916105, 0.1383221, 0.22329044, 0.1383221),
+"attribute_data": PackedByteArray("GH4Wn1ZgMhkYfjIZVmAWn1ZgFp+UQjIZVmAyGZRCFp+UQhaf0SQyGZRCMhnRJBaf0SQWnw8HMhnRJDIZDwcWnw8HFp87YDIZDwcyGTtgFp87YBafeEIyGTtgMhl4QhafQm7cDvRkDQqIa3YLp1vcDmFedgv0ZKsTiGtDEmFeQxJ4QhaftiQyGXhCMhm2JBaftiQWn/QGMhm2JDIZ9AYWnxAOdYjsNXWI/iHcg+w1qJ4tPo+TEA6ons8Fj5P+IUGj"),
+"format": 34896613399,
+"index_count": 84,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAGQAbABwAGwAYAB0AHQAYAB4AGwAdAB8AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkAKQArACwAKwAoAC0ALQAoAC4AKwAtAC8A"),
+"material": SubResource("StandardMaterial3D_yxjpy"),
+"name": "CandleMaterial.003",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 48,
+"vertex_data": PackedByteArray("/38AAAAA/u+B2tX8fSX/7/9/mf0AAP/vgdoAAH0l/u+B2gAAfSX/z///wPf/fwjQgdrV/H0lC9D//wAA/3//z///AAD/fwCwgdr//4HaMbD//8D3/39GsIHaAACB2v+vgdoAAIHa/4//f87+//8DkIHa//+B2gSQ/38AAP///4//fwAA//8AAH0lzv6B2gAA/3/O/v//AAB9JQAAgdoAAH0lAACB2v+vAADa/P9/ArB9Jc7+gdoDsAAAAAD/f/+v///A9/9/isH/f5n9AACKwYHa1fx9JYrBAADa/P9/isF9JazyfSWKwf9/zv7//4rBgdr//4HaisF9Jc7+gdqKwQAAAAD/fwDQfSWs8n0lItAAANr8/38v0H0lAAB9Jf/PfSUAAH0l/+//f5n9AAAK8H0lrPJ9JQ/w/38AAAAA/u99JQAAfSX/P4HaAAB9Jf8//38AAAAA/z+B2gAAgdr/P///AAD/f/8/fSUAAIHa/z8AAAAA/3//P/9/AAD///8/2n8fAC1/rwAJf80A/38AAKZ+zgDMeFAEp3cABf9/AAA+gR0DWYbcD2eHfBL/fwAA4n4vANx5BAHceC8B/38AAMJq/3/Cav9/wmr/f8Jq/3/DgLD/PYRM/vGEBP7/f///b/8kgVf/JYFd/yWBXP8lgXz+VoFz/ySBMv8mgXn/JIGzgmD+pI3R95yPo/b/f///U379/UZ3ifWsdZ7z/3///wAA/38AAP9/AAD/fwAA/38AAP9/AAD/fwAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_4daja")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ce4r"]
+atlas = ExtResource("36_cc5oo")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqp4w"]
+atlas = ExtResource("36_cc5oo")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bn0be"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ce4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqp4w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7btab"]
+size = Vector3(1.0456324, 1.5520711, 1.0456324)
+
+[node name="BattleTest" type="Node3D" unique_id=1014543461]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1583627685]
+transform = Transform3D(-0.4366919, 0.69801146, -0.5675211, 0.113076404, 0.66843754, 0.73512256, 0.89247626, 0.2568488, -0.37082994, 5.546753, 9.559326, 0)
+light_color = Color(0.4725, 0.4725, 0.4725, 1)
+light_specular = 0.0
+shadow_enabled = true
+shadow_opacity = 0.9
+shadow_blur = 0.1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=91588638]
+environment = SubResource("Environment_3wbbn")
+
+[node name="GridMap" type="GridMap" parent="." unique_id=556007639 groups=["occlusion"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh_library = ExtResource("4_xgd0f")
+cell_size = Vector3(2, 1, 2)
+collision_layer = 9
+data = {
+"cells": PackedInt32Array(65534, 65535, 0, 65534, 65534, 0, 65535, 65534, 0, 65535, 65535, 0, 65535, 0, 0, 65534, 0, 0, 65534, 1, 0, 65535, 1, 0, 0, 1, 0, 1, 0, 0, 1, 65535, 0, 1, 65534, 0, 0, 65534, 0, 0, 65535, 0, 0, 0, 0, 2, 65535, 0, 2, 65534, 0, 2, 65533, 0, 1, 65533, 0, 0, 65533, 0, 65535, 65533, 0, 65534, 65533, 0, 65533, 65534, 0, 65533, 65533, 0, 65533, 65535, 0, 65533, 0, 0, 65534, 2, 0, 65535, 2, 0, 0, 2, 0, 1, 2, 0, 65533, 1, 0, 65533, 2, 0, 3, 0, 0, 65535, 3, 0, 65534, 5, 0, 65533, 3, 0, 65534, 3, 0, 65532, 1, 0, 65531, 2, 0, 65532, 2, 0, 65530, 65535, 0, 65531, 65533, 0, 65531, 65534, 0, 65531, 65535, 0, 65531, 0, 0, 65531, 1, 0, 65529, 65532, 0, 65529, 65533, 0, 65529, 65534, 0, 65529, 65535, 0, 65529, 0, 0, 65529, 1, 0, 65529, 2, 0, 65529, 3, 0, 65529, 4, 0, 65529, 5, 0, 65529, 6, 0, 65529, 7, 0, 65530, 65532, 0, 65530, 65533, 0, 65530, 65534, 0, 65530, 0, 0, 65530, 1, 0, 65530, 2, 0, 65530, 3, 0, 65530, 4, 0, 65530, 5, 0, 65530, 6, 0, 65530, 7, 0, 65531, 65532, 0, 65531, 3, 0, 65531, 4, 0, 65531, 5, 0, 65531, 6, 0, 65531, 7, 0, 65532, 65532, 0, 65532, 65533, 0, 65532, 65534, 0, 65532, 65535, 0, 65532, 0, 0, 65532, 3, 0, 65532, 4, 0, 65532, 5, 0, 65532, 6, 0, 65532, 7, 0, 65533, 65532, 2, 65533, 4, 0, 65533, 5, 0, 65533, 6, 0, 65533, 7, 0, 65534, 65532, 0, 65534, 4, 0, 65534, 6, 0, 65534, 7, 0, 65535, 65532, 0, 65535, 4, 0, 65535, 5, 0, 65535, 6, 0, 65535, 7, 0, 0, 65532, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 1, 65532, 0, 1, 3, 0, 1, 4, 0, 1, 5, 0, 1, 6, 0, 1, 7, 0, 2, 65532, 0, 2, 4, 0, 2, 5, 0, 2, 6, 0, 2, 7, 0, 3, 65532, 0, 3, 65533, 0, 3, 65534, 0, 3, 65535, 0, 3, 1, 0, 3, 2, 0, 3, 3, 0, 3, 4, 0, 3, 5, 0, 3, 6, 0, 3, 7, 0, 4, 65532, 0, 4, 65533, 0, 4, 65534, 0, 4, 65535, 0, 4, 0, 0, 4, 1, 0, 4, 2, 0, 4, 3, 0, 4, 4, 0, 4, 5, 0, 4, 6, 0, 4, 7, 0, 5, 65532, 0, 5, 65533, 0, 5, 65534, 0, 5, 65535, 0, 5, 0, 0, 5, 1, 0, 5, 2, 0, 5, 3, 0, 5, 4, 0, 5, 5, 0, 5, 6, 0, 5, 7, 0, 6, 65532, 0, 6, 65533, 0, 6, 65534, 0, 6, 65535, 0, 6, 0, 0, 6, 1, 0, 6, 2, 0, 6, 3, 0, 6, 4, 0, 6, 5, 0, 6, 6, 0, 6, 7, 0, 7, 65532, 0, 7, 65533, 0, 7, 65534, 0, 7, 65535, 0, 7, 0, 0, 7, 1, 0, 7, 2, 0, 7, 3, 0, 7, 4, 0, 7, 5, 0, 7, 6, 0, 7, 7, 0, 8, 65532, 0, 8, 65533, 0, 8, 65534, 0, 8, 65535, 0, 8, 0, 0, 8, 1, 0, 8, 2, 0, 8, 3, 0, 8, 4, 0, 8, 5, 0, 8, 6, 0, 8, 7, 0, 9, 65532, 0, 9, 65533, 0, 9, 65534, 0, 9, 65535, 0, 9, 0, 0, 9, 1, 0, 9, 2, 0, 9, 3, 0, 9, 4, 0, 9, 5, 0, 9, 6, 0, 9, 7, 0, 10, 65532, 0, 10, 65533, 0, 10, 65534, 0, 10, 65535, 0, 10, 0, 0, 10, 1, 0, 10, 2, 0, 10, 3, 0, 10, 4, 0, 10, 5, 0, 10, 6, 0, 10, 7, 0, 11, 65532, 0, 11, 65533, 0, 11, 65534, 0, 11, 65535, 0, 11, 0, 0, 11, 1, 0, 11, 2, 0, 11, 3, 0, 11, 4, 0, 11, 5, 0, 11, 6, 0, 11, 7, 0, 12, 65532, 0, 12, 65533, 0, 12, 65534, 0, 12, 65535, 0, 12, 0, 0, 12, 1, 0, 12, 2, 0, 12, 3, 0, 12, 4, 0, 12, 5, 0, 12, 6, 0, 12, 7, 0, 13, 65532, 0, 13, 65533, 0, 13, 65534, 0, 13, 65535, 0, 13, 0, 0, 13, 1, 0, 13, 2, 0, 13, 3, 0, 13, 4, 0, 13, 5, 0, 13, 6, 0, 13, 7, 0, 14, 65532, 0, 14, 65533, 0, 14, 65534, 0, 14, 65535, 0, 14, 0, 0, 14, 1, 0, 14, 2, 0, 14, 3, 0, 14, 4, 0, 14, 5, 0, 14, 6, 0, 14, 7, 0, 65519, 65527, 0, 65519, 65528, 0, 65519, 65529, 0, 65519, 65530, 0, 65519, 65531, 0, 65519, 65532, 0, 65519, 65533, 0, 65519, 65534, 0, 65519, 65535, 0, 65519, 0, 0, 65519, 1, 0, 65519, 2, 0, 65519, 3, 0, 65519, 4, 0, 65519, 5, 0, 65519, 6, 0, 65519, 7, 0, 65519, 8, 0, 65519, 9, 0, 65520, 65527, 0, 65520, 65528, 0, 65520, 65529, 0, 65520, 65530, 0, 65520, 65531, 0, 65520, 65532, 0, 65520, 65533, 0, 65520, 65534, 0, 65520, 65535, 0, 65520, 0, 0, 65520, 1, 0, 65520, 2, 0, 65520, 3, 0, 65520, 4, 0, 65520, 5, 0, 65520, 6, 0, 65520, 7, 0, 65520, 8, 0, 65520, 9, 0, 65521, 65527, 0, 65521, 65528, 0, 65521, 65529, 0, 65521, 65530, 0, 65521, 65531, 0, 65521, 65532, 0, 65521, 65533, 0, 65521, 65534, 0, 65521, 65535, 0, 65521, 0, 0, 65521, 1, 0, 65521, 2, 0, 65521, 3, 0, 65521, 4, 0, 65521, 5, 0, 65521, 6, 0, 65521, 7, 0, 65521, 8, 0, 65521, 9, 0, 65522, 65527, 0, 65522, 65528, 0, 65522, 65529, 0, 65522, 65530, 0, 65522, 65531, 0, 65522, 65532, 0, 65522, 65533, 0, 65522, 65534, 0, 65522, 65535, 0, 65522, 0, 0, 65522, 1, 0, 65522, 2, 0, 65522, 3, 0, 65522, 4, 0, 65522, 5, 0, 65522, 6, 0, 65522, 7, 0, 65522, 8, 0, 65522, 9, 0, 65523, 65527, 0, 65523, 65528, 0, 65523, 65529, 0, 65523, 65530, 0, 65523, 65531, 0, 65523, 65532, 0, 65523, 65533, 0, 65523, 65534, 0, 65523, 65535, 0, 65523, 0, 0, 65523, 1, 0, 65523, 2, 0, 65523, 3, 0, 65523, 4, 0, 65523, 5, 0, 65523, 6, 0, 65523, 7, 0, 65523, 8, 0, 65523, 9, 0, 65524, 65527, 0, 65524, 65528, 0, 65524, 65529, 0, 65524, 65530, 0, 65524, 65531, 0, 65524, 65532, 0, 65524, 65533, 0, 65524, 65534, 0, 65524, 65535, 0, 65524, 0, 0, 65524, 1, 0, 65524, 2, 0, 65524, 3, 0, 65524, 4, 0, 65524, 5, 0, 65524, 6, 0, 65524, 7, 0, 65524, 8, 0, 65524, 9, 0, 65525, 65527, 0, 65525, 65528, 0, 65525, 65529, 0, 65525, 65530, 0, 65525, 65531, 0, 65525, 65532, 0, 65525, 65533, 0, 65525, 65534, 0, 65525, 65535, 0, 65525, 0, 0, 65525, 1, 0, 65525, 2, 0, 65525, 3, 0, 65525, 4, 0, 65525, 5, 0, 65525, 6, 0, 65525, 7, 0, 65525, 8, 0, 65525, 9, 0, 65526, 65527, 0, 65526, 65528, 0, 65526, 65529, 0, 65526, 65530, 0, 65526, 65531, 0, 65526, 65532, 0, 65526, 65533, 0, 65526, 65534, 0, 65526, 65535, 0, 65526, 0, 0, 65526, 1, 0, 65526, 2, 0, 65526, 3, 0, 65526, 4, 0, 65526, 5, 0, 65526, 6, 0, 65526, 7, 0, 65526, 8, 0, 65526, 9, 0, 65527, 65527, 0, 65527, 65528, 0, 65527, 65529, 0, 65527, 65530, 0, 65527, 65531, 0, 65527, 65532, 0, 65527, 65533, 0, 65527, 65534, 0, 65527, 65535, 0, 65527, 0, 0, 65527, 1, 0, 65527, 2, 0, 65527, 3, 0, 65527, 4, 0, 65527, 5, 0, 65527, 6, 0, 65527, 7, 0, 65527, 8, 0, 65527, 9, 0, 65528, 65527, 0, 65528, 65528, 0, 65528, 65529, 0, 65528, 65530, 0, 65528, 65531, 0, 65528, 65532, 0, 65528, 65533, 0, 65528, 65534, 0, 65528, 65535, 0, 65528, 0, 0, 65528, 1, 0, 65528, 2, 0, 65528, 3, 0, 65528, 4, 0, 65528, 5, 0, 65528, 6, 0, 65528, 7, 0, 65528, 8, 0, 65528, 9, 0, 65529, 65527, 0, 65529, 65528, 0, 65529, 65529, 0, 65529, 65530, 0, 65529, 65531, 0, 65529, 8, 0, 65529, 9, 0, 65530, 65527, 0, 65530, 65528, 0, 65530, 65529, 0, 65530, 65530, 0, 65530, 65531, 0, 65530, 8, 0, 65530, 9, 0, 65531, 65527, 0, 65531, 65528, 0, 65531, 65529, 0, 65531, 65530, 0, 65531, 65531, 0, 65531, 8, 0, 65531, 9, 0, 65532, 65527, 0, 65532, 65528, 0, 65532, 65529, 0, 65532, 65530, 0, 65532, 65531, 0, 65532, 8, 0, 65532, 9, 0, 65533, 65527, 0, 65533, 65528, 0, 65533, 65529, 0, 65533, 65530, 0, 65533, 65531, 0, 65533, 8, 0, 65533, 9, 0, 65534, 65527, 0, 65534, 65528, 0, 65534, 65529, 0, 65534, 65530, 0, 65534, 65531, 0, 65534, 8, 0, 65534, 9, 0, 65535, 65527, 0, 65535, 65528, 0, 65535, 65529, 0, 65535, 65530, 0, 65535, 65531, 0, 65535, 8, 0, 65535, 9, 0, 0, 65527, 0, 0, 65528, 0, 0, 65529, 0, 0, 65530, 0, 0, 65531, 0, 0, 8, 0, 0, 9, 0, 1, 65527, 0, 1, 65528, 0, 1, 65529, 0, 1, 65530, 0, 1, 65531, 0, 1, 8, 0, 1, 9, 0, 2, 65527, 0, 2, 65528, 0, 2, 65529, 0, 2, 65530, 0, 2, 65531, 0, 2, 8, 0, 2, 9, 0, 3, 65527, 0, 3, 65528, 0, 3, 65529, 0, 3, 65530, 0, 3, 65531, 0, 3, 8, 0, 3, 9, 0, 4, 65527, 0, 4, 65528, 0, 4, 65529, 0, 4, 65530, 0, 4, 65531, 0, 4, 8, 0, 4, 9, 0, 5, 65527, 0, 5, 65528, 0, 5, 65529, 0, 5, 65530, 0, 5, 65531, 0, 5, 8, 0, 5, 9, 0, 6, 65527, 0, 6, 65528, 0, 6, 65529, 0, 6, 65530, 0, 6, 65531, 0, 6, 8, 0, 6, 9, 0, 7, 65527, 0, 7, 65528, 0, 7, 65529, 0, 7, 65530, 0, 7, 65531, 0, 7, 8, 0, 7, 9, 0, 8, 65527, 0, 8, 65528, 0, 8, 65529, 0, 8, 65530, 0, 8, 65531, 0, 8, 8, 0, 8, 9, 0, 9, 65527, 0, 9, 65528, 0, 9, 65529, 0, 9, 65530, 0, 9, 65531, 0, 9, 8, 0, 9, 9, 0, 10, 65527, 0, 10, 65528, 0, 10, 65529, 0, 10, 65530, 0, 10, 65531, 0, 10, 8, 0, 10, 9, 0, 11, 65527, 0, 11, 65528, 0, 11, 65529, 0, 11, 65530, 0, 11, 65531, 0, 11, 8, 0, 11, 9, 0, 12, 65527, 0, 12, 65528, 0, 12, 65529, 0, 12, 65530, 0, 12, 65531, 0, 12, 8, 0, 12, 9, 0, 13, 65527, 0, 13, 65528, 0, 13, 65529, 0, 13, 65530, 0, 13, 65531, 0, 13, 8, 0, 13, 9, 0, 14, 65527, 0, 14, 65528, 0, 14, 65529, 0, 14, 65530, 0, 14, 65531, 0, 14, 8, 0, 14, 9, 0, 15, 65527, 0, 15, 65528, 0, 15, 65529, 0, 15, 65530, 0, 15, 65531, 0, 15, 65532, 0, 15, 65533, 0, 15, 65534, 0, 15, 65535, 0, 15, 0, 0, 15, 1, 0, 15, 2, 0, 15, 3, 0, 15, 4, 0, 15, 5, 0, 15, 6, 0, 15, 7, 0, 15, 8, 0, 15, 9, 0, 65523, 65509, 0, 65523, 65510, 0, 65523, 65511, 0, 65523, 65512, 0, 65523, 65513, 0, 65523, 65514, 0, 65523, 65515, 0, 65523, 65516, 0, 65523, 65517, 0, 65523, 65518, 0, 65523, 65519, 0, 65523, 65520, 0, 65523, 65521, 0, 65523, 65522, 0, 65523, 65523, 0, 65523, 65524, 0, 65523, 65525, 0, 65523, 65526, 0, 65523, 10, 0, 65523, 11, 0, 65524, 65509, 0, 65524, 65510, 0, 65524, 65511, 0, 65524, 65512, 0, 65524, 65513, 0, 65524, 65514, 0, 65524, 65515, 0, 65524, 65516, 0, 65524, 65517, 0, 65524, 65518, 0, 65524, 65519, 0, 65524, 65520, 0, 65524, 65521, 0, 65524, 65522, 0, 65524, 65523, 0, 65524, 65524, 0, 65524, 65525, 0, 65524, 65526, 0, 65524, 10, 0, 65524, 11, 0, 65525, 65509, 0, 65525, 65510, 0, 65525, 65511, 0, 65525, 65512, 0, 65525, 65513, 0, 65525, 65514, 0, 65525, 65515, 0, 65525, 65516, 0, 65525, 65517, 0, 65525, 65518, 0, 65525, 65519, 0, 65525, 65520, 0, 65525, 65521, 0, 65525, 65522, 0, 65525, 65523, 0, 65525, 65524, 0, 65525, 65525, 0, 65525, 65526, 0, 65525, 10, 0, 65525, 11, 0, 65526, 65509, 0, 65526, 65510, 0, 65526, 65511, 0, 65526, 65512, 0, 65526, 65513, 0, 65526, 65514, 0, 65526, 65515, 0, 65526, 65516, 0, 65526, 65517, 0, 65526, 65518, 0, 65526, 65519, 0, 65526, 65520, 0, 65526, 65521, 0, 65526, 65522, 0, 65526, 65523, 0, 65526, 65524, 0, 65526, 65525, 0, 65526, 65526, 0, 65526, 10, 0, 65526, 11, 0, 65527, 65509, 0, 65527, 65510, 0, 65527, 65511, 0, 65527, 65512, 0, 65527, 65513, 0, 65527, 65514, 0, 65527, 65515, 0, 65527, 65516, 0, 65527, 65517, 0, 65527, 65518, 0, 65527, 65519, 0, 65527, 65520, 0, 65527, 65521, 0, 65527, 65522, 0, 65527, 65523, 0, 65527, 65524, 0, 65527, 65525, 0, 65527, 65526, 0, 65527, 10, 0, 65527, 11, 0, 65528, 65509, 0, 65528, 65510, 0, 65528, 65511, 0, 65528, 65512, 0, 65528, 65513, 0, 65528, 65514, 0, 65528, 65515, 0, 65528, 65516, 0, 65528, 65517, 0, 65528, 65518, 0, 65528, 65519, 0, 65528, 65520, 0, 65528, 65521, 0, 65528, 65522, 0, 65528, 65523, 0, 65528, 65524, 0, 65528, 65525, 0, 65528, 65526, 0, 65528, 10, 0, 65528, 11, 0, 65529, 65509, 0, 65529, 65510, 0, 65529, 65511, 0, 65529, 65512, 0, 65529, 65513, 0, 65529, 65514, 0, 65529, 65515, 0, 65529, 65516, 0, 65529, 65517, 0, 65529, 65518, 0, 65529, 65519, 0, 65529, 65520, 0, 65529, 65521, 0, 65529, 65522, 0, 65529, 65523, 0, 65529, 65524, 0, 65529, 65525, 0, 65529, 65526, 0, 65529, 10, 0, 65529, 11, 0, 65530, 65509, 0, 65530, 65510, 0, 65530, 65511, 0, 65530, 65512, 0, 65530, 65513, 0, 65530, 65514, 0, 65530, 65515, 0, 65530, 65516, 0, 65530, 65517, 0, 65530, 65518, 0, 65530, 65519, 0, 65530, 65520, 0, 65530, 65521, 0, 65530, 65522, 0, 65530, 65523, 0, 65530, 65524, 0, 65530, 65525, 0, 65530, 65526, 0, 65530, 10, 0, 65530, 11, 0, 65531, 65509, 0, 65531, 65510, 0, 65531, 65511, 0, 65531, 65512, 0, 65531, 65513, 0, 65531, 65514, 0, 65531, 65515, 0, 65531, 65516, 0, 65531, 65517, 0, 65531, 65518, 0, 65531, 65519, 0, 65531, 65520, 0, 65531, 65521, 0, 65531, 65522, 0, 65531, 65523, 0, 65531, 65524, 0, 65531, 65525, 0, 65531, 65526, 0, 65531, 10, 0, 65531, 11, 0, 65532, 65509, 0, 65532, 65510, 0, 65532, 65511, 0, 65532, 65512, 0, 65532, 65513, 0, 65532, 65514, 0, 65532, 65515, 0, 65532, 65516, 0, 65532, 65517, 0, 65532, 65518, 0, 65532, 65519, 0, 65532, 65520, 0, 65532, 65521, 0, 65532, 65522, 0, 65532, 65523, 0, 65532, 65524, 0, 65532, 65525, 0, 65532, 65526, 0, 65532, 10, 0, 65532, 11, 0, 65533, 65509, 0, 65533, 65510, 0, 65533, 65511, 0, 65533, 65512, 0, 65533, 65513, 0, 65533, 65514, 0, 65533, 65515, 0, 65533, 65516, 0, 65533, 65517, 0, 65533, 65518, 0, 65533, 65519, 0, 65533, 65520, 0, 65533, 65521, 0, 65533, 65522, 0, 65533, 65523, 0, 65533, 65524, 0, 65533, 65525, 0, 65533, 65526, 0, 65533, 10, 0, 65533, 11, 0, 65534, 65509, 0, 65534, 65510, 0, 65534, 65511, 0, 65534, 65512, 0, 65534, 65513, 0, 65534, 65514, 0, 65534, 65515, 0, 65534, 65516, 0, 65534, 65517, 0, 65534, 65518, 0, 65534, 65519, 0, 65534, 65520, 0, 65534, 65521, 0, 65534, 65522, 0, 65534, 65523, 0, 65534, 65524, 0, 65534, 65525, 0, 65534, 65526, 0, 65534, 10, 0, 65534, 11, 0, 65535, 65509, 0, 65535, 65510, 0, 65535, 65511, 0, 65535, 65512, 0, 65535, 65513, 0, 65535, 65514, 0, 65535, 65515, 0, 65535, 65516, 0, 65535, 65517, 0, 65535, 65518, 0, 65535, 65519, 0, 65535, 65520, 0, 65535, 65521, 0, 65535, 65522, 0, 65535, 65523, 0, 65535, 65524, 0, 65535, 65525, 0, 65535, 65526, 0, 65535, 10, 0, 65535, 11, 0, 0, 65509, 0, 0, 65510, 0, 0, 65511, 0, 0, 65512, 0, 0, 65513, 0, 0, 65514, 0, 0, 65515, 0, 0, 65516, 0, 0, 65517, 0, 0, 65518, 0, 0, 65519, 0, 0, 65520, 0, 0, 65521, 0, 0, 65522, 0, 0, 65523, 0, 0, 65524, 0, 0, 65525, 0, 0, 65526, 0, 0, 10, 0, 0, 11, 0, 1, 65509, 0, 1, 65510, 0, 1, 65511, 0, 1, 65512, 0, 1, 65513, 0, 1, 65514, 0, 1, 65515, 0, 1, 65516, 0, 1, 65517, 0, 1, 65518, 0, 1, 65519, 0, 1, 65520, 0, 1, 65521, 0, 1, 65522, 0, 1, 65523, 0, 1, 65524, 0, 1, 65525, 0, 1, 65526, 0, 1, 10, 0, 1, 11, 0, 2, 65509, 0, 2, 65510, 0, 2, 65511, 0, 2, 65512, 0, 2, 65513, 0, 2, 65514, 0, 2, 65515, 0, 2, 65516, 0, 2, 65517, 0, 2, 65518, 0, 2, 65519, 0, 2, 65520, 0, 2, 65521, 0, 2, 65522, 0, 2, 65523, 0, 2, 65524, 0, 2, 65525, 0, 2, 65526, 0, 2, 10, 0, 2, 11, 0, 3, 65509, 0, 3, 65510, 0, 3, 65511, 0, 3, 65512, 0, 3, 65513, 0, 3, 65514, 0, 3, 65515, 0, 3, 65516, 0, 3, 65517, 0, 3, 65518, 0, 3, 65519, 0, 3, 65520, 0, 3, 65521, 0, 3, 65522, 0, 3, 65523, 0, 3, 65524, 0, 3, 65525, 0, 3, 65526, 0, 3, 10, 0, 3, 11, 0, 4, 65509, 0, 4, 65510, 0, 4, 65511, 0, 4, 65512, 0, 4, 65513, 0, 4, 65514, 0, 4, 65515, 0, 4, 65516, 0, 4, 65517, 0, 4, 65518, 0, 4, 65519, 0, 4, 65520, 0, 4, 65521, 0, 4, 65522, 0, 4, 65523, 0, 4, 65524, 0, 4, 65525, 0, 4, 65526, 0, 4, 10, 0, 4, 11, 0, 5, 65509, 0, 5, 65510, 0, 5, 65511, 0, 5, 65512, 0, 5, 65513, 0, 5, 65514, 0, 5, 65515, 0, 5, 65516, 0, 5, 65517, 0, 5, 65518, 0, 5, 65519, 0, 5, 65520, 0, 5, 65521, 0, 5, 65522, 0, 5, 65523, 0, 5, 65524, 0, 5, 65525, 0, 5, 65526, 0, 5, 10, 0, 5, 11, 0, 6, 65509, 0, 6, 65510, 0, 6, 65511, 0, 6, 65512, 0, 6, 65513, 0, 6, 65514, 0, 6, 65515, 0, 6, 65516, 0, 6, 65517, 0, 6, 65518, 0, 6, 65519, 0, 6, 65520, 0, 6, 65521, 0, 6, 65522, 0, 6, 65523, 0, 6, 65524, 0, 6, 65525, 0, 6, 65526, 0, 6, 10, 0, 6, 11, 0, 7, 65509, 0, 7, 65510, 0, 7, 65511, 0, 7, 65512, 0, 7, 65513, 0, 7, 65514, 0, 7, 65515, 0, 7, 65516, 0, 7, 65517, 0, 7, 65518, 0, 7, 65519, 0, 7, 65520, 0, 7, 65521, 0, 7, 65522, 0, 7, 65523, 0, 7, 65524, 0, 7, 65525, 0, 7, 65526, 0, 7, 10, 0, 7, 11, 0, 8, 65509, 0, 8, 65510, 0, 8, 65511, 0, 8, 65512, 0, 8, 65513, 0, 8, 65514, 0, 8, 65515, 0, 8, 65516, 0, 8, 65517, 0, 8, 65518, 0, 8, 65519, 0, 8, 65520, 0, 8, 65521, 0, 8, 65522, 0, 8, 65523, 0, 8, 65524, 0, 8, 65525, 0, 8, 65526, 0, 8, 10, 0, 8, 11, 0, 9, 65509, 0, 9, 65510, 0, 9, 65511, 0, 9, 65512, 0, 9, 65513, 0, 9, 65514, 0, 9, 65515, 0, 9, 65516, 0, 9, 65517, 0, 9, 65518, 0, 9, 65519, 0, 9, 65520, 0, 9, 65521, 0, 9, 65522, 0, 9, 65523, 0, 9, 65524, 0, 9, 65525, 0, 9, 65526, 0, 9, 10, 0, 9, 11, 0, 10, 65509, 0, 10, 65510, 0, 10, 65511, 0, 10, 65512, 0, 10, 65513, 0, 10, 65514, 0, 10, 65515, 0, 10, 65516, 0, 10, 65517, 0, 10, 65518, 0, 10, 65519, 0, 10, 65520, 0, 10, 65521, 0, 10, 65522, 0, 10, 65523, 0, 10, 65524, 0, 10, 65525, 0, 10, 65526, 0, 10, 10, 0, 10, 11, 0, 11, 65509, 0, 11, 65510, 0, 11, 65511, 0, 11, 65512, 0, 11, 65513, 0, 11, 65514, 0, 11, 65515, 0, 11, 65516, 0, 11, 65517, 0, 11, 65518, 0, 11, 65519, 0, 11, 65520, 0, 11, 65521, 0, 11, 65522, 0, 11, 65523, 0, 11, 65524, 0, 11, 65525, 0, 11, 65526, 0, 11, 10, 0, 11, 11, 0, 12, 65509, 0, 12, 65510, 0, 12, 65511, 0, 12, 65512, 0, 12, 65513, 0, 12, 65514, 0, 12, 65515, 0, 12, 65516, 0, 12, 65517, 0, 12, 65518, 0, 12, 65519, 0, 12, 65520, 0, 12, 65521, 0, 12, 65522, 0, 12, 65523, 0, 12, 65524, 0, 12, 65525, 0, 12, 65526, 0, 12, 10, 0, 12, 11, 0, 13, 65509, 0, 13, 65510, 0, 13, 65511, 0, 13, 65512, 0, 13, 65513, 0, 13, 65514, 0, 13, 65515, 0, 13, 65516, 0, 13, 65517, 0, 13, 65518, 0, 13, 65519, 0, 13, 65520, 0, 13, 65521, 0, 13, 65522, 0, 13, 65523, 0, 13, 65524, 0, 13, 65525, 0, 13, 65526, 0, 13, 10, 0, 13, 11, 0, 14, 65509, 0, 14, 65510, 0, 14, 65511, 0, 14, 65512, 0, 14, 65513, 0, 14, 65514, 0, 14, 65515, 0, 14, 65516, 0, 14, 65517, 0, 14, 65518, 0, 14, 65519, 0, 14, 65520, 0, 14, 65521, 0, 14, 65522, 0, 14, 65523, 0, 14, 65524, 0, 14, 65525, 0, 14, 65526, 0, 14, 10, 0, 14, 11, 0, 131071, 4, 1441793, 131070, 4, 1441793, 131069, 4, 1441793, 131068, 4, 1441793, 131067, 3, 655361, 131067, 2, 655361, 131067, 1, 655361, 131067, 0, 655361, 131067, 65535, 655361, 131067, 65534, 655361, 131067, 65533, 655361, 131067, 65532, 655361, 131067, 65531, 655361, 131069, 65530, 1048577, 131068, 65530, 1048577, 131071, 65530, 1048577, 65536, 65530, 1048577, 131070, 65530, 1048577, 65537, 65530, 1048577, 65538, 65530, 1048577, 65539, 65530, 1048577, 65540, 65530, 1048577, 262143, 4, 1048577, 262142, 4, 1048577, 262141, 4, 1048577, 262140, 4, 1048577, 262139, 3, 1, 262139, 2, 1, 262139, 1, 1, 262139, 0, 1, 262139, 65535, 1, 262139, 65534, 1, 262139, 65533, 1, 262139, 65532, 1, 262139, 65531, 1, 262140, 65530, 1441793, 262141, 65530, 1441793, 262142, 65530, 1441793, 262143, 65530, 1441793, 196608, 65530, 1441793, 196609, 65530, 1441793, 196610, 65530, 1441793, 196611, 65530, 1441793, 196612, 65530, 1441793, 2, 3, 1441792, 2, 2, 1441792, 2, 1, 1441792, 2, 0, 1441792, 1, 1, 1441792)
+}
+script = ExtResource("2_r61yh")
+metadata/_editor_floor_ = Vector3(1, 13, 0)
+
+[node name="Cube2" type="StaticBody3D" parent="." unique_id=2126857553 groups=["occlusion"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.899601, 1.470108, -19.592442)
+visible = false
+collision_layer = 9
+
+[node name="Cube" type="MeshInstance3D" parent="Cube2" unique_id=1370089766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5978737, 0.2521271, 8.45606)
+material_override = SubResource("ShaderMaterial_qbaxt")
+mesh = SubResource("BoxMesh_8h3oa")
+skeleton = NodePath("../../Cube")
+script = ExtResource("6_q0a6e")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Cube2" unique_id=1976456772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5978737, 0.2521271, 8.45606)
+shape = SubResource("ConcavePolygonShape3D_q0a6e")
+
+[node name="Cube" type="StaticBody3D" parent="." unique_id=486091468 groups=["occlusion"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.33337, 1.7338257, 0.5866699)
+visible = false
+collision_layer = 9
+
+[node name="Cube" type="MeshInstance3D" parent="Cube" unique_id=266740940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5978737, 0.2521271, 8.45606)
+material_override = SubResource("ShaderMaterial_r61yh")
+mesh = SubResource("BoxMesh_8h3oa")
+skeleton = NodePath("../..")
+script = ExtResource("6_q0a6e")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Cube" unique_id=1103720729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5978737, 0.2521271, 8.45606)
+shape = SubResource("ConcavePolygonShape3D_q0a6e")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=2089287872 groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9754117, 1.7215984, 0)
+script = ExtResource("1_h8ynm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=425943347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.028564453, 0)
+shape = SubResource("CapsuleShape3D_8h3oa")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player" unique_id=375664480]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4553833, 0)
+cast_shadow = 0
+pixel_size = 0.05
+billboard = 1
+shaded = true
+alpha_cut = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_q0a6e")
+autoplay = "default"
+frame_progress = 0.8807068
+speed_scale = 1.5
+
+[node name="Sprite3D" type="Sprite3D" parent="Player" unique_id=299511621]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+modulate = Color(1, 1, 1, 0.7058824)
+axis = 1
+texture = ExtResource("3_8h3oa")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Player" unique_id=114185610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.23376465, 0.66357446, 0.45777893)
+light_color = Color(0.5783258, 0.5788015, 0.32574508, 1)
+light_volumetric_fog_energy = 16.0
+light_specular = 0.0
+shadow_enabled = true
+distance_fade_begin = 1.0
+distance_fade_shadow = 10.0
+distance_fade_length = 20.0
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=22526713 node_paths=PackedStringArray("target")]
+transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071067, 0, -0.4693308, 0)
+script = ExtResource("2_3wbbn")
+target = NodePath("../Player")
+occlusion_collider_offset = Vector3(-0.5, -1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=1124953358]
+transform = Transform3D(1.0000001, 0, 0, 0, 0.8660254, 0.49999997, 0, -0.5, 0.86602557, 0.5444231, 7.503731, 10.501773)
+projection = 1
+current = true
+size = 12.0
+
+[node name="Occlusion" type="Area3D" parent="CameraPivot" unique_id=446249701]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, -2.9802322e-08, 0, -4.2146855e-08, 1, 0.5444236, 7.503731, 10.501774)
+collision_layer = 8
+collision_mask = 8
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CameraPivot/Occlusion" unique_id=2108030328]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 0, 0, 0)
+shape = SubResource("BoxShape3D_r61yh")
+debug_color = Color(0.93045485, 0.2411181, 0.2746158, 1)
+
+[node name="lamp" type="Node3D" parent="." unique_id=1765127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.083365, 0, -8.247176)
+
+[node name="CandleHolder" type="MeshInstance3D" parent="lamp" unique_id=952430350]
+mesh = SubResource("ArrayMesh_8u80f")
+skeleton = NodePath("")
+
+[node name="Candle" type="MeshInstance3D" parent="lamp/CandleHolder" unique_id=158099553]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12811947, 0)
+mesh = SubResource("ArrayMesh_qf7uh")
+skeleton = NodePath("")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="lamp/CandleHolder" unique_id=1360857351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.685931, 0)
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_bn0be")
+autoplay = "default"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="lamp/CandleHolder" unique_id=667303384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7126901, 0)
+light_color = Color(0.9999997, 0.7275433, 0.38605112, 1)
+light_energy = 1.2
+light_specular = 0.0
+omni_range = 15.0
+omni_attenuation = 1.2
+
+[node name="StaticBody3D" type="StaticBody3D" parent="lamp/CandleHolder" unique_id=1962947585 groups=["occlusion"]]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="lamp/CandleHolder/StaticBody3D" unique_id=490424887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0033601522, 0.71805614, 0.0020281672)
+shape = SubResource("BoxShape3D_7btab")
+
+[connection signal="body_entered" from="CameraPivot/Occlusion" to="CameraPivot" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="CameraPivot/Occlusion" to="CameraPivot" method="_on_area_3d_body_exited"]

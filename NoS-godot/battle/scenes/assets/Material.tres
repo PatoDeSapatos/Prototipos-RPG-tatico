@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://x4pw3m31vnq5"]
+
+[ext_resource type="Texture2D" uid="uid://dri1fvwc1pmh8" path="res://battle/scenes/assets/Tile_tile.png" id="1_7e864"]
+
+[resource]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = ExtResource("1_7e864")
+roughness = 0.31538463

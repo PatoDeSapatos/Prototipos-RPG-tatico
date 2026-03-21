@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MoveType" load_steps=4 format=3 uid="uid://cxmnakdb86efl"]
+[gd_resource type="Resource" script_class="MoveType" format=3 uid="uid://cxmnakdb86efl"]
 
 [ext_resource type="Script" uid="uid://erxti01fmtf7" path="res://actions/classes/move_type.gd" id="1_oj258"]
 [ext_resource type="Texture2D" uid="uid://p4cfnglgd1ug" path="res://actions/assets/move_types.png" id="1_yb0be"]

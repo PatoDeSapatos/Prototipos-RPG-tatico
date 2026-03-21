@@ -35,11 +35,11 @@ func change_unit_stats(target: BattleUnit, stat_name: String, amount: int) -> vo
 	
 	var cap = 6
 	var current_changes = target.info.stat_changes.get(stat_name)
-	target.info.stat_changes[stat_name] = clamp(target.info.stat_changes[stat_name] + amount, -cap, cap)
+	target.info.stat_changes[stat_name] = clamp(current_changes + amount, -cap, cap)
 
 func unit_take_damage(damage: int, user: BattleUnit, target: BattleUnit, action: Action):
 	var defense = unit_get_stats(target.info, "defense") if action.is_physical else unit_get_stats(target.info, "magic_defense")
-	var guard = 1.5 if target.info.is_guarding else 1
+	var guard = 1.5 if target.info.is_guarding else 1.0
 	var resistence_multiplier = 0
 	
 	for type in action.types:
@@ -146,12 +146,12 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 	cutscene.push_back(["play_animation", user, action.user_animation])
 	cutscene.push_back(["clear_effect_by_name", action.user_effect])
 	
-	var inflict_condition = func(target: BattleUnit, action: Action) -> Array:
-		if (action.condition_name == ""):
+	var inflict_condition = func(target: BattleUnit, a: Action) -> Array:
+		if (a.condition_name == ""):
 			return []
 		
-		var inflicted = unit_inflict_condition(target, action.condition_name, action.inflict_chance)
-		var condition: StatusCondition = Conditions.condition_library.get(action.condition_name)
+		var inflicted = unit_inflict_condition(target, a.condition_name, a.inflict_chance)
+		var condition: StatusCondition = Conditions.condition_library.get(a.condition_name)
 		if (inflicted && condition != null):
 			return ["play_animation", target, condition.target_animation]
 		
@@ -163,6 +163,7 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 		cutscene.push_back(["cast_projectile", action.projectile_texture, pos, action.projectile_particle_path])
 		
 		if (action.projectile_texture != null && action.projectile_effect_name != null):
+			@warning_ignore("unused_variable")
 			var effect_scale = ((action.area.range * Game.TILE_SIZE)/(action.projectile_texture.get_size().x))*2
 			cutscene.push_back(["create_battle_effect", action.projectile_effect_name, pos, 1000, false])
 		
@@ -180,12 +181,12 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 		cutscene.push_back(["play_multiple_animations", targets, action.target_animation])
 
 	# Stat Changes
-	var create_stat_change_cutscene = func(targets: Array, is_on_user: bool):
+	var create_stat_change_cutscene = func(_targets: Array, is_on_user: bool):
 		var stat_changes = action.on_user_stat_changes if is_on_user else action.on_target_stat_changes
 		var change_chances = action.on_user_change_chances if is_on_user else action.on_target_change_chances
 		var change_levels = action.on_user_change_levels if is_on_user else action.on_target_change_levels
 		
-		for target: BattleUnit in targets:
+		for target: BattleUnit in _targets:
 			for i in stat_changes.size():
 				if (randi_range(0, 100) <= change_chances[i]):
 					var effect = "stat_raise" if change_levels[i] > 0 else "stat_decrease"
@@ -207,9 +208,9 @@ func unit_use_action(action: Action, user: BattleUnit, targets: Array[BattleUnit
 	var serialized = cutscenes.serialize(cutscene)
 	battle_create_cutscene.rpc(serialized)
 
-func create_battle_effect(effect_name: String, pos: Vector2, z_index=0) -> ActionEffects:
+func create_battle_effect(effect_name: String, pos: Vector2, z=0) -> ActionEffects:
 	var effect = ACTION_EFFECTS.instantiate()
-	effect.z_index = z_index
+	effect.z_index = z
 	add_child(effect)
 	effect.play(effect_name, pos)
 	return effect

@@ -1,0 +1,5 @@
+Collision Layers:
+	1 - Player
+	2 - Solid Objects
+	3 - Entities
+	4 - Occlusion
